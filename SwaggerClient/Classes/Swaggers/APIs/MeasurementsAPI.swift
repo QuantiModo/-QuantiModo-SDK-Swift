@@ -18,18 +18,21 @@ extension SwaggerClientAPI {
          
          - GET /measurementSources
          - Returns a list of all the apps from which measurement data is obtained.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@2f5885c0]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@2ab2f07b]
+         - examples: [{contentType=application/json, example={
+  "name" : "aeiou"
+}}]
 
-         :returns: Promise<Response<Void>> 
+         :returns: Promise<Response<MeasurementSource>> 
          */
-        func measurementSourcesGet() -> RequestBuilder<Void> {
+        func measurementSourcesGet() -> RequestBuilder<MeasurementSource> {
             let path = "/measurementSources"
             let url = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+            let requestBuilder: RequestBuilder<MeasurementSource>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
         }
@@ -40,13 +43,13 @@ extension SwaggerClientAPI {
          
          - POST /measurementSources
          - Add a life-tracking app or device to the QuantiModo list of data sources.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@6df84757]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@5ec53ade]
          
          :param: name (body) An array of names of data sources you want to add.
 
          :returns: Promise<Response<Void>> 
          */
-        func measurementSourcesPost(#name: [MeasurementSource]) -> RequestBuilder<Void> {
+        func measurementSourcesPost(#name: MeasurementSource) -> RequestBuilder<Void> {
             let path = "/measurementSources"
             let url = SwaggerClientAPI.basePath + path
             
@@ -63,7 +66,16 @@ extension SwaggerClientAPI {
          
          - GET /measurements
          - Measurements are any value that can be recorded like daily steps, a mood rating, or apples eaten.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@1d373e10]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@5386aa39]
+         - examples: [{contentType=application/json, example={
+  "unit" : "aeiou",
+  "storedValue" : 3.149,
+  "variable" : "aeiou",
+  "source" : "aeiou",
+  "storedUnit" : "aeiou",
+  "value" : 3.149,
+  "timestamp" : 123456789
+}}]
          
          :param: variableName (query) Name of the variable you want measurements for
          :param: unit (query) The unit your want the measurements in
@@ -72,9 +84,9 @@ extension SwaggerClientAPI {
          :param: groupingWidth (query) The time (in seconds) over which measurements are grouped together
          :param: groupingTimezone (query) The time (in seconds) over which measurements are grouped together
 
-         :returns: Promise<Response<Void>> 
+         :returns: Promise<Response<Measurement>> 
          */
-        func measurementsGet(#variableName: String, unit: String?, startTime: String?, endTime: String?, groupingWidth: Int?, groupingTimezone: String?) -> RequestBuilder<Void> {
+        func measurementsGet(#variableName: String, unit: String?, startTime: String?, endTime: String?, groupingWidth: Int?, groupingTimezone: String?) -> RequestBuilder<Measurement> {
             let path = "/measurements"
             let url = SwaggerClientAPI.basePath + path
             
@@ -88,24 +100,24 @@ extension SwaggerClientAPI {
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+            let requestBuilder: RequestBuilder<Measurement>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
         }
     
         /**
          
-         Post a new set of measurements to the database
+         Post a new set or update existing measurements to the database
          
          - POST /measurements/v2
-         - You can submit multiple measurements in a \"measurements\" sub-array.  If the variable these measurements correspond to does not already exist in the database, it will be automatically added.  The request body should look something like [{\"measurements\":[{\"timestamp\":1406419860,\"value\":\"1\",\"note\":\"I am a note about back pain.\"},{\"timestamp\":1406519865,\"value\":\"3\",\"note\":\"I am another note about back pain.\"}],\"name\":\"Back Pain\",\"source\":\"QuantiModo\",\"category\":\"Symptoms\",\"combinationOperation\":\"MEAN\",\"unit\":\"/5\"}]
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@4ab0597a]
+         - You can submit or update multiple measurements in a \"measurements\" sub-array.  If the variable these measurements correspond to does not already exist in the database, it will be automatically added.  The request body should look something like [{\"measurements\":[{\"timestamp\":1406419860,\"value\":\"1\",\"note\":\"I am a note about back pain.\"},{\"timestamp\":1406519865,\"value\":\"3\",\"note\":\"I am another note about back pain.\"}],\"name\":\"Back Pain\",\"source\":\"QuantiModo\",\"category\":\"Symptoms\",\"combinationOperation\":\"MEAN\",\"unit\":\"/5\"}]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@7f4b2302]
          
          :param: measurements (body) An array of measurements you want to insert.
 
          :returns: Promise<Response<Void>> 
          */
-        func measurementsV2Post(#measurements: [Measurement]) -> RequestBuilder<Void> {
+        func measurementsV2Post(#measurements: MeasurementSet) -> RequestBuilder<Void> {
             let path = "/measurements/v2"
             let url = SwaggerClientAPI.basePath + path
             
@@ -122,14 +134,18 @@ extension SwaggerClientAPI {
          
          - GET /measurementsRange
          - Get Unix time-stamp (epoch time) of the user's first and last measurements taken.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@21adb369]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@424725b8]
+         - examples: [{contentType=application/json, example={
+  "upperLimit" : 123,
+  "lowerLimit" : 123
+}}]
          
          :param: sources (query) Enter source name to limit to specific source (varchar)
          :param: user (query) If not specified, uses currently logged in user (bigint)
 
-         :returns: Promise<Response<Void>> 
+         :returns: Promise<Response<MeasurementRange>> 
          */
-        func measurementsRangeGet(#sources: String?, user: Int?) -> RequestBuilder<Void> {
+        func measurementsRangeGet(#sources: String?, user: Int?) -> RequestBuilder<MeasurementRange> {
             let path = "/measurementsRange"
             let url = SwaggerClientAPI.basePath + path
             
@@ -139,7 +155,7 @@ extension SwaggerClientAPI {
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+            let requestBuilder: RequestBuilder<MeasurementRange>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
         }

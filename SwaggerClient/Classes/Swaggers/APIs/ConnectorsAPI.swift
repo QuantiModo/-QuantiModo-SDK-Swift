@@ -18,7 +18,7 @@ extension SwaggerClientAPI {
          
          - GET /connectors/list
          - Returns a list of all available connectors. A connector pulls data from other data providers using their API or a screenscraper.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@2124d449]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@51e6e10f]
          - examples: [{contentType=application/json, example=[ {
   "connected" : "aeiou",
   "image" : "aeiou",
@@ -52,7 +52,7 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/connect
          - Attempt to obtain a token from the data provider, store it in the database. With this, the connector to continue to obtain new user data until the token is revoked.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@7490c7e6]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@44921d82]
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
 
@@ -77,23 +77,68 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/connectInstructions
          - Returns instructions that describe what parameters and endpoint to use to connect to the given data provider.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@83cc3d8]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@1b2e1bba]
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
+         :param: url (query) URL which should be used to enable the connector
+         :param: parameters (query) Array of Parameters for the request to enable connector
+         :param: usePopup (query) Should use popup when enabling connector
 
          :returns: Promise<Response<Void>> 
          */
-        func connectorsConnectorConnectInstructionsGet(#connector: String) -> RequestBuilder<Void> {
+        func connectorsConnectorConnectInstructionsGet(#connector: String, url: String, parameters: [String], usePopup: Bool) -> RequestBuilder<Void> {
             var path = "/connectors/{connector}/connectInstructions"
             path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
             let url = SwaggerClientAPI.basePath + path
             
-            let nillableParameters: [String:AnyObject?] = [:]
+            let nillableParameters: [String:AnyObject?] = [
+                "url": url,
+                "parameters": parameters,
+                "usePopup": usePopup
+            ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+        }
+    
+        /**
+         
+         Get connection parameters
+         
+         - GET /connectors/{connector}/connectParameter
+         - Returns instructions that describe what parameters and endpoint to use to connect to the given data provider.
+         - authMethods: [io.swagger.codegen.CodegenSecurity@2058f79c]
+         
+         :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
+         :param: displayName (query) Name of the parameter that is user visible in the form
+         :param: key (query) Name of the property that the user has to enter such as username or password Connector (used in HTTP request) TODO What&#39;s a connector key?
+         :param: usePopup (query) Should use popup when enabling connector
+         :param: type (query) Type of input field such as those found here http://www.w3schools.com/tags/tag_input.asp
+         :param: placeholder (query) Placeholder hint value for the parameter input tag
+         :param: defaultValue (query) Default parameter value
+
+         :returns: Promise<Response<Void>> 
+         */
+        func connectorsConnectorConnectParameterGet(#connector: String, displayName: String, key: String, usePopup: Bool, type: String, placeholder: String, defaultValue: String) -> RequestBuilder<Void> {
+            var path = "/connectors/{connector}/connectParameter"
+            path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
+            let url = SwaggerClientAPI.basePath + path
+            
+            let nillableParameters: [String:AnyObject?] = [
+                "displayName": displayName,
+                "key": key,
+                "usePopup": usePopup,
+                "type": type,
+                "placeholder": placeholder,
+                "defaultValue": defaultValue
+            ]
+            let parameters = APIHelper.rejectNil(nillableParameters)
+
+            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
         }
     
         /**
@@ -102,7 +147,7 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/disconnect
          - The disconnect method deletes any stored tokens or connection information from the connectors database.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@31b722a7]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@46508401]
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
 
@@ -127,7 +172,7 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/info
          - Returns information about the connector such as the connector id, whether or not is connected for this user (i.e. we have a token or credentials), and its update history for the user.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@36b63e44]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@127aef44]
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
 
@@ -152,7 +197,7 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/update
          - The update method tells the QM Connector Framework to check with the data provider (such as Fitbit or MyFitnessPal) and retrieve any new measurements available.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@44eb7083]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@7962c57a]
          
          :param: connector (path) Lowercase system name of the source application or device
 

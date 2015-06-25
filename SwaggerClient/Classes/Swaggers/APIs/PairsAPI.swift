@@ -18,7 +18,10 @@ extension SwaggerClientAPI {
          
          - GET /pairs
          - Pairs cause measurements with effect measurements grouped over the duration of action after the onset delay.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@117343fa]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@46e792d2]
+         - examples: [{contentType=application/json, example=[ {
+  "name" : "aeiou"
+} ]}]
          
          :param: cause (query) Original variable name for the explanatory or independent variable
          :param: causeSource (query) Name of data source that the cause measurements should come from
@@ -31,9 +34,9 @@ extension SwaggerClientAPI {
          :param: endTime (query) The most recent date (in epoch time) for which we should return measurements
          :param: startTime (query) The earliest date (in epoch time) for which we should return measurements
 
-         :returns: Promise<Response<Void>> 
+         :returns: Promise<Response<[Pairs]>> 
          */
-        func pairsGet(#cause: String, causeSource: String?, causeUnit: String?, delay: String?, duration: String?, effect: String, effectSource: String?, effectUnit: String?, endTime: String?, startTime: String?) -> RequestBuilder<Void> {
+        func pairsGet(#cause: String, causeSource: String?, causeUnit: String?, delay: String?, duration: String?, effect: String, effectSource: String?, effectUnit: String?, endTime: String?, startTime: String?) -> RequestBuilder<[Pairs]> {
             let path = "/pairs"
             let url = SwaggerClientAPI.basePath + path
             
@@ -51,7 +54,7 @@ extension SwaggerClientAPI {
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+            let requestBuilder: RequestBuilder<[Pairs]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
         }

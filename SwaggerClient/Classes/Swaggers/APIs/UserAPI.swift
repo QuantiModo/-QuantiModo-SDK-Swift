@@ -18,18 +18,27 @@ extension SwaggerClientAPI {
          
          - GET /user/me
          - Returns user info for the currently authenticated user.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@1087d49]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@45a624af]
+         - examples: [{contentType=application/json, example={
+  "administrator" : true,
+  "wpId" : 123,
+  "displayName" : "aeiou",
+  "loginName" : "aeiou",
+  "id" : 123,
+  "email" : "aeiou",
+  "token" : "aeiou"
+}}]
 
-         :returns: Promise<Response<Void>> 
+         :returns: Promise<Response<User>> 
          */
-        func userMeGet() -> RequestBuilder<Void> {
+        func userMeGet() -> RequestBuilder<User> {
             let path = "/user/me"
             let url = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+            let requestBuilder: RequestBuilder<User>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
         }

@@ -18,7 +18,7 @@ extension SwaggerClientAPI {
          
          - GET /correlations
          - Get correlations
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@62901535]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@75673d58]
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -61,7 +61,7 @@ extension SwaggerClientAPI {
          
          - GET /public/correlations/search/{search}
          - Returns the average correlations from all users for all public variables that contain the characters in the search query. Returns average of all users public variable correlations with a specified cause or effect.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@2e6ac4f5]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@ef6bca9]
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -104,7 +104,7 @@ extension SwaggerClientAPI {
          
          - POST /v1/correlations
          - Add correlation or/and vote for it
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@24776cf6]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@24586d57]
          
          :param: body (body) Provides correlation data
 
@@ -127,7 +127,7 @@ extension SwaggerClientAPI {
          
          - GET /v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/causes
          - Returns average of all correlations and votes for all user cause variables for a given effect. If parameter \"include_public\" is used, it also returns public correlations. User correlation overwrites or supersedes public correlation.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@11f52d88]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@65b35c58]
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -176,7 +176,7 @@ extension SwaggerClientAPI {
          
          - GET /v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/effects
          - Returns average of all correlations and votes for all user cause variables for a given effect. If parameter \"include_public\" is used, it also returns public correlations. User correlation overwrites or supersedes public correlation.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@73aeab3e]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@2972204b]
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -225,7 +225,7 @@ extension SwaggerClientAPI {
          
          - GET /v1/variables/{variableName}/causes
          - Returns average of all correlations and votes for all user cause variables for a given effect
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@b9b84d2]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@125ac238]
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -265,7 +265,7 @@ extension SwaggerClientAPI {
          
          - GET /v1/variables/{variableName}/effects
          - Returns average of all correlations and votes for all user effect variables for a given cause
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@1494498b]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@758f27f1]
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -305,7 +305,7 @@ extension SwaggerClientAPI {
          
          - GET /v1/variables/{variableName}/public/causes
          - Returns average of all correlations and votes for all public cause variables for a given effect
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@2cb5bffc]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@a21f484]
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -345,7 +345,7 @@ extension SwaggerClientAPI {
          
          - GET /v1/variables/{variableName}/public/effects
          - Returns average of all correlations and votes for all public cause variables for a given cause
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@2a44060f]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@32e9fdf3]
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,

@@ -169,6 +169,20 @@ class Decoders {
             }
 			
 
+			// Decoder for MeasurementSet
+            Decoders.addDecoder(clazz: MeasurementSet.self) { (source: AnyObject) -> MeasurementSet in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                var instance = MeasurementSet()
+                instance.measurements = Decoders.decode(clazz: Array.self, source: sourceDictionary["measurements"]!)
+                instance.name = Decoders.decode(clazz: String.self, source: sourceDictionary["name"]!)
+                instance.source = Decoders.decode(clazz: String.self, source: sourceDictionary["source"]!)
+                instance.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"])
+                instance.combinationOperation = (sourceDictionary["combinationOperation"] as? String).map { MeasurementSet.CombinationOperation(rawValue: $0)! } 
+                instance.unit = Decoders.decode(clazz: String.self, source: sourceDictionary["unit"]!)
+                return instance
+            }
+			
+
 			// Decoder for Measurement
             Decoders.addDecoder(clazz: Measurement.self) { (source: AnyObject) -> Measurement in
                 let sourceDictionary = source as! [NSObject:AnyObject]
@@ -178,7 +192,8 @@ class Decoders {
                 instance.timestamp = Decoders.decode(clazz: Int.self, source: sourceDictionary["timestamp"]!)
                 instance.value = Decoders.decode(clazz: Double.self, source: sourceDictionary["value"]!)
                 instance.unit = Decoders.decode(clazz: String.self, source: sourceDictionary["unit"]!)
-                instance.note = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["note"])
+                instance.storedValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["storedValue"])
+                instance.storedUnit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["storedUnit"])
                 return instance
             }
 			
@@ -327,6 +342,17 @@ class Decoders {
             }
 			
 
+			// Decoder for ValueObject
+            Decoders.addDecoder(clazz: ValueObject.self) { (source: AnyObject) -> ValueObject in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                var instance = ValueObject()
+                instance.timestamp = Decoders.decode(clazz: Int.self, source: sourceDictionary["timestamp"]!)
+                instance.value = Decoders.decode(clazz: Double.self, source: sourceDictionary["value"]!)
+                instance.note = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["note"])
+                return instance
+            }
+			
+
 			// Decoder for Variable
             Decoders.addDecoder(clazz: Variable.self) { (source: AnyObject) -> Variable in
                 let sourceDictionary = source as! [NSObject:AnyObject]
@@ -367,6 +393,27 @@ class Decoders {
                 instance.name = Decoders.decode(clazz: String.self, source: sourceDictionary["name"]!)
                 instance.onsetDelay = Decoders.decode(clazz: Int.self, source: sourceDictionary["onsetDelay"]!)
                 instance.unit = Decoders.decode(clazz: String.self, source: sourceDictionary["unit"]!)
+                return instance
+            }
+			
+
+			// Decoder for VariableNew
+            Decoders.addDecoder(clazz: VariableNew.self) { (source: AnyObject) -> VariableNew in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                var instance = VariableNew()
+                instance.name = Decoders.decode(clazz: String.self, source: sourceDictionary["name"]!)
+                instance.category = Decoders.decode(clazz: String.self, source: sourceDictionary["category"]!)
+                instance.unit = Decoders.decode(clazz: String.self, source: sourceDictionary["unit"]!)
+                instance.combinationOperation = (sourceDictionary["combinationOperation"] as? String).map { VariableNew.CombinationOperation(rawValue: $0)! }! 
+                instance.parent = Decoders.decode(clazz: String.self, source: sourceDictionary["parent"]!)
+                return instance
+            }
+			
+
+			// Decoder for VariablesNew
+            Decoders.addDecoder(clazz: VariablesNew.self) { (source: AnyObject) -> VariablesNew in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                var instance = VariablesNew()
                 return instance
             }
 			

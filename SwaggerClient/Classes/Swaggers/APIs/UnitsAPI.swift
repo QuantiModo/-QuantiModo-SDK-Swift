@@ -18,18 +18,21 @@ extension SwaggerClientAPI {
          
          - GET /unitCategories
          - Get a list of the categories of measurement units such as 'Distance', 'Duration', 'Energy', 'Frequency', 'Miscellany', 'Pressure', 'Proportion', 'Rating', 'Temperature', 'Volume', and 'Weight'.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@5bba3775]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@d267862]
+         - examples: [{contentType=application/json, example={
+  "name" : "aeiou"
+}}]
 
-         :returns: Promise<Response<Void>> 
+         :returns: Promise<Response<UnitCategory>> 
          */
-        func unitCategoriesGet() -> RequestBuilder<Void> {
+        func unitCategoriesGet() -> RequestBuilder<UnitCategory> {
             let path = "/unitCategories"
             let url = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+            let requestBuilder: RequestBuilder<UnitCategory>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
         }
@@ -40,15 +43,26 @@ extension SwaggerClientAPI {
          
          - GET /units
          - Get all available units
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@505dc36b]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@772d0a16]
+         - examples: [{contentType=application/json, example=[ {
+  "name" : "aeiou",
+  "maximum" : 3.149,
+  "category" : "aeiou",
+  "abbreviatedName" : "aeiou",
+  "minimum" : 3.149,
+  "conversionSteps" : [ {
+    "operation" : "aeiou",
+    "value" : 3.149
+  } ]
+} ]}]
          
          :param: unitName (query) Unit name
          :param: abbreviatedUnitName (query) Restrict the results to a specific unit by providing the unit abbreviation.
          :param: categoryName (query) Restrict the results to a specific unit category by providing the unit category name.
 
-         :returns: Promise<Response<Void>> 
+         :returns: Promise<Response<[Unit]>> 
          */
-        func unitsGet(#unitName: String?, abbreviatedUnitName: String?, categoryName: String?) -> RequestBuilder<Void> {
+        func unitsGet(#unitName: String?, abbreviatedUnitName: String?, categoryName: String?) -> RequestBuilder<[Unit]> {
             let path = "/units"
             let url = SwaggerClientAPI.basePath + path
             
@@ -59,7 +73,7 @@ extension SwaggerClientAPI {
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+            let requestBuilder: RequestBuilder<[Unit]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
         }

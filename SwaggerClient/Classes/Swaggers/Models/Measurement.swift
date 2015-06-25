@@ -16,12 +16,14 @@ class Measurement: JSONEncodable {
     var source: String!
     /** Timestamp for the measurement event in epoch time */
     var timestamp: Int!
-    /** Measurement value */
+    /** Converted measurement value in requested unit */
     var value: Double!
-    /** Unit of Measurement */
+    /** Unit of measurement as requested in GET request */
     var unit: String!
-    /** Optional note supplied with the measurement. Can be up to 255 characters in length. */
-    var note: String?
+    /** Measurement value in the unit as orignally submitted */
+    var storedValue: Double?
+    /** Unit of measurement as originally submitted */
+    var storedUnit: String?
     
 
     // MARK: JSONEncodable
@@ -32,7 +34,8 @@ class Measurement: JSONEncodable {
         nillableDictionary["timestamp"] = self.timestamp
         nillableDictionary["value"] = self.value
         nillableDictionary["unit"] = self.unit
-        nillableDictionary["note"] = self.note
+        nillableDictionary["storedValue"] = self.storedValue
+        nillableDictionary["storedUnit"] = self.storedUnit
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

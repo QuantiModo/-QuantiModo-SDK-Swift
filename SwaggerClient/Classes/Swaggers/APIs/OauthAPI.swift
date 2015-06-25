@@ -18,7 +18,7 @@ extension SwaggerClientAPI {
          
          - GET /oauth2/accesstoken
          - Client provides authorization token obtained from /api/oauth2/authorize to this endpoint and receives an access token. Access token can then
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@30167e28]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@71a3d778]
          
          :param: responseType (query) Response type
          :param: redirectUri (query) Redirect uri
@@ -54,7 +54,7 @@ extension SwaggerClientAPI {
          
          - GET /oauth2/authorize
          - Ask the user if they want to allow a client applications to submit or obtain data from their QM  account.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@4a51b71c]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@4b11e24b]
          
          :param: clientId (query) This is the unique ID that QuantiModo uses to identify your application. Obtain a client id by emailing info@quantimo.do.
          :param: realm (query) Name of the realm representing the users of your distributed applications and services. A \&quot;realm\&quot; attribute MAY be included to indicate the scope of protection.
