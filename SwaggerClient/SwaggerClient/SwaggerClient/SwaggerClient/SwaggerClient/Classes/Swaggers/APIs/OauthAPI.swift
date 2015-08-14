@@ -10,7 +10,7 @@ import PromiseKit
 
 extension SwaggerClientAPI {
     
-    class OauthAPI: APIBase {
+    public class OauthAPI: APIBase {
     
         /**
          
@@ -18,7 +18,9 @@ extension SwaggerClientAPI {
          
          - GET /oauth2/accesstoken
          - Client provides authorization token obtained from /api/oauth2/authorize to this endpoint and receives an access token. Access token can then be used to query different API endpoints of QuantiModo.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@6c3ca931]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: clientId (query) Client id
          :param: clientSecret (query) Client secret
@@ -31,9 +33,9 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func oauth2AccesstokenGet(#clientId: String, clientSecret: String, grantType: String, responseType: String?, scope: String?, redirectUri: String?, state: String?, realm: String?) -> RequestBuilder<Void> {
+        public class func oauth2AccesstokenGet(#clientId: String, clientSecret: String, grantType: String, responseType: String?, scope: String?, redirectUri: String?, state: String?, realm: String?) -> RequestBuilder<Void> {
             let path = "/oauth2/accesstoken"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "clientId": clientId,
@@ -49,7 +51,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -58,7 +60,9 @@ extension SwaggerClientAPI {
          
          - GET /oauth2/authorize
          - Ask the user if they want to allow a client applications to submit or obtain data from their QM account. It will redirect the user to the url provided by the client application with the code as a query parameter or error in case of an error.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@16fee932]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: clientId (query) This is the unique ID that QuantiModo uses to identify your application. Obtain a client id by emailing info@quantimo.do.
          :param: clientSecret (query) This is the secret for your obtained clietn_id. QuantiModo uses this to validate that only your application uses the client_id.
@@ -70,9 +74,9 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func oauth2AuthorizeGet(#clientId: String, clientSecret: String, responseType: String, scope: String, redirectUri: String?, state: String?, realm: String?) -> RequestBuilder<Void> {
+        public class func oauth2AuthorizeGet(#clientId: String, clientSecret: String, responseType: String, scope: String, redirectUri: String?, state: String?, realm: String?) -> RequestBuilder<Void> {
             let path = "/oauth2/authorize"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "clientId": clientId,
@@ -87,7 +91,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
     }

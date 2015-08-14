@@ -10,15 +10,17 @@ import PromiseKit
 
 extension SwaggerClientAPI {
     
-    class CorrelationsAPI: APIBase {
+    public class CorrelationsAPI: APIBase {
     
         /**
          
          Get correlations
          
          - GET /correlations
-         - Get correlations
-         - authMethods: [io.swagger.codegen.CodegenSecurity@5eec2fa]
+         - Get correlations.<br>Supported filter parameters:<br><ul><li><b>correlationCoefficient</b> - Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action</li><li><b>onsetDelay</b> - The number of seconds which pass following a cause measurement before an effect would likely be observed.</li><li><b>durationOfAction</b> - The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings.</li><li><b>lastUpdated</b> - The time that this measurement was last updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li></ul><br>
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -37,22 +39,28 @@ extension SwaggerClientAPI {
          
          :param: effect (query) ORIGINAL variable name of the effect variable for which the user desires correlations
          :param: cause (query) ORIGINAL variable name of the cause variable for which the user desires correlations
+         :param: limit (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
+         :param: offset (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
+         :param: sort (query) Sort by given field. If the field is prefixed with `-, it will sort in descending order.
 
          :returns: Promise<Response<[Correlation]>> 
          */
-        func correlationsGet(#effect: String?, cause: String?) -> RequestBuilder<[Correlation]> {
+        public class func correlationsGet(#effect: String?, cause: String?, limit: Int?, offset: Int?, sort: Int?) -> RequestBuilder<[Correlation]> {
             let path = "/correlations"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "effect": effect,
-                "cause": cause
+                "cause": cause,
+                "limit": limit,
+                "offset": offset,
+                "sort": sort
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -61,7 +69,9 @@ extension SwaggerClientAPI {
          
          - GET /public/correlations/search/{search}
          - Returns the average correlations from all users for all public variables that contain the characters in the search query. Returns average of all users public variable correlations with a specified cause or effect.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@3d0b654a]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -83,10 +93,10 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<[Correlation]>> 
          */
-        func publicCorrelationsSearchSearchGet(#search: String, effectOrCause: String) -> RequestBuilder<[Correlation]> {
+        public class func publicCorrelationsSearchSearchGet(#search: String, effectOrCause: String) -> RequestBuilder<[Correlation]> {
             var path = "/public/correlations/search/{search}"
             path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "effectOrCause": effectOrCause
@@ -95,7 +105,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -104,21 +114,23 @@ extension SwaggerClientAPI {
          
          - POST /v1/correlations
          - Add correlation or/and vote for it
-         - authMethods: [io.swagger.codegen.CodegenSecurity@62feec1a]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: body (body) Provides correlation data
 
          :returns: Promise<Response<Void>> 
          */
-        func v1CorrelationsPost(#body: PostCorrelation) -> RequestBuilder<Void> {
+        public class func v1CorrelationsPost(#body: PostCorrelation) -> RequestBuilder<Void> {
             let path = "/v1/correlations"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
-            let parameters = body.encode() as? [String:AnyObject]
+            let parameters = body.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -127,7 +139,9 @@ extension SwaggerClientAPI {
          
          - GET /v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/causes
          - Returns average of all correlations and votes for all user cause variables for a given effect. If parameter \"include_public\" is used, it also returns public correlations. User correlation overwrites or supersedes public correlation.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@3f42ee7a]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -152,12 +166,12 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<[Correlation]>> 
          */
-        func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameCausesGet(#organizationId: Int, userId: Int, variableName: String, organizationToken: String, includePublic: String?) -> RequestBuilder<[Correlation]> {
+        public class func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameCausesGet(#organizationId: Int, userId: Int, variableName: String, organizationToken: String, includePublic: String?) -> RequestBuilder<[Correlation]> {
             var path = "/v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/causes"
             path = path.stringByReplacingOccurrencesOfString("{organizationId}", withString: "\(organizationId)", options: .LiteralSearch, range: nil)
             path = path.stringByReplacingOccurrencesOfString("{userId}", withString: "\(userId)", options: .LiteralSearch, range: nil)
             path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "organizationToken": organizationToken,
@@ -167,7 +181,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -176,21 +190,13 @@ extension SwaggerClientAPI {
          
          - GET /v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/effects
          - Returns average of all correlations and votes for all user cause variables for a given effect. If parameter \"include_public\" is used, it also returns public correlations. User correlation overwrites or supersedes public correlation.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@4cc8027a]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "cause" : "aeiou",
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "statisticalSignificance" : "aeiou",
-  "effectSize" : "aeiou",
-  "effect" : "aeiou",
-  "onsetDelay" : 3.149,
-  "causeCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125
+  "success" : true,
+  "message" : "aeiou",
+  "status" : 123
 } ]}]
          
          :param: organizationId (path) Organization ID
@@ -199,14 +205,14 @@ extension SwaggerClientAPI {
          :param: organizationToken (query) Organization access token
          :param: includePublic (query) Include bublic correlations, Can be \&quot;1\&quot; or empty.
 
-         :returns: Promise<Response<[Correlation]>> 
+         :returns: Promise<Response<[CommonResponse]>> 
          */
-        func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameEffectsGet(#organizationId: Int, userId: Int, variableName: String, organizationToken: String, includePublic: String?) -> RequestBuilder<[Correlation]> {
+        public class func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameEffectsGet(#organizationId: Int, userId: Int, variableName: String, organizationToken: String, includePublic: String?) -> RequestBuilder<[CommonResponse]> {
             var path = "/v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/effects"
             path = path.stringByReplacingOccurrencesOfString("{organizationId}", withString: "\(organizationId)", options: .LiteralSearch, range: nil)
             path = path.stringByReplacingOccurrencesOfString("{userId}", withString: "\(userId)", options: .LiteralSearch, range: nil)
             path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "organizationToken": organizationToken,
@@ -214,9 +220,9 @@ extension SwaggerClientAPI {
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+            let requestBuilder: RequestBuilder<[CommonResponse]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -225,7 +231,9 @@ extension SwaggerClientAPI {
          
          - GET /v1/variables/{variableName}/causes
          - Returns average of all correlations and votes for all user cause variables for a given effect
-         - authMethods: [io.swagger.codegen.CodegenSecurity@2a0f1f9c]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -246,17 +254,17 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<[Correlation]>> 
          */
-        func v1VariablesVariableNameCausesGet(#variableName: String) -> RequestBuilder<[Correlation]> {
+        public class func v1VariablesVariableNameCausesGet(#variableName: String) -> RequestBuilder<[Correlation]> {
             var path = "/v1/variables/{variableName}/causes"
             path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -265,7 +273,9 @@ extension SwaggerClientAPI {
          
          - GET /v1/variables/{variableName}/effects
          - Returns average of all correlations and votes for all user effect variables for a given cause
-         - authMethods: [io.swagger.codegen.CodegenSecurity@3f04a8fb]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -286,17 +296,17 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<[Correlation]>> 
          */
-        func v1VariablesVariableNameEffectsGet(#variableName: String) -> RequestBuilder<[Correlation]> {
+        public class func v1VariablesVariableNameEffectsGet(#variableName: String) -> RequestBuilder<[Correlation]> {
             var path = "/v1/variables/{variableName}/effects"
             path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -305,7 +315,9 @@ extension SwaggerClientAPI {
          
          - GET /v1/variables/{variableName}/public/causes
          - Returns average of all correlations and votes for all public cause variables for a given effect
-         - authMethods: [io.swagger.codegen.CodegenSecurity@171da05f]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -326,17 +338,17 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<[Correlation]>> 
          */
-        func v1VariablesVariableNamePublicCausesGet(#variableName: String) -> RequestBuilder<[Correlation]> {
+        public class func v1VariablesVariableNamePublicCausesGet(#variableName: String) -> RequestBuilder<[Correlation]> {
             var path = "/v1/variables/{variableName}/public/causes"
             path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -345,7 +357,9 @@ extension SwaggerClientAPI {
          
          - GET /v1/variables/{variableName}/public/effects
          - Returns average of all correlations and votes for all public cause variables for a given cause
-         - authMethods: [io.swagger.codegen.CodegenSecurity@1bcaab14]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
   "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
@@ -366,17 +380,89 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<[Correlation]>> 
          */
-        func v1VariablesVariableNamePublicEffectsGet(#variableName: String) -> RequestBuilder<[Correlation]> {
+        public class func v1VariablesVariableNamePublicEffectsGet(#variableName: String) -> RequestBuilder<[Correlation]> {
             var path = "/v1/variables/{variableName}/public/effects"
             path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+        }
+    
+        /**
+         
+         Post or update vote
+         
+         - POST /v1/votes
+         - This is to enable users to indicate their opinion on the plausibility of a causal relationship between a treatment and outcome. QuantiModo incorporates crowd-sourced plausibility estimations into their algorithm. This is done allowing user to indicate their view of the plausibility of each relationship with thumbs up/down buttons placed next to each prediction.
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
+         - examples: [{contentType=application/json, example={
+  "success" : true,
+  "message" : "aeiou",
+  "status" : 123
+}}]
+         
+         :param: cause (query) Cause variable name
+         :param: effect (query) Effect variable name
+         :param: vote (query) Vote: 0 (for implausible) or 1 (for plausible)
+
+         :returns: Promise<Response<CommonResponse>> 
+         */
+        public class func v1VotesPost(#cause: String, effect: String, vote: Bool?) -> RequestBuilder<CommonResponse> {
+            let path = "/v1/votes"
+            let URLString = SwaggerClientAPI.basePath + path
+            
+            let nillableParameters: [String:AnyObject?] = [
+                "cause": cause,
+                "effect": effect,
+                "vote": vote
+            ]
+            let parameters = APIHelper.rejectNil(nillableParameters)
+
+            let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
+        }
+    
+        /**
+         
+         Delete vote
+         
+         - POST /v1/votes/delete
+         - Delete previously posted vote
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
+         - examples: [{contentType=application/json, example={
+  "success" : true,
+  "message" : "aeiou",
+  "status" : 123
+}}]
+         
+         :param: cause (query) Cause variable name
+         :param: effect (query) Effect variable name
+
+         :returns: Promise<Response<CommonResponse>> 
+         */
+        public class func v1VotesDeletePost(#cause: String, effect: String) -> RequestBuilder<CommonResponse> {
+            let path = "/v1/votes/delete"
+            let URLString = SwaggerClientAPI.basePath + path
+            
+            let nillableParameters: [String:AnyObject?] = [
+                "cause": cause,
+                "effect": effect
+            ]
+            let parameters = APIHelper.rejectNil(nillableParameters)
+
+            let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
         }
     
     }

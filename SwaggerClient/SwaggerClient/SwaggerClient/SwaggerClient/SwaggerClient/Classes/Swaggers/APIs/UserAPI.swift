@@ -10,7 +10,7 @@ import PromiseKit
 
 extension SwaggerClientAPI {
     
-    class UserAPI: APIBase {
+    public class UserAPI: APIBase {
     
         /**
          
@@ -18,7 +18,9 @@ extension SwaggerClientAPI {
          
          - GET /user/me
          - Returns user info for the currently authenticated user.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@3908867e]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example={
   "administrator" : true,
   "wpId" : 123,
@@ -31,16 +33,16 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<User>> 
          */
-        func userMeGet() -> RequestBuilder<User> {
+        public class func userMeGet() -> RequestBuilder<User> {
             let path = "/user/me"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<User>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -63,16 +65,16 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<UserTokenSuccessfulResponse>> 
          */
-        func v1OrganizationsOrganizationIdUsersPost(#organizationId: Int, body: UserTokenRequest) -> RequestBuilder<UserTokenSuccessfulResponse> {
+        public class func v1OrganizationsOrganizationIdUsersPost(#organizationId: Int, body: UserTokenRequest) -> RequestBuilder<UserTokenSuccessfulResponse> {
             var path = "/v1/organizations/{organizationId}/users"
             path = path.stringByReplacingOccurrencesOfString("{organizationId}", withString: "\(organizationId)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
-            let parameters = body.encode() as? [String:AnyObject]
+            let parameters = body.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<UserTokenSuccessfulResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
     }

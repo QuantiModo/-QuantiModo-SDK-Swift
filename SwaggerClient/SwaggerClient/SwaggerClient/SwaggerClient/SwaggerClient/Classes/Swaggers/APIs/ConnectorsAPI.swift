@@ -10,7 +10,7 @@ import PromiseKit
 
 extension SwaggerClientAPI {
     
-    class ConnectorsAPI: APIBase {
+    public class ConnectorsAPI: APIBase {
     
         /**
          
@@ -18,7 +18,9 @@ extension SwaggerClientAPI {
          
          - GET /connectors/list
          - Returns a list of all available connectors. A connector pulls data from other data providers using their API or a screenscraper.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@1234f13a]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "connected" : "aeiou",
   "image" : "aeiou",
@@ -34,16 +36,16 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<[Connector]>> 
          */
-        func connectorsListGet() -> RequestBuilder<[Connector]> {
+        public class func connectorsListGet() -> RequestBuilder<[Connector]> {
             let path = "/connectors/list"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<[Connector]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -52,23 +54,25 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/connect
          - Attempt to obtain a token from the data provider, store it in the database. With this, the connector to continue to obtain new user data until the token is revoked.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@3bb88c14]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
 
          :returns: Promise<Response<Void>> 
          */
-        func connectorsConnectorConnectGet(#connector: String) -> RequestBuilder<Void> {
+        public class func connectorsConnectorConnectGet(#connector: String) -> RequestBuilder<Void> {
             var path = "/connectors/{connector}/connect"
             path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -77,7 +81,9 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/connectInstructions
          - Returns instructions that describe what parameters and endpoint to use to connect to the given data provider.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@42d97d6d]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
          :param: url (query) URL which should be used to enable the connector
@@ -86,10 +92,10 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func connectorsConnectorConnectInstructionsGet(#connector: String, url: String, parameters: [String], usePopup: Bool) -> RequestBuilder<Void> {
+        public class func connectorsConnectorConnectInstructionsGet(#connector: String, url: String, parameters: [String], usePopup: Bool) -> RequestBuilder<Void> {
             var path = "/connectors/{connector}/connectInstructions"
             path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "url": url,
@@ -100,7 +106,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -109,7 +115,9 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/connectParameter
          - Returns instructions that describe what parameters and endpoint to use to connect to the given data provider.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@1a8482c0]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
          :param: displayName (query) Name of the parameter that is user visible in the form
@@ -121,10 +129,10 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func connectorsConnectorConnectParameterGet(#connector: String, displayName: String, key: String, usePopup: Bool, type: String, placeholder: String, defaultValue: String) -> RequestBuilder<Void> {
+        public class func connectorsConnectorConnectParameterGet(#connector: String, displayName: String, key: String, usePopup: Bool, type: String, placeholder: String, defaultValue: String) -> RequestBuilder<Void> {
             var path = "/connectors/{connector}/connectParameter"
             path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "displayName": displayName,
@@ -138,7 +146,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -147,23 +155,25 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/disconnect
          - The disconnect method deletes any stored tokens or connection information from the connectors database.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@2f0c0d8b]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
 
          :returns: Promise<Response<Void>> 
          */
-        func connectorsConnectorDisconnectGet(#connector: String) -> RequestBuilder<Void> {
+        public class func connectorsConnectorDisconnectGet(#connector: String) -> RequestBuilder<Void> {
             var path = "/connectors/{connector}/disconnect"
             path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -172,23 +182,25 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/info
          - Returns information about the connector such as the connector id, whether or not is connected for this user (i.e. we have a token or credentials), and its update history for the user.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@50abec52]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: connector (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
 
          :returns: Promise<Response<Void>> 
          */
-        func connectorsConnectorInfoGet(#connector: String) -> RequestBuilder<Void> {
+        public class func connectorsConnectorInfoGet(#connector: String) -> RequestBuilder<Void> {
             var path = "/connectors/{connector}/info"
             path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -197,23 +209,25 @@ extension SwaggerClientAPI {
          
          - GET /connectors/{connector}/update
          - The update method tells the QM Connector Framework to check with the data provider (such as Fitbit or MyFitnessPal) and retrieve any new measurements available.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@5990d13f]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: connector (path) Lowercase system name of the source application or device
 
          :returns: Promise<Response<Void>> 
          */
-        func connectorsConnectorUpdateGet(#connector: String) -> RequestBuilder<Void> {
+        public class func connectorsConnectorUpdateGet(#connector: String) -> RequestBuilder<Void> {
             var path = "/connectors/{connector}/update"
             path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
     }

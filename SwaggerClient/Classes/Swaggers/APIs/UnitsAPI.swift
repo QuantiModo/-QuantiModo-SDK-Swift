@@ -18,7 +18,7 @@ extension SwaggerClientAPI {
          
          - GET /unitCategories
          - Get a list of the categories of measurement units such as 'Distance', 'Duration', 'Energy', 'Frequency', 'Miscellany', 'Pressure', 'Proportion', 'Rating', 'Temperature', 'Volume', and 'Weight'.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@d267862]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@5dbc11e6]
          - examples: [{contentType=application/json, example={
   "name" : "aeiou"
 }}]
@@ -43,7 +43,7 @@ extension SwaggerClientAPI {
          
          - GET /units
          - Get all available units
-         - authMethods: [io.swagger.codegen.CodegenSecurity@772d0a16]
+         - authMethods: [io.swagger.codegen.CodegenSecurity@2abdfb45]
          - examples: [{contentType=application/json, example=[ {
   "name" : "aeiou",
   "maximum" : 3.149,

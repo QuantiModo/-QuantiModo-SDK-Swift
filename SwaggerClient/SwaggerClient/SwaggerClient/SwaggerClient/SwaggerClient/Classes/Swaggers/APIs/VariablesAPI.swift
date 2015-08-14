@@ -10,7 +10,7 @@ import PromiseKit
 
 extension SwaggerClientAPI {
     
-    class VariablesAPI: APIBase {
+    public class VariablesAPI: APIBase {
     
         /**
          
@@ -18,7 +18,9 @@ extension SwaggerClientAPI {
          
          - POST /correlations
          - Store or Update a Correlation
-         - authMethods: [io.swagger.codegen.CodegenSecurity@2755434a]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: cause (query) 
          :param: effect (query) 
@@ -27,9 +29,9 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func correlationsPost(#cause: String, effect: String, correlationcoefficient: String, vote: String) -> RequestBuilder<Void> {
+        public class func correlationsPost(#cause: String, effect: String, correlationcoefficient: String, vote: String) -> RequestBuilder<Void> {
             let path = "/correlations"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "cause": cause,
@@ -41,7 +43,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -50,31 +52,53 @@ extension SwaggerClientAPI {
          
          - GET /public/variables
          - This endpoint retrieves an array of all public variables. Public variables are things like foods, medications, symptoms, conditions, and anything not unique to a particular user. For instance, a telephone number or name would not be a public variable.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@781377b6]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example={
+  "parent" : 123,
+  "causeOnly" : 123,
+  "lastValue" : 123,
+  "sources" : "aeiou",
+  "latestMeasurementTime" : 123,
+  "lastSource" : 123,
+  "numberOfCorrelations" : 123,
+  "earliestMeasurementTime" : 123,
   "originalName" : "aeiou",
   "minimumValue" : 3.149,
-  "unit" : "aeiou",
-  "sources" : "aeiou",
+  "measurementsAtLastAnalysis" : 123,
   "fillingValue" : 3.149,
-  "name" : "aeiou",
   "combinationOperation" : "aeiou",
+  "mostCommonValue" : 123,
+  "id" : 123,
+  "outcome" : 123,
+  "subVariables" : [ "" ],
+  "joinWith" : "aeiou",
+  "durationOfAction" : 123,
+  "joinedVariables" : [ "" ],
+  "mostCommonUnit" : 123,
+  "unit" : "aeiou",
+  "name" : "aeiou",
+  "lastUnit" : 123,
   "category" : "aeiou",
-  "maximumValue" : 3.149
+  "onsetDelay" : 123,
+  "maximumValue" : 3.149,
+  "updated" : 123,
+  "numberOfMeasurements" : 123
 }}]
 
          :returns: Promise<Response<Variable>> 
          */
-        func publicVariablesGet() -> RequestBuilder<Variable> {
+        public class func publicVariablesGet() -> RequestBuilder<Variable> {
             let path = "/public/variables"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -83,62 +107,92 @@ extension SwaggerClientAPI {
          
          - GET /public/variables/search/{search}
          - Get top 5 PUBLIC variables with the most correlations containing the entered search characters. For example, search for 'mood' as an effect. Since 'Overall Mood' has a lot of correlations with other variables, it should be in the autocomplete list.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@79fcb459]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example={
+  "parent" : 123,
+  "causeOnly" : 123,
+  "lastValue" : 123,
+  "sources" : "aeiou",
+  "latestMeasurementTime" : 123,
+  "lastSource" : 123,
+  "numberOfCorrelations" : 123,
+  "earliestMeasurementTime" : 123,
   "originalName" : "aeiou",
   "minimumValue" : 3.149,
-  "unit" : "aeiou",
-  "sources" : "aeiou",
+  "measurementsAtLastAnalysis" : 123,
   "fillingValue" : 3.149,
-  "name" : "aeiou",
   "combinationOperation" : "aeiou",
+  "mostCommonValue" : 123,
+  "id" : 123,
+  "outcome" : 123,
+  "subVariables" : [ "" ],
+  "joinWith" : "aeiou",
+  "durationOfAction" : 123,
+  "joinedVariables" : [ "" ],
+  "mostCommonUnit" : 123,
+  "unit" : "aeiou",
+  "name" : "aeiou",
+  "lastUnit" : 123,
   "category" : "aeiou",
-  "maximumValue" : 3.149
+  "onsetDelay" : 123,
+  "maximumValue" : 3.149,
+  "updated" : 123,
+  "numberOfMeasurements" : 123
 }}]
          
          :param: search (path) Search query can be some fraction of a variable name.
          :param: effectOrCause (query) Allows us to specify which column in the `correlations` table will be searched. Choices are effect or cause.
+         :param: limit (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
+         :param: offset (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
+         :param: sort (query) Sort by given field. If the field is prefixed with `-, it will sort in descending order.
 
          :returns: Promise<Response<Variable>> 
          */
-        func publicVariablesSearchSearchGet(#search: String, effectOrCause: String?) -> RequestBuilder<Variable> {
+        public class func publicVariablesSearchSearchGet(#search: String, effectOrCause: String?, limit: Int?, offset: Int?, sort: Int?) -> RequestBuilder<Variable> {
             var path = "/public/variables/search/{search}"
             path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
-                "effectOrCause": effectOrCause
+                "effectOrCause": effectOrCause,
+                "limit": limit,
+                "offset": offset,
+                "sort": sort
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
          
-         Get variable categories
+         Variable categories
          
          - GET /variableCategories
          - The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@4ec370d3]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
   "name" : "aeiou"
 } ]}]
 
          :returns: Promise<Response<[VariableCategory]>> 
          */
-        func variableCategoriesGet() -> RequestBuilder<[VariableCategory]> {
+        public class func variableCategoriesGet() -> RequestBuilder<[VariableCategory]> {
             let path = "/variableCategories"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<[VariableCategory]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -147,21 +201,23 @@ extension SwaggerClientAPI {
          
          - POST /variableUserSettings
          - Users can change things like the display name for a variable. They can also change the parameters used in analysis of that variable such as the expected duration of action for a variable to have an effect, the estimated delay before the onset of action. In order to filter out erroneous data, they are able to set the maximum and minimum reasonable daily values for a variable.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@43013552]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: sharingData (body) Variable user settings data
 
          :returns: Promise<Response<Void>> 
          */
-        func variableUserSettingsPost(#sharingData: VariableUserSettings) -> RequestBuilder<Void> {
+        public class func variableUserSettingsPost(#sharingData: VariableUserSettings) -> RequestBuilder<Void> {
             let path = "/variableUserSettings"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
-            let parameters = sharingData.encode() as? [String:AnyObject]
+            let parameters = sharingData.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -169,62 +225,94 @@ extension SwaggerClientAPI {
          Get variables by the category name
          
          - GET /variables
-         - Get variables by the category name
-         - authMethods: [io.swagger.codegen.CodegenSecurity@204c5443, io.swagger.codegen.CodegenSecurity@3c0e626f]
-         - authMethods: [io.swagger.codegen.CodegenSecurity@204c5443, io.swagger.codegen.CodegenSecurity@3c0e626f]
+         - Get variables by the category name. <br>Supported filter parameters:<br><ul><li><b>name</b> - Original name of the variable (supports exact name match only)</li><li><b>lastUpdated</b> - Filter by the last time any of the properties of the variable were changed. Uses UTC format \"YYYY-MM-DDThh:mm:ss\"</li><li><b>source</b> - The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here</li><li><b>latestMeasurementTime</b> - Filter variables based on the last time a measurement for them was created or updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li><li><b>numberOfMeasurements</b> - Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity.</li><li><b>lastSource</b> - Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only)</li></ul><br>
+         - BASIC:
+           - type: basic
+           - name: basicAuth
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example={
+  "parent" : 123,
+  "causeOnly" : 123,
+  "lastValue" : 123,
+  "sources" : "aeiou",
+  "latestMeasurementTime" : 123,
+  "lastSource" : 123,
+  "numberOfCorrelations" : 123,
+  "earliestMeasurementTime" : 123,
   "originalName" : "aeiou",
   "minimumValue" : 3.149,
-  "unit" : "aeiou",
-  "sources" : "aeiou",
+  "measurementsAtLastAnalysis" : 123,
   "fillingValue" : 3.149,
-  "name" : "aeiou",
   "combinationOperation" : "aeiou",
+  "mostCommonValue" : 123,
+  "id" : 123,
+  "outcome" : 123,
+  "subVariables" : [ "" ],
+  "joinWith" : "aeiou",
+  "durationOfAction" : 123,
+  "joinedVariables" : [ "" ],
+  "mostCommonUnit" : 123,
+  "unit" : "aeiou",
+  "name" : "aeiou",
+  "lastUnit" : 123,
   "category" : "aeiou",
-  "maximumValue" : 3.149
+  "onsetDelay" : 123,
+  "maximumValue" : 3.149,
+  "updated" : 123,
+  "numberOfMeasurements" : 123
 }}]
          
          :param: userId (query) User id
-         :param: categoryName (query) Category name
+         :param: category (query) Filter data by category
+         :param: limit (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
+         :param: offset (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
+         :param: sort (query) Sort by given field. If the field is prefixed with `-, it will sort in descending order.
 
          :returns: Promise<Response<Variable>> 
          */
-        func variablesGet(#userId: Int?, categoryName: String?) -> RequestBuilder<Variable> {
+        public class func variablesGet(#userId: Int?, category: String?, limit: Int?, offset: Int?, sort: Int?) -> RequestBuilder<Variable> {
             let path = "/variables"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "userId": userId,
-                "categoryName": categoryName
+                "category": category,
+                "limit": limit,
+                "offset": offset,
+                "sort": sort
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
          
-         Set variable
+         Create Variables
          
          - POST /variables
          - Allows the client to create a new variable in the `variables` table.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@699ed8d5]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: variableName (body) Original name for the variable.
 
          :returns: Promise<Response<Void>> 
          */
-        func variablesPost(#variableName: VariablesNew) -> RequestBuilder<Void> {
+        public class func variablesPost(#variableName: VariablesNew) -> RequestBuilder<Void> {
             let path = "/variables"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
-            let parameters = variableName.encode() as? [String:AnyObject]
+            let parameters = variableName.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -233,17 +321,39 @@ extension SwaggerClientAPI {
          
          - GET /variables/search/{search}
          - Get variables containing the search characters for which the currently logged in user has measurements. Used to provide auto-complete function in variable search boxes.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@237fdb11]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example=[ {
+  "parent" : 123,
+  "causeOnly" : 123,
+  "lastValue" : 123,
+  "sources" : "aeiou",
+  "latestMeasurementTime" : 123,
+  "lastSource" : 123,
+  "numberOfCorrelations" : 123,
+  "earliestMeasurementTime" : 123,
   "originalName" : "aeiou",
   "minimumValue" : 3.149,
-  "unit" : "aeiou",
-  "sources" : "aeiou",
+  "measurementsAtLastAnalysis" : 123,
   "fillingValue" : 3.149,
-  "name" : "aeiou",
   "combinationOperation" : "aeiou",
+  "mostCommonValue" : 123,
+  "id" : 123,
+  "outcome" : 123,
+  "subVariables" : [ "" ],
+  "joinWith" : "aeiou",
+  "durationOfAction" : 123,
+  "joinedVariables" : [ "" ],
+  "mostCommonUnit" : 123,
+  "unit" : "aeiou",
+  "name" : "aeiou",
+  "lastUnit" : 123,
   "category" : "aeiou",
-  "maximumValue" : 3.149
+  "onsetDelay" : 123,
+  "maximumValue" : 3.149,
+  "updated" : 123,
+  "numberOfMeasurements" : 123
 } ]}]
          
          :param: search (path) Search query which may be an entire variable name or a fragment of one.
@@ -254,10 +364,10 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<[Variable]>> 
          */
-        func variablesSearchSearchGet(#search: String, categoryName: String?, source: String?, limit: Int?, offset: Int?) -> RequestBuilder<[Variable]> {
+        public class func variablesSearchSearchGet(#search: String, categoryName: String?, source: String?, limit: Int?, offset: Int?) -> RequestBuilder<[Variable]> {
             var path = "/variables/search/{search}"
             path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "categoryName": categoryName,
@@ -269,7 +379,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<[Variable]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -278,34 +388,56 @@ extension SwaggerClientAPI {
          
          - GET /variables/{variableName}
          - Get all of the settings and information about a variable by its name. If the logged in user has modified the settings for the variable, these will be provided instead of the default settings for that variable.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@61537d71]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example={
+  "parent" : 123,
+  "causeOnly" : 123,
+  "lastValue" : 123,
+  "sources" : "aeiou",
+  "latestMeasurementTime" : 123,
+  "lastSource" : 123,
+  "numberOfCorrelations" : 123,
+  "earliestMeasurementTime" : 123,
   "originalName" : "aeiou",
   "minimumValue" : 3.149,
-  "unit" : "aeiou",
-  "sources" : "aeiou",
+  "measurementsAtLastAnalysis" : 123,
   "fillingValue" : 3.149,
-  "name" : "aeiou",
   "combinationOperation" : "aeiou",
+  "mostCommonValue" : 123,
+  "id" : 123,
+  "outcome" : 123,
+  "subVariables" : [ "" ],
+  "joinWith" : "aeiou",
+  "durationOfAction" : 123,
+  "joinedVariables" : [ "" ],
+  "mostCommonUnit" : 123,
+  "unit" : "aeiou",
+  "name" : "aeiou",
+  "lastUnit" : 123,
   "category" : "aeiou",
-  "maximumValue" : 3.149
+  "onsetDelay" : 123,
+  "maximumValue" : 3.149,
+  "updated" : 123,
+  "numberOfMeasurements" : 123
 }}]
          
          :param: variableName (path) Variable name
 
          :returns: Promise<Response<Variable>> 
          */
-        func variablesVariableNameGet(#variableName: String) -> RequestBuilder<Variable> {
+        public class func variablesVariableNameGet(#variableName: String) -> RequestBuilder<Variable> {
             var path = "/variables/{variableName}"
             path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
     }

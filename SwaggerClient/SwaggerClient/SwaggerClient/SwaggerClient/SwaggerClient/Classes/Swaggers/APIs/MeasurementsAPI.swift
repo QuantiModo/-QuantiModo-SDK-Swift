@@ -10,7 +10,7 @@ import PromiseKit
 
 extension SwaggerClientAPI {
     
-    class MeasurementsAPI: APIBase {
+    public class MeasurementsAPI: APIBase {
     
         /**
          
@@ -18,23 +18,25 @@ extension SwaggerClientAPI {
          
          - GET /measurementSources
          - Returns a list of all the apps from which measurement data is obtained.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@27f3313d]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example={
   "name" : "aeiou"
 }}]
 
          :returns: Promise<Response<MeasurementSource>> 
          */
-        func measurementSourcesGet() -> RequestBuilder<MeasurementSource> {
+        public class func measurementSourcesGet() -> RequestBuilder<MeasurementSource> {
             let path = "/measurementSources"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<MeasurementSource>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -43,21 +45,23 @@ extension SwaggerClientAPI {
          
          - POST /measurementSources
          - Add a life-tracking app or device to the QuantiModo list of data sources.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@5ab568cb]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: name (body) An array of names of data sources you want to add.
 
          :returns: Promise<Response<Void>> 
          */
-        func measurementSourcesPost(#name: MeasurementSource) -> RequestBuilder<Void> {
+        public class func measurementSourcesPost(#name: MeasurementSource) -> RequestBuilder<Void> {
             let path = "/measurementSources"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
-            let parameters = name.encode() as? [String:AnyObject]
+            let parameters = name.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -65,8 +69,10 @@ extension SwaggerClientAPI {
          Get measurements for this user
          
          - GET /measurements
-         - Measurements are any value that can be recorded like daily steps, a mood rating, or apples eaten.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@70b9ba66]
+         - Measurements are any value that can be recorded like daily steps, a mood rating, or apples eaten. <br>Supported filter parameters:<br><ul><li><b>value</b> - Value of measurement</li><li><b>lastUpdated</b> - The time that this measurement was created or last updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li></ul><br>
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example={
   "unit" : "aeiou",
   "storedValue" : 3.149,
@@ -83,12 +89,15 @@ extension SwaggerClientAPI {
          :param: endTime (query) The upper limit of measurements returned (Epoch)
          :param: groupingWidth (query) The time (in seconds) over which measurements are grouped together
          :param: groupingTimezone (query) The time (in seconds) over which measurements are grouped together
+         :param: limit (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
+         :param: offset (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
+         :param: sort (query) Sort by given field. If the field is prefixed with `-, it will sort in descending order.
 
          :returns: Promise<Response<Measurement>> 
          */
-        func measurementsGet(#variableName: String, unit: String?, startTime: String?, endTime: String?, groupingWidth: Int?, groupingTimezone: String?) -> RequestBuilder<Measurement> {
+        public class func measurementsGet(#variableName: String, unit: String?, startTime: String?, endTime: String?, groupingWidth: Int?, groupingTimezone: String?, limit: Int?, offset: Int?, sort: Int?) -> RequestBuilder<Measurement> {
             let path = "/measurements"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "variableName": variableName,
@@ -96,13 +105,16 @@ extension SwaggerClientAPI {
                 "startTime": startTime,
                 "endTime": endTime,
                 "groupingWidth": groupingWidth,
-                "groupingTimezone": groupingTimezone
+                "groupingTimezone": groupingTimezone,
+                "limit": limit,
+                "offset": offset,
+                "sort": sort
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Measurement>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -111,21 +123,23 @@ extension SwaggerClientAPI {
          
          - POST /measurements/v2
          - You can submit or update multiple measurements in a \"measurements\" sub-array.  If the variable these measurements correspond to does not already exist in the database, it will be automatically added.  The request body should look something like [{\"measurements\":[{\"timestamp\":1406419860,\"value\":\"1\",\"note\":\"I am a note about back pain.\"},{\"timestamp\":1406519865,\"value\":\"3\",\"note\":\"I am another note about back pain.\"}],\"name\":\"Back Pain\",\"source\":\"QuantiModo\",\"category\":\"Symptoms\",\"combinationOperation\":\"MEAN\",\"unit\":\"/5\"}]
-         - authMethods: [io.swagger.codegen.CodegenSecurity@540efb92]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          
          :param: measurements (body) An array of measurements you want to insert.
 
          :returns: Promise<Response<Void>> 
          */
-        func measurementsV2Post(#measurements: MeasurementSet) -> RequestBuilder<Void> {
+        public class func measurementsV2Post(#measurements: MeasurementSet) -> RequestBuilder<Void> {
             let path = "/measurements/v2"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
-            let parameters = measurements.encode() as? [String:AnyObject]
+            let parameters = measurements.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -134,7 +148,9 @@ extension SwaggerClientAPI {
          
          - GET /measurementsRange
          - Get Unix time-stamp (epoch time) of the user's first and last measurements taken.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@6a4a42f7]
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
          - examples: [{contentType=application/json, example={
   "upperLimit" : 123,
   "lowerLimit" : 123
@@ -145,9 +161,9 @@ extension SwaggerClientAPI {
 
          :returns: Promise<Response<MeasurementRange>> 
          */
-        func measurementsRangeGet(#sources: String?, user: Int?) -> RequestBuilder<MeasurementRange> {
+        public class func measurementsRangeGet(#sources: String?, user: Int?) -> RequestBuilder<MeasurementRange> {
             let path = "/measurementsRange"
-            let url = SwaggerClientAPI.basePath + path
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "sources": sources,
@@ -157,7 +173,7 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<MeasurementRange>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
     }
