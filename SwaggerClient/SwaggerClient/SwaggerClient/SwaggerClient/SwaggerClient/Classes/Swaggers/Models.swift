@@ -140,8 +140,32 @@ class Decoders {
                 instance.connected = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["connected"])
                 instance.connectInstructions = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["connectInstructions"])
                 instance.lastUpdate = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["lastUpdate"])
-                instance.latestData = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["latestData"])
+                instance.totalMeasurementsInLastUpdate = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["totalMeasurementsInLastUpdate"])
                 instance.noDataYet = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["noDataYet"])
+                return instance
+            }
+			
+
+			// Decoder for ConnectorInfo
+            Decoders.addDecoder(clazz: ConnectorInfo.self) { (source: AnyObject) -> ConnectorInfo in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                var instance = ConnectorInfo()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.connected = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["connected"])
+                instance.error = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error"])
+                instance.history = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["history"])
+                return instance
+            }
+			
+
+			// Decoder for ConnectorInfoHistoryItem
+            Decoders.addDecoder(clazz: ConnectorInfoHistoryItem.self) { (source: AnyObject) -> ConnectorInfoHistoryItem in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                var instance = ConnectorInfoHistoryItem()
+                instance.number_of_measurements = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_measurements"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
+                instance.created_at = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["created_at"])
                 return instance
             }
 			
@@ -211,7 +235,7 @@ class Decoders {
                 instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"])
                 instance.unit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit"])
                 instance.storedValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["storedValue"])
-                instance.storedUnit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["storedUnit"])
+                instance.storedAbbreviatedUnitName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["storedAbbreviatedUnitName"])
                 return instance
             }
 			
@@ -417,10 +441,10 @@ class Decoders {
             }
 			
 
-			// Decoder for VariableUserSettings
-            Decoders.addDecoder(clazz: VariableUserSettings.self) { (source: AnyObject) -> VariableUserSettings in
+			// Decoder for UserVariables
+            Decoders.addDecoder(clazz: UserVariables.self) { (source: AnyObject) -> UserVariables in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                var instance = VariableUserSettings()
+                var instance = UserVariables()
                 instance.user = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user"])
                 instance.variable = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["variable"])
                 instance.durationOfAction = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["durationOfAction"])
