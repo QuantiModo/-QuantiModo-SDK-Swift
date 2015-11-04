@@ -8,43 +8,42 @@
 import Foundation
 
 
-class Connector: JSONEncodable {
+public class Connector: JSONEncodable {
 
     /** Connector ID number */
-    var id: Int!
+    public var id: Int?
     /** Connector lowercase system name */
-    var name: String!
+    public var name: String?
     /** Connector pretty display name */
-    var displayName: String!
+    public var display_name: String?
     /** URL to the image of the connector logo */
-    var image: String!
+    public var image: String?
     /** URL to a site where one can get this device or application */
-    var getItUrl: String!
-    /** True if the authenticated user has this connector enabled */
-    var connected: String!
-    /** URL and parameters used when connecting to a service */
-    var connectInstructions: String!
-    /** Epoch timestamp of last sync */
-    var lastUpdate: Int!
-    /** Number of measurements obtained during latest update */
-    var latestData: Int!
-    /** True if user has no measurements for this connector */
-    var noDataYet: Bool!
+    public var get_it_url: String?
+    /** Short description */
+    public var short_description: String?
+    /** Long description */
+    public var long_description: String?
+    /** enabled */
+    public var enabled: Bool?
+    /** oauth */
+    public var oauth: Bool?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
-        nillableDictionary["displayName"] = self.displayName
+        nillableDictionary["display_name"] = self.display_name
         nillableDictionary["image"] = self.image
-        nillableDictionary["getItUrl"] = self.getItUrl
-        nillableDictionary["connected"] = self.connected
-        nillableDictionary["connectInstructions"] = self.connectInstructions
-        nillableDictionary["lastUpdate"] = self.lastUpdate
-        nillableDictionary["latestData"] = self.latestData
-        nillableDictionary["noDataYet"] = self.noDataYet
+        nillableDictionary["get_it_url"] = self.get_it_url
+        nillableDictionary["short_description"] = self.short_description
+        nillableDictionary["long_description"] = self.long_description
+        nillableDictionary["enabled"] = self.enabled
+        nillableDictionary["oauth"] = self.oauth
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

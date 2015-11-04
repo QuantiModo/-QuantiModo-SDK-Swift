@@ -8,45 +8,123 @@
 import Foundation
 
 
-class Variable: JSONEncodable {
+public class Variable: JSONEncodable {
 
-    enum CombinationOperation: String { 
-        case MEAN = "MEAN"
-        case SUM = "SUM"
-    }
+    /** id */
+    public var id: Int?
+    /** client_id */
+    public var client_id: String?
+    /** parent_id */
+    public var parent_id: Int?
+    /** Name of the variable */
+    public var name: String?
+    /** Category of the variable */
+    public var variable_category_id: Int?
+    /** ID of the default unit of measurement to use for this variable */
+    public var default_unit_id: Int?
+    /** How to combine values of this variable (for instance, to see a summary of the values over a month) 0 for sum OR 1 for mean */
+    public var combination_operation: String?
+    /** filling_value */
+    public var filling_value: Float?
+    /** maximum_allowed_value */
+    public var maximum_allowed_value: Float?
+    /** minimum_allowed_value */
+    public var minimum_allowed_value: Float?
+    /** onset_delay */
+    public var onset_delay: Int?
+    /** duration_of_action */
+    public var duration_of_action: Int?
+    /** public */
+    public var Swaggerpublic: Int?
+    /** cause_only */
+    public var cause_only: Bool?
+    /** most_common_value */
+    public var most_common_value: Float?
+    /** most_common_unit_id */
+    public var most_common_unit_id: Int?
+    /** standard_deviation */
+    public var standard_deviation: Float?
+    /** variance */
+    public var variance: Float?
+    /** mean */
+    public var mean: Float?
+    /** median */
+    public var median: Float?
+    /** number_of_measurements */
+    public var number_of_measurements: Float?
+    /** number_of_unique_values */
+    public var number_of_unique_values: Float?
+    /** skewness */
+    public var skewness: Float?
+    /** kurtosis */
+    public var kurtosis: Float?
+    /** status */
+    public var status: String?
+    /** error_message */
+    public var error_message: String?
+    /** last_successful_update_time */
+    public var last_successful_update_time: NSDate?
+    /** created_at */
+    public var created_at: NSDate?
+    /** updated_at */
+    public var updated_at: NSDate?
+    /** product_url */
+    public var product_url: String?
+    /** image_url */
+    public var image_url: String?
+    /** price */
+    public var price: Float?
+    /** number_of_user_variables */
+    public var number_of_user_variables: Int?
+    /** outcome */
+    public var outcome: Bool?
+    /** minimum_recorded_value */
+    public var minimum_recorded_value: Float?
+    /** maximum_recorded_value */
+    public var maximum_recorded_value: Float?
     
-    /** User-defined variable display name. */
-    var name: String!
-    /** Name used when the variable was originally created in the `variables` table. */
-    var originalName: String!
-    /** Variable category like Mood, Sleep, Physical Activity, Treatment, Symptom, etc. */
-    var category: String!
-    /** Abbreviated name of the default unit for the variable */
-    var unit: String!
-    /** Comma-separated list of source names to limit variables to those sources */
-    var sources: String!
-    /** Minimum reasonable value for this variable (uses default unit) */
-    var minimumValue: Double!
-    /** Maximum reasonable value for this variable (uses default unit) */
-    var maximumValue: Double!
-    /** How to aggregate measurements over time. */
-    var combinationOperation: CombinationOperation!
-    /** Value for replacing null measurements */
-    var fillingValue: Double!
-    
+
+    public init() {}
 
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
+        nillableDictionary["id"] = self.id
+        nillableDictionary["client_id"] = self.client_id
+        nillableDictionary["parent_id"] = self.parent_id
         nillableDictionary["name"] = self.name
-        nillableDictionary["originalName"] = self.originalName
-        nillableDictionary["category"] = self.category
-        nillableDictionary["unit"] = self.unit
-        nillableDictionary["sources"] = self.sources
-        nillableDictionary["minimumValue"] = self.minimumValue
-        nillableDictionary["maximumValue"] = self.maximumValue
-        nillableDictionary["combinationOperation"] = self.combinationOperation.rawValue
-        nillableDictionary["fillingValue"] = self.fillingValue
+        nillableDictionary["variable_category_id"] = self.variable_category_id
+        nillableDictionary["default_unit_id"] = self.default_unit_id
+        nillableDictionary["combination_operation"] = self.combination_operation
+        nillableDictionary["filling_value"] = self.filling_value
+        nillableDictionary["maximum_allowed_value"] = self.maximum_allowed_value
+        nillableDictionary["minimum_allowed_value"] = self.minimum_allowed_value
+        nillableDictionary["onset_delay"] = self.onset_delay
+        nillableDictionary["duration_of_action"] = self.duration_of_action
+        nillableDictionary["Swaggerpublic"] = self.Swaggerpublic
+        nillableDictionary["cause_only"] = self.cause_only
+        nillableDictionary["most_common_value"] = self.most_common_value
+        nillableDictionary["most_common_unit_id"] = self.most_common_unit_id
+        nillableDictionary["standard_deviation"] = self.standard_deviation
+        nillableDictionary["variance"] = self.variance
+        nillableDictionary["mean"] = self.mean
+        nillableDictionary["median"] = self.median
+        nillableDictionary["number_of_measurements"] = self.number_of_measurements
+        nillableDictionary["number_of_unique_values"] = self.number_of_unique_values
+        nillableDictionary["skewness"] = self.skewness
+        nillableDictionary["kurtosis"] = self.kurtosis
+        nillableDictionary["status"] = self.status
+        nillableDictionary["error_message"] = self.error_message
+        nillableDictionary["last_successful_update_time"] = self.last_successful_update_time?.encodeToJSON()
+        nillableDictionary["created_at"] = self.created_at?.encodeToJSON()
+        nillableDictionary["updated_at"] = self.updated_at?.encodeToJSON()
+        nillableDictionary["product_url"] = self.product_url
+        nillableDictionary["image_url"] = self.image_url
+        nillableDictionary["price"] = self.price
+        nillableDictionary["number_of_user_variables"] = self.number_of_user_variables
+        nillableDictionary["outcome"] = self.outcome
+        nillableDictionary["minimum_recorded_value"] = self.minimum_recorded_value
+        nillableDictionary["maximum_recorded_value"] = self.maximum_recorded_value
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
