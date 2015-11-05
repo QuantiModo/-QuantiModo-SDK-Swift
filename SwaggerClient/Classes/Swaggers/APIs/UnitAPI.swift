@@ -26,11 +26,11 @@ extension SwaggerClientAPI {
     "maximum_value" : 1.3579000000000001069366817318950779736042022705078125,
     "add" : 1.3579000000000001069366817318950779736042022705078125,
     "id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.387+0000",
+    "updated_at" : "2015-11-05T03:17:19.809+0000",
     "updated" : 123,
     "abbreviated_name" : "aeiou",
     "name" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.387+0000",
+    "created_at" : "2015-11-05T03:17:19.809+0000",
     "client_id" : "aeiou"
   } ],
   "success" : true
@@ -95,11 +95,11 @@ extension SwaggerClientAPI {
     "maximum_value" : 1.3579000000000001069366817318950779736042022705078125,
     "add" : 1.3579000000000001069366817318950779736042022705078125,
     "id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.406+0000",
+    "updated_at" : "2015-11-05T03:17:19.817+0000",
     "updated" : 123,
     "abbreviated_name" : "aeiou",
     "name" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.406+0000",
+    "created_at" : "2015-11-05T03:17:19.817+0000",
     "client_id" : "aeiou"
   },
   "success" : true
@@ -135,11 +135,11 @@ extension SwaggerClientAPI {
     "maximum_value" : 1.3579000000000001069366817318950779736042022705078125,
     "add" : 1.3579000000000001069366817318950779736042022705078125,
     "id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.408+0000",
+    "updated_at" : "2015-11-05T03:17:19.819+0000",
     "updated" : 123,
     "abbreviated_name" : "aeiou",
     "name" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.408+0000",
+    "created_at" : "2015-11-05T03:17:19.819+0000",
     "client_id" : "aeiou"
   },
   "success" : true

@@ -23,8 +23,8 @@ extension SwaggerClientAPI {
     "id" : 123,
     "number_of_measurements" : 123,
     "connector_id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.413+0000",
-    "created_at" : "2015-11-03T22:25:27.413+0000",
+    "updated_at" : "2015-11-05T03:17:19.828+0000",
+    "created_at" : "2015-11-05T03:17:19.828+0000",
     "user_id" : 123,
     "success" : true
   } ],
@@ -79,8 +79,8 @@ extension SwaggerClientAPI {
     "id" : 123,
     "number_of_measurements" : 123,
     "connector_id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.418+0000",
-    "created_at" : "2015-11-03T22:25:27.418+0000",
+    "updated_at" : "2015-11-05T03:17:19.835+0000",
+    "created_at" : "2015-11-05T03:17:19.835+0000",
     "user_id" : 123,
     "success" : true
   },
@@ -114,8 +114,8 @@ extension SwaggerClientAPI {
     "id" : 123,
     "number_of_measurements" : 123,
     "connector_id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.430+0000",
-    "created_at" : "2015-11-03T22:25:27.430+0000",
+    "updated_at" : "2015-11-05T03:17:19.837+0000",
+    "created_at" : "2015-11-05T03:17:19.837+0000",
     "user_id" : 123,
     "success" : true
   },

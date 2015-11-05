@@ -27,9 +27,9 @@ extension SwaggerClientAPI {
     "connector_id" : 123,
     "original_unit_id" : 123,
     "duration" : 123,
-    "updated_at" : "2015-11-03T22:25:27.328+0000",
+    "updated_at" : "2015-11-05T03:17:19.746+0000",
     "value" : 1.3579000000000001069366817318950779736042022705078125,
-    "created_at" : "2015-11-03T22:25:27.328+0000",
+    "created_at" : "2015-11-05T03:17:19.746+0000",
     "start_time" : 123,
     "longitude" : 1.3579000000000001069366817318950779736042022705078125,
     "user_id" : 123,
@@ -110,9 +110,9 @@ extension SwaggerClientAPI {
     "connector_id" : 123,
     "original_unit_id" : 123,
     "duration" : 123,
-    "updated_at" : "2015-11-03T22:25:27.337+0000",
+    "updated_at" : "2015-11-05T03:17:19.753+0000",
     "value" : 1.3579000000000001069366817318950779736042022705078125,
-    "created_at" : "2015-11-03T22:25:27.337+0000",
+    "created_at" : "2015-11-05T03:17:19.753+0000",
     "start_time" : 123,
     "longitude" : 1.3579000000000001069366817318950779736042022705078125,
     "user_id" : 123,
@@ -145,7 +145,7 @@ extension SwaggerClientAPI {
          Get Measurements CSV
          
          - GET /measurements/csv
-         - Get Measurements CSV
+         - Download a CSV containing all user measurements
          - examples: [{output=none}]
 
          - returns: RequestBuilder<NSURL> 
@@ -167,7 +167,7 @@ extension SwaggerClientAPI {
          Post Request for Measurements CSV
          
          - POST /measurements/request_csv
-         - Post Request for Measurements CSV
+         - Use this endpoint to schedule a CSV export containing all user measurements to be emailed to the user within 24 hours.
          - examples: [{example="", contentType=application/json}]
 
          - returns: RequestBuilder<Int> 
@@ -200,9 +200,9 @@ extension SwaggerClientAPI {
     "connector_id" : 123,
     "original_unit_id" : 123,
     "duration" : 123,
-    "updated_at" : "2015-11-03T22:25:27.345+0000",
+    "updated_at" : "2015-11-05T03:17:19.760+0000",
     "value" : 1.3579000000000001069366817318950779736042022705078125,
-    "created_at" : "2015-11-03T22:25:27.345+0000",
+    "created_at" : "2015-11-05T03:17:19.760+0000",
     "start_time" : 123,
     "longitude" : 1.3579000000000001069366817318950779736042022705078125,
     "user_id" : 123,

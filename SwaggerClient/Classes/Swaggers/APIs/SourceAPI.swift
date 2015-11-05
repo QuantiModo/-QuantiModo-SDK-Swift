@@ -20,9 +20,9 @@ extension SwaggerClientAPI {
          - examples: [{example={
   "data" : [ {
     "id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.350+0000",
+    "updated_at" : "2015-11-05T03:17:19.766+0000",
     "name" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.350+0000",
+    "created_at" : "2015-11-05T03:17:19.766+0000",
     "client_id" : "aeiou"
   } ],
   "success" : true
@@ -67,9 +67,9 @@ extension SwaggerClientAPI {
          - examples: [{example={
   "data" : {
     "id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.354+0000",
+    "updated_at" : "2015-11-05T03:17:19.770+0000",
     "name" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.354+0000",
+    "created_at" : "2015-11-05T03:17:19.770+0000",
     "client_id" : "aeiou"
   },
   "success" : true
@@ -99,9 +99,9 @@ extension SwaggerClientAPI {
          - examples: [{example={
   "data" : {
     "id" : 123,
-    "updated_at" : "2015-11-03T22:25:27.356+0000",
+    "updated_at" : "2015-11-05T03:17:19.771+0000",
     "name" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.356+0000",
+    "created_at" : "2015-11-05T03:17:19.771+0000",
     "client_id" : "aeiou"
   },
   "success" : true

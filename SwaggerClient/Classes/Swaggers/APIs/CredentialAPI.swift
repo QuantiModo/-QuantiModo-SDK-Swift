@@ -20,9 +20,9 @@ extension SwaggerClientAPI {
          - examples: [{example={
   "data" : [ {
     "connector_id" : "",
-    "updated_at" : "2015-11-03T22:25:27.316+0000",
+    "updated_at" : "2015-11-05T03:17:19.737+0000",
     "attr_key" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.316+0000",
+    "created_at" : "2015-11-05T03:17:19.737+0000",
     "attr_value" : "aeiou"
   } ],
   "success" : true
@@ -69,9 +69,9 @@ extension SwaggerClientAPI {
          - examples: [{example={
   "data" : {
     "connector_id" : "",
-    "updated_at" : "2015-11-03T22:25:27.321+0000",
+    "updated_at" : "2015-11-05T03:17:19.740+0000",
     "attr_key" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.321+0000",
+    "created_at" : "2015-11-05T03:17:19.740+0000",
     "attr_value" : "aeiou"
   },
   "success" : true
@@ -101,9 +101,9 @@ extension SwaggerClientAPI {
          - examples: [{example={
   "data" : {
     "connector_id" : "",
-    "updated_at" : "2015-11-03T22:25:27.322+0000",
+    "updated_at" : "2015-11-05T03:17:19.741+0000",
     "attr_key" : "aeiou",
-    "created_at" : "2015-11-03T22:25:27.322+0000",
+    "created_at" : "2015-11-05T03:17:19.741+0000",
     "attr_value" : "aeiou"
   },
   "success" : true
