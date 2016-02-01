@@ -10,14 +10,8 @@ import Foundation
 
 public class UnitCategory: JSONEncodable {
 
-    /** id */
-    public var id: Int?
-    /** Unit category name */
+    /** Category name */
     public var name: String?
-    /** created_at */
-    public var created_at: NSDate?
-    /** updated_at */
-    public var updated_at: NSDate?
     
 
     public init() {}
@@ -25,10 +19,7 @@ public class UnitCategory: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
-        nillableDictionary["created_at"] = self.created_at?.encodeToJSON()
-        nillableDictionary["updated_at"] = self.updated_at?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

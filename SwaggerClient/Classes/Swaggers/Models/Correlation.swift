@@ -10,54 +10,50 @@ import Foundation
 
 public class Correlation: JSONEncodable {
 
-    /** id */
-    public var id: Int?
-    /** Time at which correlation was calculated */
-    public var timestamp: Int?
-    /** ID of user that owns this correlation */
-    public var user_id: Int?
     /** Pearson correlation coefficient between cause and effect measurements */
-    public var correlation: Float?
-    /** variable ID of the cause variable for which the user desires correlations */
-    public var cause_id: Int?
-    /** variable ID of the effect variable for which the user desires correlations */
-    public var effect_id: Int?
+    public var correlationCoefficient: Double?
+    /** ORIGINAL variable name of the cause variable for which the user desires correlations. */
+    public var cause: String?
+    /** original name of the cause. */
+    public var originalCause: String?
+    /** ORIGINAL variable name of the effect variable for which the user desires correlations. */
+    public var effect: String?
+    /** effect variable original name. */
+    public var originalEffect: String?
     /** User estimated or default time after cause measurement before a perceivable effect is observed */
-    public var onset_delay: Int?
+    public var onsetDelay: Double?
     /** Time over which the cause is expected to produce a perceivable effect following the onset delay */
-    public var duration_of_action: Int?
+    public var durationOfAction: Double?
     /** Number of points that went into the correlation calculation */
-    public var number_of_pairs: Int?
-    /** cause value that predicts an above average effect value (in default unit for cause variable) */
-    public var value_predicting_high_outcome: Float?
-    /** cause value that predicts a below average effect value (in default unit for cause variable) */
-    public var value_predicting_low_outcome: Float?
-    /** Optimal Pearson Product */
-    public var optimal_pearson_product: Float?
-    /** Vote */
-    public var vote: Float?
+    public var numberOfPairs: Double?
+    /** Magnitude of the effects of a cause indicating whether it&#39;s practically meaningful. */
+    public var effectSize: String?
     /** A function of the effect size and sample size */
-    public var statistical_significance: Float?
-    /** Unit of Cause */
-    public var cause_unit: String?
-    /** Unit ID of Cause */
-    public var cause_unit_id: Int?
-    /** Cause changes */
-    public var cause_changes: Int?
-    /** Effect changes */
-    public var effect_changes: Int?
-    /** QM Score */
-    public var qm_score: Float?
-    /** error */
-    public var error: String?
-    /** created_at */
-    public var created_at: NSDate?
-    /** updated_at */
-    public var updated_at: NSDate?
-    /** Correlation when cause and effect are reversed. For any causal relationship, the forward correlation should exceed the reverse correlation */
-    public var reverse_pearson_correlation_coefficient: Float?
-    /** Predictive Pearson Correlation Coefficient */
-    public var predictive_pearson_correlation_coefficient: Float?
+    public var statisticalSignificance: String?
+    /** Time at which correlation was calculated */
+    public var timestamp: Double?
+    /** Correlation when cause and effect are reversed. For any causal relationship, the forward correlation should exceed the reverse correlation. */
+    public var reverseCorrelation: Double?
+    /**  */
+    public var causalityFactor: Double?
+    /** Variable category of the cause variable. */
+    public var causeCategory: String?
+    /** Variable category of the effect variable. */
+    public var effectCategory: String?
+    /** cause value that predicts an above average effect value (in default unit for cause variable) */
+    public var valuePredictingHighOutcome: Double?
+    /** cause value that predicts a below average effect value (in default unit for cause variable) */
+    public var valuePredictingLowOutcome: Double?
+    /** Optimal Pearson Product */
+    public var optimalPearsonProduct: Double?
+    /** Average Vote */
+    public var averageVote: Double?
+    /** User Vote */
+    public var userVote: Double?
+    /** Unit of the predictor variable */
+    public var causeUnit: String?
+    /** Unit Id of the predictor variable */
+    public var causeUnitId: Int?
     
 
     public init() {}
@@ -65,30 +61,28 @@ public class Correlation: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
+        nillableDictionary["correlationCoefficient"] = self.correlationCoefficient
+        nillableDictionary["cause"] = self.cause
+        nillableDictionary["originalCause"] = self.originalCause
+        nillableDictionary["effect"] = self.effect
+        nillableDictionary["originalEffect"] = self.originalEffect
+        nillableDictionary["onsetDelay"] = self.onsetDelay
+        nillableDictionary["durationOfAction"] = self.durationOfAction
+        nillableDictionary["numberOfPairs"] = self.numberOfPairs
+        nillableDictionary["effectSize"] = self.effectSize
+        nillableDictionary["statisticalSignificance"] = self.statisticalSignificance
         nillableDictionary["timestamp"] = self.timestamp
-        nillableDictionary["user_id"] = self.user_id
-        nillableDictionary["correlation"] = self.correlation
-        nillableDictionary["cause_id"] = self.cause_id
-        nillableDictionary["effect_id"] = self.effect_id
-        nillableDictionary["onset_delay"] = self.onset_delay
-        nillableDictionary["duration_of_action"] = self.duration_of_action
-        nillableDictionary["number_of_pairs"] = self.number_of_pairs
-        nillableDictionary["value_predicting_high_outcome"] = self.value_predicting_high_outcome
-        nillableDictionary["value_predicting_low_outcome"] = self.value_predicting_low_outcome
-        nillableDictionary["optimal_pearson_product"] = self.optimal_pearson_product
-        nillableDictionary["vote"] = self.vote
-        nillableDictionary["statistical_significance"] = self.statistical_significance
-        nillableDictionary["cause_unit"] = self.cause_unit
-        nillableDictionary["cause_unit_id"] = self.cause_unit_id
-        nillableDictionary["cause_changes"] = self.cause_changes
-        nillableDictionary["effect_changes"] = self.effect_changes
-        nillableDictionary["qm_score"] = self.qm_score
-        nillableDictionary["error"] = self.error
-        nillableDictionary["created_at"] = self.created_at?.encodeToJSON()
-        nillableDictionary["updated_at"] = self.updated_at?.encodeToJSON()
-        nillableDictionary["reverse_pearson_correlation_coefficient"] = self.reverse_pearson_correlation_coefficient
-        nillableDictionary["predictive_pearson_correlation_coefficient"] = self.predictive_pearson_correlation_coefficient
+        nillableDictionary["reverseCorrelation"] = self.reverseCorrelation
+        nillableDictionary["causalityFactor"] = self.causalityFactor
+        nillableDictionary["causeCategory"] = self.causeCategory
+        nillableDictionary["effectCategory"] = self.effectCategory
+        nillableDictionary["valuePredictingHighOutcome"] = self.valuePredictingHighOutcome
+        nillableDictionary["valuePredictingLowOutcome"] = self.valuePredictingLowOutcome
+        nillableDictionary["optimalPearsonProduct"] = self.optimalPearsonProduct
+        nillableDictionary["averageVote"] = self.averageVote
+        nillableDictionary["userVote"] = self.userVote
+        nillableDictionary["causeUnit"] = self.causeUnit
+        nillableDictionary["causeUnitId"] = self.causeUnitId
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

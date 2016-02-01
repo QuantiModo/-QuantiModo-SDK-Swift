@@ -9,12 +9,14 @@ import Foundation
 
 
 /** New variables */
-class VariablesNew: JSONEncodable {
+public class VariablesNew: JSONEncodable {
 
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

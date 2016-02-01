@@ -10,32 +10,32 @@ import Foundation
 
 public class Unit: JSONEncodable {
 
-    /** id */
-    public var id: Int?
-    /** client_id */
-    public var client_id: String?
+    public enum Category: String { 
+        case Distance = "Distance"
+        case Duration = "Duration"
+        case Energy = "Energy"
+        case Frequency = "Frequency"
+        case Miscellany = "Miscellany"
+        case Pressure = "Pressure"
+        case Proportion = "Proportion"
+        case Rating = "Rating"
+        case Temperature = "Temperature"
+        case Volume = "Volume"
+        case Weight = "Weight"
+    }
+    
     /** Unit name */
     public var name: String?
     /** Unit abbreviation */
-    public var abbreviated_name: String?
-    /** Unit category ID */
-    public var category_id: Int?
-    /** Unit minimum value */
-    public var minimum_value: Float?
-    /** Unit maximum value */
-    public var maximum_value: Float?
-    /** updated */
-    public var updated: Int?
-    /** ID of default unit */
-    public var default_unit_id: Int?
-    /** Value multiplied to */
-    public var multiply: Float?
-    /** Value which should be added to convert to default unit */
-    public var add: Float?
-    /** created_at */
-    public var created_at: NSDate?
-    /** updated_at */
-    public var updated_at: NSDate?
+    public var abbreviatedName: String?
+    /** Unit category */
+    public var category: Category?
+    /** The smallest acceptable value for measurements using this unit */
+    public var minimumValue: Double?
+    /** The largest acceptable value for measurements using this unit */
+    public var maximumValue: Double?
+    /** Conversion steps list */
+    public var conversionSteps: [ConversionStep]?
     
 
     public init() {}
@@ -43,19 +43,12 @@ public class Unit: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
-        nillableDictionary["client_id"] = self.client_id
         nillableDictionary["name"] = self.name
-        nillableDictionary["abbreviated_name"] = self.abbreviated_name
-        nillableDictionary["category_id"] = self.category_id
-        nillableDictionary["minimum_value"] = self.minimum_value
-        nillableDictionary["maximum_value"] = self.maximum_value
-        nillableDictionary["updated"] = self.updated
-        nillableDictionary["default_unit_id"] = self.default_unit_id
-        nillableDictionary["multiply"] = self.multiply
-        nillableDictionary["add"] = self.add
-        nillableDictionary["created_at"] = self.created_at?.encodeToJSON()
-        nillableDictionary["updated_at"] = self.updated_at?.encodeToJSON()
+        nillableDictionary["abbreviatedName"] = self.abbreviatedName
+        nillableDictionary["category"] = self.category?.rawValue
+        nillableDictionary["minimumValue"] = self.minimumValue
+        nillableDictionary["maximumValue"] = self.maximumValue
+        nillableDictionary["conversionSteps"] = self.conversionSteps?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

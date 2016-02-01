@@ -10,38 +10,8 @@ import Foundation
 
 public class VariableCategory: JSONEncodable {
 
-    /** id */
-    public var id: Int?
-    /** Name of the category */
+    /** Category name */
     public var name: String?
-    /** Value for replacing null measurements */
-    public var filling_value: Float?
-    /** Maximum recorded value of this category */
-    public var maximum_allowed_value: Float?
-    /** Minimum recorded value of this category */
-    public var minimum_allowed_value: Float?
-    /** How long the effect of a measurement in this variable lasts */
-    public var duration_of_action: Int?
-    /** How long it takes for a measurement in this variable to take effect */
-    public var onset_delay: Int?
-    /** How to combine values of this variable (for instance, to see a summary of the values over a month) 0 for sum OR 1 for mean */
-    public var combination_operation: String?
-    /** updated */
-    public var updated: Int?
-    /** A value of 1 indicates that this category is generally a cause in a causal relationship.  An example of a causeOnly category would be a category such as Work which would generally not be influenced by the behaviour of the user */
-    public var cause_only: Bool?
-    /** Is category public */
-    public var Swaggerpublic: Int?
-    /** outcome */
-    public var outcome: Bool?
-    /** created_at */
-    public var created_at: NSDate?
-    /** updated_at */
-    public var updated_at: NSDate?
-    /** Image URL */
-    public var image_url: String?
-    /** ID of the default unit for the category */
-    public var default_unit_id: Int?
     
 
     public init() {}
@@ -49,22 +19,7 @@ public class VariableCategory: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
-        nillableDictionary["filling_value"] = self.filling_value
-        nillableDictionary["maximum_allowed_value"] = self.maximum_allowed_value
-        nillableDictionary["minimum_allowed_value"] = self.minimum_allowed_value
-        nillableDictionary["duration_of_action"] = self.duration_of_action
-        nillableDictionary["onset_delay"] = self.onset_delay
-        nillableDictionary["combination_operation"] = self.combination_operation
-        nillableDictionary["updated"] = self.updated
-        nillableDictionary["cause_only"] = self.cause_only
-        nillableDictionary["Swaggerpublic"] = self.Swaggerpublic
-        nillableDictionary["outcome"] = self.outcome
-        nillableDictionary["created_at"] = self.created_at?.encodeToJSON()
-        nillableDictionary["updated_at"] = self.updated_at?.encodeToJSON()
-        nillableDictionary["image_url"] = self.image_url
-        nillableDictionary["default_unit_id"] = self.default_unit_id
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

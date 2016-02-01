@@ -15,19 +15,21 @@ public class Connector: JSONEncodable {
     /** Connector lowercase system name */
     public var name: String?
     /** Connector pretty display name */
-    public var display_name: String?
+    public var displayName: String?
     /** URL to the image of the connector logo */
     public var image: String?
     /** URL to a site where one can get this device or application */
-    public var get_it_url: String?
-    /** Short description */
-    public var short_description: String?
-    /** Long description */
-    public var long_description: String?
-    /** enabled */
-    public var enabled: Bool?
-    /** oauth */
-    public var oauth: Bool?
+    public var getItUrl: String?
+    /** True if the authenticated user has this connector enabled */
+    public var connected: String?
+    /** URL and parameters used when connecting to a service */
+    public var connectInstructions: String?
+    /** Epoch timestamp of last sync */
+    public var lastUpdate: Int?
+    /** Number of measurements obtained during latest update */
+    public var totalMeasurementsInLastUpdate: Int?
+    /** True if user has no measurements for this connector */
+    public var noDataYet: Bool?
     
 
     public init() {}
@@ -37,13 +39,14 @@ public class Connector: JSONEncodable {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
-        nillableDictionary["display_name"] = self.display_name
+        nillableDictionary["displayName"] = self.displayName
         nillableDictionary["image"] = self.image
-        nillableDictionary["get_it_url"] = self.get_it_url
-        nillableDictionary["short_description"] = self.short_description
-        nillableDictionary["long_description"] = self.long_description
-        nillableDictionary["enabled"] = self.enabled
-        nillableDictionary["oauth"] = self.oauth
+        nillableDictionary["getItUrl"] = self.getItUrl
+        nillableDictionary["connected"] = self.connected
+        nillableDictionary["connectInstructions"] = self.connectInstructions
+        nillableDictionary["lastUpdate"] = self.lastUpdate
+        nillableDictionary["totalMeasurementsInLastUpdate"] = self.totalMeasurementsInLastUpdate
+        nillableDictionary["noDataYet"] = self.noDataYet
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

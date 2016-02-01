@@ -6,67 +6,74 @@
 //
 
 import Alamofire
-import PromiseKit
 
 extension SwaggerClientAPI {
     
-    class UnitsAPI: APIBase {
+    public class UnitsAPI: APIBase {
     
         /**
          
          Get unit categories
          
-         - GET /unitCategories
+         - GET /v1/unitCategories
          - Get a list of the categories of measurement units such as 'Distance', 'Duration', 'Energy', 'Frequency', 'Miscellany', 'Pressure', 'Proportion', 'Rating', 'Temperature', 'Volume', and 'Weight'.
-         - authMethods: [io.swagger.codegen.CodegenSecurity@5dbc11e6]
-         - examples: [{contentType=application/json, example={
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
+         - examples: [{example={
   "name" : "aeiou"
-}}]
+}, contentType=application/json}]
 
-         :returns: Promise<Response<UnitCategory>> 
+         - returns: RequestBuilder<UnitCategory> 
          */
-        func unitCategoriesGet() -> RequestBuilder<UnitCategory> {
-            let path = "/unitCategories"
-            let url = SwaggerClientAPI.basePath + path
+        public class func v1UnitCategoriesGet() -> RequestBuilder<UnitCategory> {
+            let path = "/v1/unitCategories"
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<UnitCategory>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
          
          Get all available units
          
-         - GET /units
+         - GET /v1/units
          - Get all available units
-         - authMethods: [io.swagger.codegen.CodegenSecurity@2abdfb45]
-         - examples: [{contentType=application/json, example=[ {
-  "name" : "aeiou",
-  "maximum" : 3.149,
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
+         - examples: [{example=[ {
+  "maximumValue" : 1.3579000000000001069366817318950779736042022705078125,
   "category" : "aeiou",
   "abbreviatedName" : "aeiou",
-  "minimum" : 3.149,
+  "minimumValue" : 1.3579000000000001069366817318950779736042022705078125,
+  "name" : "aeiou",
   "conversionSteps" : [ {
     "operation" : "aeiou",
-    "value" : 3.149
+    "value" : 1.3579000000000001069366817318950779736042022705078125
   } ]
-} ]}]
+} ], contentType=application/json}]
          
-         :param: unitName (query) Unit name
-         :param: abbreviatedUnitName (query) Restrict the results to a specific unit by providing the unit abbreviation.
-         :param: categoryName (query) Restrict the results to a specific unit category by providing the unit category name.
+         - parameter accessToken: (query) User&#39;s OAuth2 access token
+         - parameter id: (query) Unit id
+         - parameter unitName: (query) Unit name
+         - parameter abbreviatedUnitName: (query) Restrict the results to a specific unit by providing the unit abbreviation.
+         - parameter categoryName: (query) Restrict the results to a specific unit category by providing the unit category name.
 
-         :returns: Promise<Response<[Unit]>> 
+         - returns: RequestBuilder<[Unit]> 
          */
-        func unitsGet(#unitName: String?, abbreviatedUnitName: String?, categoryName: String?) -> RequestBuilder<[Unit]> {
-            let path = "/units"
-            let url = SwaggerClientAPI.basePath + path
+        public class func v1UnitsGet(accessToken accessToken: String?, id: Int?, unitName: String?, abbreviatedUnitName: String?, categoryName: String?) -> RequestBuilder<[Unit]> {
+            let path = "/v1/units"
+            let URLString = SwaggerClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
+                "accessToken": accessToken,
+                "id": id,
                 "unitName": unitName,
                 "abbreviatedUnitName": abbreviatedUnitName,
                 "categoryName": categoryName
@@ -75,7 +82,54 @@ extension SwaggerClientAPI {
 
             let requestBuilder: RequestBuilder<[Unit]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        }
+    
+        /**
+         
+         Units for Variable
+         
+         - GET /v1/unitsVariable
+         - Get a list of all possible units to use for a given variable
+         - OAuth:
+           - type: oauth2
+           - name: oauth2
+         - examples: [{example=[ {
+  "maximumValue" : 1.3579000000000001069366817318950779736042022705078125,
+  "category" : "aeiou",
+  "abbreviatedName" : "aeiou",
+  "minimumValue" : 1.3579000000000001069366817318950779736042022705078125,
+  "name" : "aeiou",
+  "conversionSteps" : [ {
+    "operation" : "aeiou",
+    "value" : 1.3579000000000001069366817318950779736042022705078125
+  } ]
+} ], contentType=application/json}]
+         
+         - parameter accessToken: (query) User&#39;s OAuth2 access token
+         - parameter unitName: (query) Name of Unit you want to retrieve
+         - parameter abbreviatedUnitName: (query) Abbreviated Unit Name of the unit you want
+         - parameter categoryName: (query) Name of the category you want units for
+         - parameter variable: (query) Name of the variable you want units for
+
+         - returns: RequestBuilder<[Unit]> 
+         */
+        public class func v1UnitsVariableGet(accessToken accessToken: String?, unitName: String?, abbreviatedUnitName: String?, categoryName: String?, variable: String?) -> RequestBuilder<[Unit]> {
+            let path = "/v1/unitsVariable"
+            let URLString = SwaggerClientAPI.basePath + path
+            
+            let nillableParameters: [String:AnyObject?] = [
+                "accessToken": accessToken,
+                "unitName": unitName,
+                "abbreviatedUnitName": abbreviatedUnitName,
+                "categoryName": categoryName,
+                "variable": variable
+            ]
+            let parameters = APIHelper.rejectNil(nillableParameters)
+
+            let requestBuilder: RequestBuilder<[Unit]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
     }

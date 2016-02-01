@@ -8,31 +8,33 @@
 import Foundation
 
 
-class MeasurementSet: JSONEncodable {
+public class MeasurementSet: JSONEncodable {
 
-    enum CombinationOperation: String { 
-        case MEAN = "MEAN"
-        case SUM = "SUM"
+    public enum CombinationOperation: String { 
+        case Mean = "MEAN"
+        case Sum = "SUM"
     }
     
     /** Array of timestamps, values, and optional notes */
-    var measurements: [ValueObject]!
+    public var measurements: [ValueObject]?
     /** ORIGINAL name of the variable for which we are creating the measurement records */
-    var name: String!
+    public var name: String?
     /** Name of the application or device used to record the measurement values */
-    var source: String!
+    public var source: String?
     /** Variable category name */
-    var category: String?
-    /** Way to aggregate measurements over time. Options are \&quot;MEAN\&quot; or \&quot;SUM\&quot; */
-    var combinationOperation: CombinationOperation?
+    public var category: String?
+    /** Way to aggregate measurements over time. Options are \&quot;MEAN\&quot; or \&quot;SUM\&quot;.  SUM should be used for things like minutes of exercise.  If you use MEAN for exercise, then a person might exercise more minutes in one day but add separate measurements that were smaller.  So when we are doing correlational analysis, we would think that the person exercised less that day even though they exercised more.  Conversely, we must use MEAN for things such as ratings which cannot be SUMMED. */
+    public var combinationOperation: CombinationOperation?
     /** Unit of measurement */
-    var unit: String!
+    public var unit: String?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["measurements"] = self.measurements.encode()
+        nillableDictionary["measurements"] = self.measurements?.encodeToJSON()
         nillableDictionary["name"] = self.name
         nillableDictionary["source"] = self.source
         nillableDictionary["category"] = self.category

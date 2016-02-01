@@ -7,7 +7,7 @@
 import Foundation
 
 public class SwaggerClientAPI {
-    public static var basePath = "https://app.quantimo.do/api/v2"
+    public static var basePath = "https://localhost/api"
     public static var credential: NSURLCredential?
     public static var customHeaders: [String:String] = [:]  
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
@@ -52,7 +52,7 @@ public class RequestBuilder<T> {
         }
     }
     
-    public func execute(completion: (response: Response<T>?, erorr: ErrorType?) -> Void) { }
+    public func execute(completion: (response: Response<T>?, error: ErrorType?) -> Void) { }
 
     public func addHeader(name name: String, value: String) -> Self {
         if !value.isEmpty {

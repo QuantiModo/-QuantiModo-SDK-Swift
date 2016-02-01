@@ -10,7 +10,7 @@ import Foundation
 
 public class Inline_response_200_3: JSONEncodable {
 
-    public var data: [Connection]?
+    public var data: Measurement?
     public var success: Bool?
     
 

@@ -8,26 +8,28 @@
 import Foundation
 
 
-class User: JSONEncodable {
+public class User: JSONEncodable {
 
     /** User id */
-    var id: Int!
+    public var id: Int?
     /** Wordpress user id */
-    var wpId: Int!
+    public var wpId: Int?
     /** User display name */
-    var displayName: String!
+    public var displayName: String?
     /** User login name */
-    var loginName: String!
+    public var loginName: String?
     /** User email */
-    var email: String!
+    public var email: String?
     /** User token */
-    var token: String!
+    public var token: String?
     /** Is user administrator */
-    var administrator: Bool!
+    public var administrator: Bool?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id
         nillableDictionary["wpId"] = self.wpId

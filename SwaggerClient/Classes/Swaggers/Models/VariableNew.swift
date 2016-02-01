@@ -8,32 +8,34 @@
 import Foundation
 
 
-class VariableNew: JSONEncodable {
+public class VariableNew: JSONEncodable {
 
-    enum CombinationOperation: String { 
-        case MEAN = "MEAN"
-        case SUM = "SUM"
+    public enum CombinationOperation: String { 
+        case Mean = "MEAN"
+        case Sum = "SUM"
     }
     
     /** User-defined variable display name. */
-    var name: String!
+    public var name: String?
     /** Variable category like Mood, Sleep, Physical Activity, Treatment, Symptom, etc. */
-    var category: String!
+    public var category: String?
     /** Abbreviated name of the default unit for the variable */
-    var unit: String!
-    /** How to aggregate measurements over time. */
-    var combinationOperation: CombinationOperation!
+    public var unit: String?
+    /** Way to aggregate measurements over time. Options are \&quot;MEAN\&quot; or \&quot;SUM\&quot;.  SUM should be used for things like minutes of exercise.  If you use MEAN for exercise, then a person might exercise more minutes in one day but add separate measurements that were smaller.  So when we are doing correlational analysis, we would think that the person exercised less that day even though they exercised more.  Conversely, we must use MEAN for things such as ratings which cannot be SUMMED. */
+    public var combinationOperation: CombinationOperation?
     /** Parent */
-    var parent: String!
+    public var parent: String?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["name"] = self.name
         nillableDictionary["category"] = self.category
         nillableDictionary["unit"] = self.unit
-        nillableDictionary["combinationOperation"] = self.combinationOperation.rawValue
+        nillableDictionary["combinationOperation"] = self.combinationOperation?.rawValue
         nillableDictionary["parent"] = self.parent
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
