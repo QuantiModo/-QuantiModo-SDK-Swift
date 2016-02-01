@@ -8,14 +8,16 @@
 import Foundation
 
 
-class VariableCategory: JSONEncodable {
+public class VariableCategory: JSONEncodable {
 
     /** Category name */
-    var name: String!
+    public var name: String?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["name"] = self.name
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]

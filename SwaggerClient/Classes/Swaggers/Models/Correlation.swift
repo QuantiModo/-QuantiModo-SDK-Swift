@@ -8,42 +8,64 @@
 import Foundation
 
 
-class Correlation: JSONEncodable {
+public class Correlation: JSONEncodable {
 
     /** Pearson correlation coefficient between cause and effect measurements */
-    var correlationCoefficient: Double!
+    public var correlationCoefficient: Double?
     /** ORIGINAL variable name of the cause variable for which the user desires correlations. */
-    var cause: String!
+    public var cause: String?
+    /** original name of the cause. */
+    public var originalCause: String?
     /** ORIGINAL variable name of the effect variable for which the user desires correlations. */
-    var effect: String!
+    public var effect: String?
+    /** effect variable original name. */
+    public var originalEffect: String?
     /** User estimated or default time after cause measurement before a perceivable effect is observed */
-    var onsetDelay: Double!
+    public var onsetDelay: Double?
     /** Time over which the cause is expected to produce a perceivable effect following the onset delay */
-    var durationOfAction: Double!
+    public var durationOfAction: Double?
     /** Number of points that went into the correlation calculation */
-    var numberOfPairs: Double!
+    public var numberOfPairs: Double?
     /** Magnitude of the effects of a cause indicating whether it&#39;s practically meaningful. */
-    var effectSize: String?
+    public var effectSize: String?
     /** A function of the effect size and sample size */
-    var statisticalSignificance: String?
+    public var statisticalSignificance: String?
     /** Time at which correlation was calculated */
-    var timestamp: Double!
+    public var timestamp: Double?
     /** Correlation when cause and effect are reversed. For any causal relationship, the forward correlation should exceed the reverse correlation. */
-    var reverseCorrelation: Double?
+    public var reverseCorrelation: Double?
     /**  */
-    var causalityFactor: Double?
+    public var causalityFactor: Double?
     /** Variable category of the cause variable. */
-    var causeCategory: String?
+    public var causeCategory: String?
     /** Variable category of the effect variable. */
-    var effectCategory: String?
+    public var effectCategory: String?
+    /** cause value that predicts an above average effect value (in default unit for cause variable) */
+    public var valuePredictingHighOutcome: Double?
+    /** cause value that predicts a below average effect value (in default unit for cause variable) */
+    public var valuePredictingLowOutcome: Double?
+    /** Optimal Pearson Product */
+    public var optimalPearsonProduct: Double?
+    /** Average Vote */
+    public var averageVote: Double?
+    /** User Vote */
+    public var userVote: Double?
+    /** Unit of the predictor variable */
+    public var causeUnit: String?
+    /** Unit Id of the predictor variable */
+    public var causeUnitId: Int?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["correlationCoefficient"] = self.correlationCoefficient
         nillableDictionary["cause"] = self.cause
+        nillableDictionary["originalCause"] = self.originalCause
         nillableDictionary["effect"] = self.effect
+        nillableDictionary["originalEffect"] = self.originalEffect
         nillableDictionary["onsetDelay"] = self.onsetDelay
         nillableDictionary["durationOfAction"] = self.durationOfAction
         nillableDictionary["numberOfPairs"] = self.numberOfPairs
@@ -54,6 +76,13 @@ class Correlation: JSONEncodable {
         nillableDictionary["causalityFactor"] = self.causalityFactor
         nillableDictionary["causeCategory"] = self.causeCategory
         nillableDictionary["effectCategory"] = self.effectCategory
+        nillableDictionary["valuePredictingHighOutcome"] = self.valuePredictingHighOutcome
+        nillableDictionary["valuePredictingLowOutcome"] = self.valuePredictingLowOutcome
+        nillableDictionary["optimalPearsonProduct"] = self.optimalPearsonProduct
+        nillableDictionary["averageVote"] = self.averageVote
+        nillableDictionary["userVote"] = self.userVote
+        nillableDictionary["causeUnit"] = self.causeUnit
+        nillableDictionary["causeUnitId"] = self.causeUnitId
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

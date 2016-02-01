@@ -5,21 +5,21 @@
 //
 
 import Foundation
-import PromiseKit
 
-class SwaggerClientAPI {
-    static let basePath = "https://localhost/api"
-    static var credential: NSURLCredential?
+public class SwaggerClientAPI {
+    public static var basePath = "https://localhost/api"
+    public static var credential: NSURLCredential?
+    public static var customHeaders: [String:String] = [:]  
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
 }
 
-class APIBase {
+public class APIBase {
     func toParameters(encodable: JSONEncodable?) -> [String: AnyObject]? {
-        let encoded: AnyObject? = encodable?.encode()
+        let encoded: AnyObject? = encodable?.encodeToJSON()
 
         if encoded! is [AnyObject] {
             var dictionary = [String:AnyObject]()
-            for (index, item) in enumerate(encoded as! [AnyObject]) {
+            for (index, item) in (encoded as! [AnyObject]).enumerate() {
                 dictionary["\(index)"] = item
             }
             return dictionary
@@ -29,7 +29,7 @@ class APIBase {
     }
 }
 
-class RequestBuilder<T> {
+public class RequestBuilder<T> {
     var credential: NSURLCredential?
     var headers: [String:String] = [:]
     let parameters: [String:AnyObject]?
@@ -37,23 +37,31 @@ class RequestBuilder<T> {
     let method: String
     let URLString: String
     
-    required init(method: String, URLString: String, parameters: [String:AnyObject]?, isBody: Bool) {
+    required public init(method: String, URLString: String, parameters: [String:AnyObject]?, isBody: Bool) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.isBody = isBody
+        
+        addHeaders(SwaggerClientAPI.customHeaders)
     }
     
-    func execute() -> Promise<Response<T>>  { fatalError("Not implemented") }
+    public func addHeaders(aHeaders:[String:String]) {
+        for (header, value) in aHeaders {
+            headers[header] = value
+        }
+    }
+    
+    public func execute(completion: (response: Response<T>?, error: ErrorType?) -> Void) { }
 
-    func addHeader(#name: String, value: String) -> Self {
+    public func addHeader(name name: String, value: String) -> Self {
         if !value.isEmpty {
             headers[name] = value
         }
         return self
     }
     
-    func addCredential() -> Self {
+    public func addCredential() -> Self {
         self.credential = SwaggerClientAPI.credential
         return self
     }
@@ -62,5 +70,4 @@ class RequestBuilder<T> {
 protocol RequestBuilderFactory {
     func getBuilder<T>() -> RequestBuilder<T>.Type
 }
-
 

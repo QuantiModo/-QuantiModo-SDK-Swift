@@ -8,32 +8,34 @@
 import Foundation
 
 
-class Connector: JSONEncodable {
+public class Connector: JSONEncodable {
 
     /** Connector ID number */
-    var id: Int!
+    public var id: Int?
     /** Connector lowercase system name */
-    var name: String!
+    public var name: String?
     /** Connector pretty display name */
-    var displayName: String!
+    public var displayName: String?
     /** URL to the image of the connector logo */
-    var image: String!
+    public var image: String?
     /** URL to a site where one can get this device or application */
-    var getItUrl: String!
+    public var getItUrl: String?
     /** True if the authenticated user has this connector enabled */
-    var connected: String!
+    public var connected: String?
     /** URL and parameters used when connecting to a service */
-    var connectInstructions: String!
+    public var connectInstructions: String?
     /** Epoch timestamp of last sync */
-    var lastUpdate: Int!
+    public var lastUpdate: Int?
     /** Number of measurements obtained during latest update */
-    var latestData: Int!
+    public var totalMeasurementsInLastUpdate: Int?
     /** True if user has no measurements for this connector */
-    var noDataYet: Bool!
+    public var noDataYet: Bool?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
@@ -43,7 +45,7 @@ class Connector: JSONEncodable {
         nillableDictionary["connected"] = self.connected
         nillableDictionary["connectInstructions"] = self.connectInstructions
         nillableDictionary["lastUpdate"] = self.lastUpdate
-        nillableDictionary["latestData"] = self.latestData
+        nillableDictionary["totalMeasurementsInLastUpdate"] = self.totalMeasurementsInLastUpdate
         nillableDictionary["noDataYet"] = self.noDataYet
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

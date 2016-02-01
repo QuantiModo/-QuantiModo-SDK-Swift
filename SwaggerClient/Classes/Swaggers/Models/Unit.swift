@@ -8,9 +8,9 @@
 import Foundation
 
 
-class Unit: JSONEncodable {
+public class Unit: JSONEncodable {
 
-    enum Category: String { 
+    public enum Category: String { 
         case Distance = "Distance"
         case Duration = "Duration"
         case Energy = "Energy"
@@ -25,28 +25,30 @@ class Unit: JSONEncodable {
     }
     
     /** Unit name */
-    var name: String!
+    public var name: String?
     /** Unit abbreviation */
-    var abbreviatedName: String!
+    public var abbreviatedName: String?
     /** Unit category */
-    var category: Category!
-    /** Unit minimum value */
-    var minimum: Double!
-    /** Unit maximum value */
-    var maximum: Double!
+    public var category: Category?
+    /** The smallest acceptable value for measurements using this unit */
+    public var minimumValue: Double?
+    /** The largest acceptable value for measurements using this unit */
+    public var maximumValue: Double?
     /** Conversion steps list */
-    var conversionSteps: [ConversionStep]!
+    public var conversionSteps: [ConversionStep]?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["name"] = self.name
         nillableDictionary["abbreviatedName"] = self.abbreviatedName
-        nillableDictionary["category"] = self.category.rawValue
-        nillableDictionary["minimum"] = self.minimum
-        nillableDictionary["maximum"] = self.maximum
-        nillableDictionary["conversionSteps"] = self.conversionSteps.encode()
+        nillableDictionary["category"] = self.category?.rawValue
+        nillableDictionary["minimumValue"] = self.minimumValue
+        nillableDictionary["maximumValue"] = self.maximumValue
+        nillableDictionary["conversionSteps"] = self.conversionSteps?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

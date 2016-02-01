@@ -8,18 +8,20 @@
 import Foundation
 
 
-class UserTokenRequest: JSONEncodable {
+public class UserTokenRequest: JSONEncodable {
 
-    var user: UserTokenRequestInnerUserField?
+    public var user: UserTokenRequestInnerUserField?
     /** Organization Access token */
-    var organization_access_token: String!
+    public var organizationAccessToken: String?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["user"] = self.user?.encode()
-        nillableDictionary["organization_access_token"] = self.organization_access_token
+        nillableDictionary["user"] = self.user?.encodeToJSON()
+        nillableDictionary["organizationAccessToken"] = self.organizationAccessToken
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -8,20 +8,22 @@
 import Foundation
 
 
-class PostCorrelation: JSONEncodable {
+public class PostCorrelation: JSONEncodable {
 
     /** Cause variable name */
-    var cause: String!
+    public var cause: String?
     /** Effect variable name */
-    var effect: String!
+    public var effect: String?
     /** Correlation value */
-    var correlation: Double!
+    public var correlation: Double?
     /** Vote: 0 or 1 */
-    var vote: Int?
+    public var vote: Int?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["cause"] = self.cause
         nillableDictionary["effect"] = self.effect

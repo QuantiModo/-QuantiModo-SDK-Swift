@@ -8,16 +8,18 @@
 import Foundation
 
 
-class JsonErrorResponse: JSONEncodable {
+public class JsonErrorResponse: JSONEncodable {
 
     /** Status: \&quot;ok\&quot; or \&quot;error\&quot; */
-    var status: String!
+    public var status: String?
     /** Error message */
-    var message: String?
+    public var message: String?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["status"] = self.status
         nillableDictionary["message"] = self.message

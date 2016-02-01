@@ -8,23 +8,25 @@
 import Foundation
 
 
-class ConversionStep: JSONEncodable {
+public class ConversionStep: JSONEncodable {
 
-    enum Operation: String { 
-        case MULTIPLY = "MULTIPLY"
-        case ADD = "ADD"
+    public enum Operation: String { 
+        case Multiply = "MULTIPLY"
+        case Add = "ADD"
     }
     
-    /**  */
-    var operation: Operation!
-    /**  */
-    var value: Double!
+    /** ADD or MULTIPLY */
+    public var operation: Operation?
+    /** This specifies the order of conversion steps starting with 0 */
+    public var value: Double?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["operation"] = self.operation.rawValue
+        nillableDictionary["operation"] = self.operation?.rawValue
         nillableDictionary["value"] = self.value
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

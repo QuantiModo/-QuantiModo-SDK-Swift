@@ -8,30 +8,50 @@
 import Foundation
 
 
-class Measurement: JSONEncodable {
+public class Measurement: JSONEncodable {
 
     /** ORIGINAL Name of the variable for which we are creating the measurement records */
-    var variable: String!
+    public var variable: String?
     /** Application or device used to record the measurement values */
-    var source: String!
-    /** Timestamp for the measurement event in epoch time */
-    var timestamp: Int!
-    /** Measurement value */
-    var value: Double!
-    /** Unit of Measurement */
-    var unit: String!
-    /** Optional note supplied with the measurement. Can be up to 255 characters in length. */
-    var note: String?
+    public var source: String?
+    /** Start Time for the measurement event in ISO 8601 */
+    public var startTime: String?
+    /** Start Time for the measurement event in ISO 8601 */
+    public var humanTime: HumanTime?
+    /** Converted measurement value in requested unit */
+    public var value: Double?
+    /** Unit of measurement as requested in GET request */
+    public var unit: String?
+    /** Original value */
+    public var originalValue: Int?
+    /** Measurement value in the unit as orignally submitted */
+    public var storedValue: Double?
+    /** Unit of measurement as originally submitted */
+    public var storedAbbreviatedUnitName: String?
+    /** Original Unit of measurement as originally submitted */
+    public var originalAbbreviatedUnitName: String?
+    /** Unit of measurement as originally submitted */
+    public var abbreviatedUnitName: String?
+    /** Note of measurement */
+    public var note: String?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["variable"] = self.variable
         nillableDictionary["source"] = self.source
-        nillableDictionary["timestamp"] = self.timestamp
+        nillableDictionary["startTime"] = self.startTime
+        nillableDictionary["humanTime"] = self.humanTime?.encodeToJSON()
         nillableDictionary["value"] = self.value
         nillableDictionary["unit"] = self.unit
+        nillableDictionary["originalValue"] = self.originalValue
+        nillableDictionary["storedValue"] = self.storedValue
+        nillableDictionary["storedAbbreviatedUnitName"] = self.storedAbbreviatedUnitName
+        nillableDictionary["originalAbbreviatedUnitName"] = self.originalAbbreviatedUnitName
+        nillableDictionary["abbreviatedUnitName"] = self.abbreviatedUnitName
         nillableDictionary["note"] = self.note
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

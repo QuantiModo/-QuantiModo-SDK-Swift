@@ -8,21 +8,23 @@
 import Foundation
 
 
-class UserTokenSuccessfulResponse: JSONEncodable {
+public class UserTokenSuccessfulResponse: JSONEncodable {
 
     /** Status code */
-    var code: Int!
+    public var code: Int?
     /** Message */
-    var message: String!
-    var user: UserTokenSuccessfulResponseInnerUserField!
+    public var message: String?
+    public var user: UserTokenSuccessfulResponseInnerUserField?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["code"] = self.code
         nillableDictionary["message"] = self.message
-        nillableDictionary["user"] = self.user.encode()
+        nillableDictionary["user"] = self.user?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

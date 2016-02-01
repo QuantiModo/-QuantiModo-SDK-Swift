@@ -8,17 +8,19 @@
 import Foundation
 
 
-class UserTokenFailedResponse: JSONEncodable {
+public class UserTokenFailedResponse: JSONEncodable {
 
     /** Status code */
-    var code: Int!
+    public var code: Int?
     /** Message */
-    var message: String!
-    var success: Bool!
+    public var message: String?
+    public var success: Bool?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["code"] = self.code
         nillableDictionary["message"] = self.message
