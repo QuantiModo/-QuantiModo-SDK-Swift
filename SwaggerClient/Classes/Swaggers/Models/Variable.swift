@@ -10,71 +10,78 @@ import Foundation
 
 public class Variable: JSONEncodable {
 
-    public enum CombinationOperation: String { 
-        case Mean = "MEAN"
-        case Sum = "SUM"
-    }
-    
-    /** Variable ID */
+    /** id */
     public var id: Int?
-    /** User-defined variable display name. */
+    /** client_id */
+    public var client_id: String?
+    /** ID of the parent variable if this variable has any parent */
+    public var parent_id: Int?
+    /** User-defined variable display name */
     public var name: String?
-    /** Name used when the variable was originally created in the `variables` table. */
-    public var originalName: String?
-    /** Variable category like Mood, Sleep, Physical Activity, Treatment, Symptom, etc. */
-    public var category: String?
-    /** Abbreviated name of the default unit for the variable */
-    public var abbreviatedUnitName: String?
-    /** Id of the default unit for the variable */
-    public var abbreviatedUnitId: Int?
-    /** Comma-separated list of source names to limit variables to those sources */
-    public var sources: String?
-    /** Minimum reasonable value for this variable (uses default unit) */
-    public var minimumValue: Double?
-    /** Maximum reasonable value for this variable (uses default unit) */
-    public var maximumValue: Double?
-    /** Way to aggregate measurements over time. Options are \&quot;MEAN\&quot; or \&quot;SUM\&quot;.  SUM should be used for things like minutes of exercise.  If you use MEAN for exercise, then a person might exercise more minutes in one day but add separate measurements that were smaller.  So when we are doing correlational analysis, we would think that the person exercised less that day even though they exercised more.  Conversely, we must use MEAN for things such as ratings which cannot be SUMMED. */
-    public var combinationOperation: CombinationOperation?
+    /** Variable category ID */
+    public var variable_category_id: Int?
+    /** ID of the default unit of measurement to use for this variable */
+    public var default_unit_id: Int?
+    /** How to combine values of this variable (for instance, to see a summary of the values over a month) SUM or MEAN */
+    public var combination_operation: String?
     /** Value for replacing null measurements */
-    public var fillingValue: Double?
-    /** The Variable this Variable should be joined with. If the variable is joined with some other variable then it is not shown to user in the list of variables. */
-    public var joinWith: String?
-    /** Array of Variables that are joined with this Variable */
-    public var joinedVariables: [Variable]?
-    /** Id of the parent variable if this variable has any parent */
-    public var parent: Int?
-    /** Array of Variables that are sub variables to this Variable */
-    public var subVariables: [Variable]?
+    public var filling_value: Float?
+    /** Maximum reasonable value for this variable (uses default unit) */
+    public var maximum_allowed_value: Float?
+    /** Minimum reasonable value for this variable (uses default unit) */
+    public var minimum_allowed_value: Float?
     /** How long it takes for a measurement in this variable to take effect */
-    public var onsetDelay: Int?
+    public var onset_delay: Int?
     /** How long the effect of a measurement in this variable lasts */
-    public var durationOfAction: Int?
-    /** Earliest measurement time */
-    public var earliestMeasurementTime: Int?
-    /** Latest measurement time */
-    public var latestMeasurementTime: Int?
-    /** When this variable or its settings were last updated */
-    public var updated: Int?
-    /** A value of 1 indicates that this variable is generally a cause in a causal relationship.  An example of a causeOnly variable would be a variable such as Cloud Cover which would generally not be influenced by the behaviour of the user. */
-    public var causeOnly: Int?
-    /** Number of correlations */
-    public var numberOfCorrelations: Int?
-    /** Outcome variables (those with `outcome` == 1) are variables for which a human would generally want to identify the influencing factors.  These include symptoms of illness, physique, mood, cognitive performance, etc.  Generally correlation calculations are only performed on outcome variables. */
-    public var outcome: Int?
-    /** The number of measurements that a given user had for this variable the last time a correlation calculation was performed. Generally correlation values are only updated once the current number of measurements for a variable is more than 10% greater than the measurementsAtLastAnalysis.  This avoids a computationally-demanding recalculation when there&#39;s not enough new data to make a significant difference in the correlation. */
-    public var measurementsAtLastAnalysis: Int?
-    /** Number of measurements */
-    public var numberOfMeasurements: Int?
-    /** Last unit */
-    public var lastUnit: String?
-    /** Last value */
-    public var lastValue: Int?
+    public var duration_of_action: Int?
+    /** Is variable public */
+    public var Swaggerpublic: Int?
+    /** A value of 1 indicates that this variable is generally a cause in a causal relationship.  An example of a causeOnly variable would be a variable such as Cloud Cover which would generally not be influenced by the behaviour of the user */
+    public var cause_only: Bool?
     /** Most common value */
-    public var mostCommonValue: Int?
-    /** Most common unit */
-    public var mostCommonUnit: String?
-    /** Last source */
-    public var lastSource: Int?
+    public var most_common_value: Float?
+    /** Most common Unit */
+    public var most_common_unit_id: Int?
+    /** Standard Deviation */
+    public var standard_deviation: Float?
+    /** Variance */
+    public var variance: Float?
+    /** Mean */
+    public var mean: Float?
+    /** Median */
+    public var median: Float?
+    /** Number of measurements */
+    public var number_of_measurements: Float?
+    /** Number of unique values */
+    public var number_of_unique_values: Float?
+    /** Skewness */
+    public var skewness: Float?
+    /** Kurtosis */
+    public var kurtosis: Float?
+    /** status */
+    public var status: String?
+    /** error_message */
+    public var error_message: String?
+    /** When this variable or its settings were last updated */
+    public var last_successful_update_time: NSDate?
+    /** When the record was first created. Use ISO 8601 datetime format */
+    public var created_at: NSDate?
+    /** When the record in the database was last updated. Use ISO 8601 datetime format */
+    public var updated_at: NSDate?
+    /** Product URL */
+    public var product_url: String?
+    /** Image URL */
+    public var image_url: String?
+    /** Price */
+    public var price: Float?
+    /** Number of variables */
+    public var number_of_user_variables: Int?
+    /** Outcome variables (those with `outcome` == 1) are variables for which a human would generally want to identify the influencing factors.  These include symptoms of illness, physique, mood, cognitive performance, etc.  Generally correlation calculations are only performed on outcome variables. */
+    public var outcome: Bool?
+    /** Minimum recorded value of this variable */
+    public var minimum_recorded_value: Float?
+    /** Maximum recorded value of this variable */
+    public var maximum_recorded_value: Float?
     
 
     public init() {}
@@ -83,35 +90,41 @@ public class Variable: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id
+        nillableDictionary["client_id"] = self.client_id
+        nillableDictionary["parent_id"] = self.parent_id
         nillableDictionary["name"] = self.name
-        nillableDictionary["originalName"] = self.originalName
-        nillableDictionary["category"] = self.category
-        nillableDictionary["abbreviatedUnitName"] = self.abbreviatedUnitName
-        nillableDictionary["abbreviatedUnitId"] = self.abbreviatedUnitId
-        nillableDictionary["sources"] = self.sources
-        nillableDictionary["minimumValue"] = self.minimumValue
-        nillableDictionary["maximumValue"] = self.maximumValue
-        nillableDictionary["combinationOperation"] = self.combinationOperation?.rawValue
-        nillableDictionary["fillingValue"] = self.fillingValue
-        nillableDictionary["joinWith"] = self.joinWith
-        nillableDictionary["joinedVariables"] = self.joinedVariables?.encodeToJSON()
-        nillableDictionary["parent"] = self.parent
-        nillableDictionary["subVariables"] = self.subVariables?.encodeToJSON()
-        nillableDictionary["onsetDelay"] = self.onsetDelay
-        nillableDictionary["durationOfAction"] = self.durationOfAction
-        nillableDictionary["earliestMeasurementTime"] = self.earliestMeasurementTime
-        nillableDictionary["latestMeasurementTime"] = self.latestMeasurementTime
-        nillableDictionary["updated"] = self.updated
-        nillableDictionary["causeOnly"] = self.causeOnly
-        nillableDictionary["numberOfCorrelations"] = self.numberOfCorrelations
+        nillableDictionary["variable_category_id"] = self.variable_category_id
+        nillableDictionary["default_unit_id"] = self.default_unit_id
+        nillableDictionary["combination_operation"] = self.combination_operation
+        nillableDictionary["filling_value"] = self.filling_value
+        nillableDictionary["maximum_allowed_value"] = self.maximum_allowed_value
+        nillableDictionary["minimum_allowed_value"] = self.minimum_allowed_value
+        nillableDictionary["onset_delay"] = self.onset_delay
+        nillableDictionary["duration_of_action"] = self.duration_of_action
+        nillableDictionary["Swaggerpublic"] = self.Swaggerpublic
+        nillableDictionary["cause_only"] = self.cause_only
+        nillableDictionary["most_common_value"] = self.most_common_value
+        nillableDictionary["most_common_unit_id"] = self.most_common_unit_id
+        nillableDictionary["standard_deviation"] = self.standard_deviation
+        nillableDictionary["variance"] = self.variance
+        nillableDictionary["mean"] = self.mean
+        nillableDictionary["median"] = self.median
+        nillableDictionary["number_of_measurements"] = self.number_of_measurements
+        nillableDictionary["number_of_unique_values"] = self.number_of_unique_values
+        nillableDictionary["skewness"] = self.skewness
+        nillableDictionary["kurtosis"] = self.kurtosis
+        nillableDictionary["status"] = self.status
+        nillableDictionary["error_message"] = self.error_message
+        nillableDictionary["last_successful_update_time"] = self.last_successful_update_time?.encodeToJSON()
+        nillableDictionary["created_at"] = self.created_at?.encodeToJSON()
+        nillableDictionary["updated_at"] = self.updated_at?.encodeToJSON()
+        nillableDictionary["product_url"] = self.product_url
+        nillableDictionary["image_url"] = self.image_url
+        nillableDictionary["price"] = self.price
+        nillableDictionary["number_of_user_variables"] = self.number_of_user_variables
         nillableDictionary["outcome"] = self.outcome
-        nillableDictionary["measurementsAtLastAnalysis"] = self.measurementsAtLastAnalysis
-        nillableDictionary["numberOfMeasurements"] = self.numberOfMeasurements
-        nillableDictionary["lastUnit"] = self.lastUnit
-        nillableDictionary["lastValue"] = self.lastValue
-        nillableDictionary["mostCommonValue"] = self.mostCommonValue
-        nillableDictionary["mostCommonUnit"] = self.mostCommonUnit
-        nillableDictionary["lastSource"] = self.lastSource
+        nillableDictionary["minimum_recorded_value"] = self.minimum_recorded_value
+        nillableDictionary["maximum_recorded_value"] = self.maximum_recorded_value
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

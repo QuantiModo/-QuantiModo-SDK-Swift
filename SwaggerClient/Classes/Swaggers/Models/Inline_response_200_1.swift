@@ -10,7 +10,7 @@ import Foundation
 
 public class Inline_response_200_1: JSONEncodable {
 
-    public var data: TrackingReminder?
+    public var data: AggregatedCorrelation?
     public var success: Bool?
     
 

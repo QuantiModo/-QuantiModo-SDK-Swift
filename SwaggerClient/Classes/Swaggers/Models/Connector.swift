@@ -12,24 +12,26 @@ public class Connector: JSONEncodable {
 
     /** Connector ID number */
     public var id: Int?
-    /** Connector lowercase system name */
+    /** Lowercase system name for the data source */
     public var name: String?
-    /** Connector pretty display name */
-    public var displayName: String?
+    /** Pretty display name for the data source */
+    public var display_name: String?
     /** URL to the image of the connector logo */
     public var image: String?
     /** URL to a site where one can get this device or application */
-    public var getItUrl: String?
-    /** True if the authenticated user has this connector enabled */
-    public var connected: String?
-    /** URL and parameters used when connecting to a service */
-    public var connectInstructions: String?
-    /** Epoch timestamp of last sync */
-    public var lastUpdate: Int?
-    /** Number of measurements obtained during latest update */
-    public var totalMeasurementsInLastUpdate: Int?
-    /** True if user has no measurements for this connector */
-    public var noDataYet: Bool?
+    public var get_it_url: String?
+    /** Short description of the service (such as the categories it tracks) */
+    public var short_description: String?
+    /** Longer paragraph description of the data provider */
+    public var long_description: String?
+    /** Set to 1 if the connector should be returned when listing connectors */
+    public var enabled: Bool?
+    /** Set to 1 if the connector uses OAuth authentication as opposed to username/password */
+    public var oauth: Bool?
+    /** When the record was first created. Use ISO 8601 datetime format */
+    public var created_at: NSDate?
+    /** When the record in the database was last updated. Use ISO 8601 datetime format */
+    public var updated_at: NSDate?
     
 
     public init() {}
@@ -39,14 +41,15 @@ public class Connector: JSONEncodable {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
-        nillableDictionary["displayName"] = self.displayName
+        nillableDictionary["display_name"] = self.display_name
         nillableDictionary["image"] = self.image
-        nillableDictionary["getItUrl"] = self.getItUrl
-        nillableDictionary["connected"] = self.connected
-        nillableDictionary["connectInstructions"] = self.connectInstructions
-        nillableDictionary["lastUpdate"] = self.lastUpdate
-        nillableDictionary["totalMeasurementsInLastUpdate"] = self.totalMeasurementsInLastUpdate
-        nillableDictionary["noDataYet"] = self.noDataYet
+        nillableDictionary["get_it_url"] = self.get_it_url
+        nillableDictionary["short_description"] = self.short_description
+        nillableDictionary["long_description"] = self.long_description
+        nillableDictionary["enabled"] = self.enabled
+        nillableDictionary["oauth"] = self.oauth
+        nillableDictionary["created_at"] = self.created_at?.encodeToJSON()
+        nillableDictionary["updated_at"] = self.updated_at?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

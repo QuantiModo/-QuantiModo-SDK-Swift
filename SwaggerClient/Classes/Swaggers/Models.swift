@@ -118,47 +118,126 @@ class Decoders {
                 fatalError("formatter failed to parse \(sourceString)")
             } 
 
-			// Decoder for [CommonResponse]
-            Decoders.addDecoder(clazz: [CommonResponse].self) { (source: AnyObject) -> [CommonResponse] in
-                return Decoders.decode(clazz: [CommonResponse].self, source: source)
+			// Decoder for [MeasurementValue]
+            Decoders.addDecoder(clazz: [MeasurementValue].self) { (source: AnyObject) -> [MeasurementValue] in
+                return Decoders.decode(clazz: [MeasurementValue].self, source: source)
             }
-			// Decoder for CommonResponse
-            Decoders.addDecoder(clazz: CommonResponse.self) { (source: AnyObject) -> CommonResponse in
+			// Decoder for MeasurementValue
+            Decoders.addDecoder(clazz: MeasurementValue.self) { (source: AnyObject) -> MeasurementValue in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = CommonResponse()
-                instance.status = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["status"])
-                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
-                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                let instance = MeasurementValue()
+                instance.start_time = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["start_time"])
+                instance.value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value"])
+                instance.note = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["note"])
                 return instance
             }
 			
 
-			// Decoder for [HumanTime]
-            Decoders.addDecoder(clazz: [HumanTime].self) { (source: AnyObject) -> [HumanTime] in
-                return Decoders.decode(clazz: [HumanTime].self, source: source)
+			// Decoder for [MeasurementPost]
+            Decoders.addDecoder(clazz: [MeasurementPost].self) { (source: AnyObject) -> [MeasurementPost] in
+                return Decoders.decode(clazz: [MeasurementPost].self, source: source)
             }
-			// Decoder for HumanTime
-            Decoders.addDecoder(clazz: HumanTime.self) { (source: AnyObject) -> HumanTime in
+			// Decoder for MeasurementPost
+            Decoders.addDecoder(clazz: MeasurementPost.self) { (source: AnyObject) -> MeasurementPost in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = HumanTime()
-                instance.date = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["date"])
-                instance.timezone_type = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["timezone_type"])
-                instance.timezone = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["timezone"])
+                let instance = MeasurementPost()
+                instance.variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variable_id"])
+                instance.source_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["source_id"])
+                instance.unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["unit_id"])
+                instance.measurements = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["measurements"])
                 return instance
             }
 			
 
-			// Decoder for [ConnectorInstruction]
-            Decoders.addDecoder(clazz: [ConnectorInstruction].self) { (source: AnyObject) -> [ConnectorInstruction] in
-                return Decoders.decode(clazz: [ConnectorInstruction].self, source: source)
+			// Decoder for [AggregatedCorrelation]
+            Decoders.addDecoder(clazz: [AggregatedCorrelation].self) { (source: AnyObject) -> [AggregatedCorrelation] in
+                return Decoders.decode(clazz: [AggregatedCorrelation].self, source: source)
             }
-			// Decoder for ConnectorInstruction
-            Decoders.addDecoder(clazz: ConnectorInstruction.self) { (source: AnyObject) -> ConnectorInstruction in
+			// Decoder for AggregatedCorrelation
+            Decoders.addDecoder(clazz: AggregatedCorrelation.self) { (source: AnyObject) -> AggregatedCorrelation in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = ConnectorInstruction()
-                instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"])
-                instance.parameters = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["parameters"])
-                instance.usePopup = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["usePopup"])
+                let instance = AggregatedCorrelation()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.correlation = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["correlation"])
+                instance.cause_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["cause_id"])
+                instance.effect_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["effect_id"])
+                instance.onset_delay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onset_delay"])
+                instance.duration_of_action = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["duration_of_action"])
+                instance.number_of_pairs = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_pairs"])
+                instance.value_predicting_high_outcome = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value_predicting_high_outcome"])
+                instance.value_predicting_low_outcome = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value_predicting_low_outcome"])
+                instance.optimal_pearson_product = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["optimal_pearson_product"])
+                instance.vote = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["vote"])
+                instance.number_of_users = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_users"])
+                instance.number_of_correlations = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_correlations"])
+                instance.statistical_significance = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["statistical_significance"])
+                instance.cause_unit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cause_unit"])
+                instance.cause_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["cause_unit_id"])
+                instance.cause_changes = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["cause_changes"])
+                instance.effect_changes = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["effect_changes"])
+                instance.aggregate_qm_score = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["aggregate_qm_score"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
+                instance.status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["status"])
+                instance.error_message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_message"])
+                instance.last_successful_update_time = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["last_successful_update_time"])
+                instance.reverse_pearson_correlation_coefficient = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["reverse_pearson_correlation_coefficient"])
+                instance.predictive_pearson_correlation_coefficient = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["predictive_pearson_correlation_coefficient"])
+                instance.data_source = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["data_source"])
+                return instance
+            }
+			
+
+			// Decoder for [CommonVariableRelationship]
+            Decoders.addDecoder(clazz: [CommonVariableRelationship].self) { (source: AnyObject) -> [CommonVariableRelationship] in
+                return Decoders.decode(clazz: [CommonVariableRelationship].self, source: source)
+            }
+			// Decoder for CommonVariableRelationship
+            Decoders.addDecoder(clazz: CommonVariableRelationship.self) { (source: AnyObject) -> CommonVariableRelationship in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = CommonVariableRelationship()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.confidence_level = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["confidence_level"])
+                instance.confidence_score = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["confidence_score"])
+                instance.direction = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["direction"])
+                instance.duration_of_action = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["duration_of_action"])
+                instance.error_message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_message"])
+                instance.onset_delay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onset_delay"])
+                instance.outcome_variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["outcome_variable_id"])
+                instance.predictor_variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["predictor_variable_id"])
+                instance.predictor_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["predictor_unit_id"])
+                instance.sinn_rank = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["sinn_rank"])
+                instance.strength_score = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["strength_score"])
+                instance.strength_level = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["strength_level"])
+                instance.up_votes = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["up_votes"])
+                instance.down_votes = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["down_votes"])
+                instance.value_predicting_high_outcome = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value_predicting_high_outcome"])
+                instance.value_predicting_low_outcome = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value_predicting_low_outcome"])
+                instance.number_of_users = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_users"])
+                instance.data_source = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["data_source"])
+                return instance
+            }
+			
+
+			// Decoder for [Connection]
+            Decoders.addDecoder(clazz: [Connection].self) { (source: AnyObject) -> [Connection] in
+                return Decoders.decode(clazz: [Connection].self, source: source)
+            }
+			// Decoder for Connection
+            Decoders.addDecoder(clazz: Connection.self) { (source: AnyObject) -> Connection in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Connection()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.connector_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["connector_id"])
+                instance.connect_status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["connect_status"])
+                instance.connect_error = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["connect_error"])
+                instance.update_requested_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["update_requested_at"])
+                instance.update_status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["update_status"])
+                instance.update_error = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["update_error"])
+                instance.last_successful_updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["last_successful_updated_at"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
@@ -173,60 +252,15 @@ class Decoders {
                 let instance = Connector()
                 instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                instance.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["displayName"])
+                instance.display_name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"])
                 instance.image = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["image"])
-                instance.getItUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["getItUrl"])
-                instance.connected = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["connected"])
-                instance.connectInstructions = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["connectInstructions"])
-                instance.lastUpdate = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["lastUpdate"])
-                instance.totalMeasurementsInLastUpdate = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["totalMeasurementsInLastUpdate"])
-                instance.noDataYet = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["noDataYet"])
-                return instance
-            }
-			
-
-			// Decoder for [ConnectorInfo]
-            Decoders.addDecoder(clazz: [ConnectorInfo].self) { (source: AnyObject) -> [ConnectorInfo] in
-                return Decoders.decode(clazz: [ConnectorInfo].self, source: source)
-            }
-			// Decoder for ConnectorInfo
-            Decoders.addDecoder(clazz: ConnectorInfo.self) { (source: AnyObject) -> ConnectorInfo in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = ConnectorInfo()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                instance.connected = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["connected"])
-                instance.error = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error"])
-                instance.history = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["history"])
-                return instance
-            }
-			
-
-			// Decoder for [ConnectorInfoHistoryItem]
-            Decoders.addDecoder(clazz: [ConnectorInfoHistoryItem].self) { (source: AnyObject) -> [ConnectorInfoHistoryItem] in
-                return Decoders.decode(clazz: [ConnectorInfoHistoryItem].self, source: source)
-            }
-			// Decoder for ConnectorInfoHistoryItem
-            Decoders.addDecoder(clazz: ConnectorInfoHistoryItem.self) { (source: AnyObject) -> ConnectorInfoHistoryItem in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = ConnectorInfoHistoryItem()
-                instance.numberOfMeasurements = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["numberOfMeasurements"])
-                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
-                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
-                instance.createdAt = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["createdAt"])
-                return instance
-            }
-			
-
-			// Decoder for [ConversionStep]
-            Decoders.addDecoder(clazz: [ConversionStep].self) { (source: AnyObject) -> [ConversionStep] in
-                return Decoders.decode(clazz: [ConversionStep].self, source: source)
-            }
-			// Decoder for ConversionStep
-            Decoders.addDecoder(clazz: ConversionStep.self) { (source: AnyObject) -> ConversionStep in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = ConversionStep()
-                instance.operation = (sourceDictionary["operation"] as? String).map { ConversionStep.Operation(rawValue: $0)! } 
-                instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"])
+                instance.get_it_url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["get_it_url"])
+                instance.short_description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"])
+                instance.long_description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"])
+                instance.enabled = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["enabled"])
+                instance.oauth = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["oauth"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
@@ -239,60 +273,48 @@ class Decoders {
             Decoders.addDecoder(clazz: Correlation.self) { (source: AnyObject) -> Correlation in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Correlation()
-                instance.correlationCoefficient = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["correlationCoefficient"])
-                instance.cause = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cause"])
-                instance.originalCause = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["originalCause"])
-                instance.effect = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["effect"])
-                instance.originalEffect = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["originalEffect"])
-                instance.onsetDelay = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["onsetDelay"])
-                instance.durationOfAction = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["durationOfAction"])
-                instance.numberOfPairs = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["numberOfPairs"])
-                instance.effectSize = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["effectSize"])
-                instance.statisticalSignificance = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["statisticalSignificance"])
-                instance.timestamp = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["timestamp"])
-                instance.reverseCorrelation = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["reverseCorrelation"])
-                instance.causalityFactor = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["causalityFactor"])
-                instance.causeCategory = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["causeCategory"])
-                instance.effectCategory = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["effectCategory"])
-                instance.valuePredictingHighOutcome = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["valuePredictingHighOutcome"])
-                instance.valuePredictingLowOutcome = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["valuePredictingLowOutcome"])
-                instance.optimalPearsonProduct = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["optimalPearsonProduct"])
-                instance.averageVote = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["averageVote"])
-                instance.userVote = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["userVote"])
-                instance.causeUnit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["causeUnit"])
-                instance.causeUnitId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["causeUnitId"])
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.timestamp = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["timestamp"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.correlation = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["correlation"])
+                instance.cause_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["cause_id"])
+                instance.effect_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["effect_id"])
+                instance.onset_delay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onset_delay"])
+                instance.duration_of_action = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["duration_of_action"])
+                instance.number_of_pairs = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_pairs"])
+                instance.value_predicting_high_outcome = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value_predicting_high_outcome"])
+                instance.value_predicting_low_outcome = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value_predicting_low_outcome"])
+                instance.optimal_pearson_product = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["optimal_pearson_product"])
+                instance.vote = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["vote"])
+                instance.statistical_significance = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["statistical_significance"])
+                instance.cause_unit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cause_unit"])
+                instance.cause_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["cause_unit_id"])
+                instance.cause_changes = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["cause_changes"])
+                instance.effect_changes = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["effect_changes"])
+                instance.qm_score = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["qm_score"])
+                instance.error = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
+                instance.reverse_pearson_correlation_coefficient = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["reverse_pearson_correlation_coefficient"])
+                instance.predictive_pearson_correlation_coefficient = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["predictive_pearson_correlation_coefficient"])
                 return instance
             }
 			
 
-			// Decoder for [JsonErrorResponse]
-            Decoders.addDecoder(clazz: [JsonErrorResponse].self) { (source: AnyObject) -> [JsonErrorResponse] in
-                return Decoders.decode(clazz: [JsonErrorResponse].self, source: source)
+			// Decoder for [Credential]
+            Decoders.addDecoder(clazz: [Credential].self) { (source: AnyObject) -> [Credential] in
+                return Decoders.decode(clazz: [Credential].self, source: source)
             }
-			// Decoder for JsonErrorResponse
-            Decoders.addDecoder(clazz: JsonErrorResponse.self) { (source: AnyObject) -> JsonErrorResponse in
+			// Decoder for Credential
+            Decoders.addDecoder(clazz: Credential.self) { (source: AnyObject) -> Credential in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = JsonErrorResponse()
-                instance.status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["status"])
-                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
-                return instance
-            }
-			
-
-			// Decoder for [MeasurementSet]
-            Decoders.addDecoder(clazz: [MeasurementSet].self) { (source: AnyObject) -> [MeasurementSet] in
-                return Decoders.decode(clazz: [MeasurementSet].self, source: source)
-            }
-			// Decoder for MeasurementSet
-            Decoders.addDecoder(clazz: MeasurementSet.self) { (source: AnyObject) -> MeasurementSet in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = MeasurementSet()
-                instance.measurements = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["measurements"])
-                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                instance.source = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["source"])
-                instance.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"])
-                instance.combinationOperation = (sourceDictionary["combinationOperation"] as? String).map { MeasurementSet.CombinationOperation(rawValue: $0)! } 
-                instance.unit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit"])
+                let instance = Credential()
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.connector_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["connector_id"])
+                instance.attr_key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attr_key"])
+                instance.attr_value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attr_value"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
@@ -305,174 +327,60 @@ class Decoders {
             Decoders.addDecoder(clazz: Measurement.self) { (source: AnyObject) -> Measurement in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Measurement()
-                instance.variable = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["variable"])
-                instance.source = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["source"])
-                instance.startTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["startTime"])
-                instance.humanTime = Decoders.decodeOptional(clazz: HumanTime.self, source: sourceDictionary["humanTime"])
-                instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"])
-                instance.unit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit"])
-                instance.originalValue = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["originalValue"])
-                instance.storedValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["storedValue"])
-                instance.storedAbbreviatedUnitName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["storedAbbreviatedUnitName"])
-                instance.originalAbbreviatedUnitName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["originalAbbreviatedUnitName"])
-                instance.abbreviatedUnitName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["abbreviatedUnitName"])
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.client_id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"])
+                instance.connector_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["connector_id"])
+                instance.variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variable_id"])
+                instance.source_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["source_id"])
+                instance.start_time = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["start_time"])
+                instance.value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value"])
+                instance.unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["unit_id"])
+                instance.original_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["original_value"])
+                instance.original_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["original_unit_id"])
+                instance.duration = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["duration"])
                 instance.note = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["note"])
+                instance.latitude = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["latitude"])
+                instance.longitude = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["longitude"])
+                instance.location = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
+                instance.error = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error"])
                 return instance
             }
 			
 
-			// Decoder for [MeasurementDelete]
-            Decoders.addDecoder(clazz: [MeasurementDelete].self) { (source: AnyObject) -> [MeasurementDelete] in
-                return Decoders.decode(clazz: [MeasurementDelete].self, source: source)
+			// Decoder for [MeasurementExport]
+            Decoders.addDecoder(clazz: [MeasurementExport].self) { (source: AnyObject) -> [MeasurementExport] in
+                return Decoders.decode(clazz: [MeasurementExport].self, source: source)
             }
-			// Decoder for MeasurementDelete
-            Decoders.addDecoder(clazz: MeasurementDelete.self) { (source: AnyObject) -> MeasurementDelete in
+			// Decoder for MeasurementExport
+            Decoders.addDecoder(clazz: MeasurementExport.self) { (source: AnyObject) -> MeasurementExport in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = MeasurementDelete()
-                instance.variableId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variableId"])
-                instance.startTime = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["startTime"])
+                let instance = MeasurementExport()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["status"])
+                instance.error_message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_message"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
 
-			// Decoder for [MeasurementRange]
-            Decoders.addDecoder(clazz: [MeasurementRange].self) { (source: AnyObject) -> [MeasurementRange] in
-                return Decoders.decode(clazz: [MeasurementRange].self, source: source)
+			// Decoder for [Source]
+            Decoders.addDecoder(clazz: [Source].self) { (source: AnyObject) -> [Source] in
+                return Decoders.decode(clazz: [Source].self, source: source)
             }
-			// Decoder for MeasurementRange
-            Decoders.addDecoder(clazz: MeasurementRange.self) { (source: AnyObject) -> MeasurementRange in
+			// Decoder for Source
+            Decoders.addDecoder(clazz: Source.self) { (source: AnyObject) -> Source in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = MeasurementRange()
-                instance.lowerLimit = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["lowerLimit"])
-                instance.upperLimit = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["upperLimit"])
-                return instance
-            }
-			
-
-			// Decoder for [MeasurementSource]
-            Decoders.addDecoder(clazz: [MeasurementSource].self) { (source: AnyObject) -> [MeasurementSource] in
-                return Decoders.decode(clazz: [MeasurementSource].self, source: source)
-            }
-			// Decoder for MeasurementSource
-            Decoders.addDecoder(clazz: MeasurementSource.self) { (source: AnyObject) -> MeasurementSource in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = MeasurementSource()
+                let instance = Source()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.client_id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"])
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                return instance
-            }
-			
-
-			// Decoder for [Pairs]
-            Decoders.addDecoder(clazz: [Pairs].self) { (source: AnyObject) -> [Pairs] in
-                return Decoders.decode(clazz: [Pairs].self, source: source)
-            }
-			// Decoder for Pairs
-            Decoders.addDecoder(clazz: Pairs.self) { (source: AnyObject) -> Pairs in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = Pairs()
-                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                return instance
-            }
-			
-
-			// Decoder for [Permission]
-            Decoders.addDecoder(clazz: [Permission].self) { (source: AnyObject) -> [Permission] in
-                return Decoders.decode(clazz: [Permission].self, source: source)
-            }
-			// Decoder for Permission
-            Decoders.addDecoder(clazz: Permission.self) { (source: AnyObject) -> Permission in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = Permission()
-                instance.target = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["target"])
-                instance.variableName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["variableName"])
-                instance.minTimestamp = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["minTimestamp"])
-                instance.maxTimestamp = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["maxTimestamp"])
-                instance.minTimeOfDay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["minTimeOfDay"])
-                instance.maxTimeOfDay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["maxTimeOfDay"])
-                instance.week = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["week"])
-                return instance
-            }
-			
-
-			// Decoder for [PostVote]
-            Decoders.addDecoder(clazz: [PostVote].self) { (source: AnyObject) -> [PostVote] in
-                return Decoders.decode(clazz: [PostVote].self, source: source)
-            }
-			// Decoder for PostVote
-            Decoders.addDecoder(clazz: PostVote.self) { (source: AnyObject) -> PostVote in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = PostVote()
-                instance.cause = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cause"])
-                instance.effect = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["effect"])
-                instance.vote = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["vote"])
-                return instance
-            }
-			
-
-			// Decoder for [PostCorrelation]
-            Decoders.addDecoder(clazz: [PostCorrelation].self) { (source: AnyObject) -> [PostCorrelation] in
-                return Decoders.decode(clazz: [PostCorrelation].self, source: source)
-            }
-			// Decoder for PostCorrelation
-            Decoders.addDecoder(clazz: PostCorrelation.self) { (source: AnyObject) -> PostCorrelation in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = PostCorrelation()
-                instance.cause = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cause"])
-                instance.effect = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["effect"])
-                instance.correlation = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["correlation"])
-                instance.vote = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["vote"])
-                return instance
-            }
-			
-
-			// Decoder for [TrackingReminderDelete]
-            Decoders.addDecoder(clazz: [TrackingReminderDelete].self) { (source: AnyObject) -> [TrackingReminderDelete] in
-                return Decoders.decode(clazz: [TrackingReminderDelete].self, source: source)
-            }
-			// Decoder for TrackingReminderDelete
-            Decoders.addDecoder(clazz: TrackingReminderDelete.self) { (source: AnyObject) -> TrackingReminderDelete in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = TrackingReminderDelete()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                return instance
-            }
-			
-
-			// Decoder for [TrackingReminderPendingSkip]
-            Decoders.addDecoder(clazz: [TrackingReminderPendingSkip].self) { (source: AnyObject) -> [TrackingReminderPendingSkip] in
-                return Decoders.decode(clazz: [TrackingReminderPendingSkip].self, source: source)
-            }
-			// Decoder for TrackingReminderPendingSkip
-            Decoders.addDecoder(clazz: TrackingReminderPendingSkip.self) { (source: AnyObject) -> TrackingReminderPendingSkip in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = TrackingReminderPendingSkip()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                return instance
-            }
-			
-
-			// Decoder for [TrackingReminderPendingSnooze]
-            Decoders.addDecoder(clazz: [TrackingReminderPendingSnooze].self) { (source: AnyObject) -> [TrackingReminderPendingSnooze] in
-                return Decoders.decode(clazz: [TrackingReminderPendingSnooze].self, source: source)
-            }
-			// Decoder for TrackingReminderPendingSnooze
-            Decoders.addDecoder(clazz: TrackingReminderPendingSnooze.self) { (source: AnyObject) -> TrackingReminderPendingSnooze in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = TrackingReminderPendingSnooze()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                return instance
-            }
-			
-
-			// Decoder for [TrackingReminderPendingTrack]
-            Decoders.addDecoder(clazz: [TrackingReminderPendingTrack].self) { (source: AnyObject) -> [TrackingReminderPendingTrack] in
-                return Decoders.decode(clazz: [TrackingReminderPendingTrack].self, source: source)
-            }
-			// Decoder for TrackingReminderPendingTrack
-            Decoders.addDecoder(clazz: TrackingReminderPendingTrack.self) { (source: AnyObject) -> TrackingReminderPendingTrack in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = TrackingReminderPendingTrack()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
@@ -486,59 +394,22 @@ class Decoders {
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = TrackingReminder()
                 instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                instance.clientId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["clientId"])
-                instance.userId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["userId"])
-                instance.variableId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variableId"])
-                instance.defaultValue = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["defaultValue"])
-                instance.reminderStartTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reminderStartTime"])
-                instance.reminderEndTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reminderEndTime"])
-                instance.reminderSound = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reminderSound"])
-                instance.reminderFrequency = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["reminderFrequency"])
-                instance.popUp = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["popUp"])
+                instance.client_id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variable_id"])
+                instance.default_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["default_value"])
+                instance.reminder_start_time = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reminder_start_time"])
+                instance.reminder_end_time = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reminder_end_time"])
+                instance.reminder_sound = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reminder_sound"])
+                instance.reminder_frequency = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["reminder_frequency"])
+                instance.pop_up = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["pop_up"])
                 instance.sms = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["sms"])
                 instance.email = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["email"])
-                instance.notificationBar = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["notificationBar"])
-                instance.lastReminded = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["lastReminded"])
-                instance.lastTracked = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["lastTracked"])
-                instance.firstDailyReminderTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["firstDailyReminderTime"])
-                instance.secondDailyReminderTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["secondDailyReminderTime"])
-                instance.thirdDailyReminderTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["thirdDailyReminderTime"])
-                instance.startTrackingDate = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["startTrackingDate"])
-                instance.stopTrackingDate = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["stopTrackingDate"])
-                instance.updatedAt = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updatedAt"])
-                instance.variableName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["variableName"])
-                instance.variableCategoryName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["variableCategoryName"])
-                instance.abbreviatedUnitName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["abbreviatedUnitName"])
-                instance.combinationOperation = (sourceDictionary["combinationOperation"] as? String).map { TrackingReminder.CombinationOperation(rawValue: $0)! } 
-                return instance
-            }
-			
-
-			// Decoder for [TrackingReminderPending]
-            Decoders.addDecoder(clazz: [TrackingReminderPending].self) { (source: AnyObject) -> [TrackingReminderPending] in
-                return Decoders.decode(clazz: [TrackingReminderPending].self, source: source)
-            }
-			// Decoder for TrackingReminderPending
-            Decoders.addDecoder(clazz: TrackingReminderPending.self) { (source: AnyObject) -> TrackingReminderPending in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = TrackingReminderPending()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                instance.trackingReminderId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["trackingReminderId"])
-                instance.clientId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["clientId"])
-                instance.userId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["userId"])
-                instance.variableId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variableId"])
-                instance.pendingReminderTime = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["pendingReminderTime"])
-                instance.defaultValue = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["defaultValue"])
-                instance.reminderSound = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reminderSound"])
-                instance.popUp = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["popUp"])
-                instance.sms = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["sms"])
-                instance.email = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["email"])
-                instance.notificationBar = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["notificationBar"])
-                instance.updatedAt = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updatedAt"])
-                instance.variableName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["variableName"])
-                instance.variableCategoryName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["variableCategoryName"])
-                instance.abbreviatedUnitName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["abbreviatedUnitName"])
-                instance.combinationOperation = (sourceDictionary["combinationOperation"] as? String).map { TrackingReminderPending.CombinationOperation(rawValue: $0)! } 
+                instance.notification_bar = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["notification_bar"])
+                instance.last_reminded = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["last_reminded"])
+                instance.last_tracked = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["last_tracked"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
@@ -551,12 +422,19 @@ class Decoders {
             Decoders.addDecoder(clazz: Unit.self) { (source: AnyObject) -> Unit in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Unit()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.client_id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"])
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                instance.abbreviatedName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["abbreviatedName"])
-                instance.category = (sourceDictionary["category"] as? String).map { Unit.Category(rawValue: $0)! } 
-                instance.minimumValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["minimumValue"])
-                instance.maximumValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["maximumValue"])
-                instance.conversionSteps = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["conversionSteps"])
+                instance.abbreviated_name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["abbreviated_name"])
+                instance.category_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["category_id"])
+                instance.minimum_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["minimum_value"])
+                instance.maximum_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["maximum_value"])
+                instance.updated = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["updated"])
+                instance.default_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["default_unit_id"])
+                instance.multiply = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["multiply"])
+                instance.add = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["add"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
@@ -569,127 +447,144 @@ class Decoders {
             Decoders.addDecoder(clazz: UnitCategory.self) { (source: AnyObject) -> UnitCategory in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = UnitCategory()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
 
-			// Decoder for [User]
-            Decoders.addDecoder(clazz: [User].self) { (source: AnyObject) -> [User] in
-                return Decoders.decode(clazz: [User].self, source: source)
+			// Decoder for [UnitConversion]
+            Decoders.addDecoder(clazz: [UnitConversion].self) { (source: AnyObject) -> [UnitConversion] in
+                return Decoders.decode(clazz: [UnitConversion].self, source: source)
             }
-			// Decoder for User
-            Decoders.addDecoder(clazz: User.self) { (source: AnyObject) -> User in
+			// Decoder for UnitConversion
+            Decoders.addDecoder(clazz: UnitConversion.self) { (source: AnyObject) -> UnitConversion in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = User()
+                let instance = UnitConversion()
+                instance.unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["unit_id"])
+                instance.step_number = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["step_number"])
+                instance.operation = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["operation"])
+                instance.value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
+                return instance
+            }
+			
+
+			// Decoder for [Update]
+            Decoders.addDecoder(clazz: [Update].self) { (source: AnyObject) -> [Update] in
+                return Decoders.decode(clazz: [Update].self, source: source)
+            }
+			// Decoder for Update
+            Decoders.addDecoder(clazz: Update.self) { (source: AnyObject) -> Update in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Update()
                 instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                instance.wpId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["wpId"])
-                instance.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["displayName"])
-                instance.loginName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["loginName"])
-                instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"])
-                instance.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"])
-                instance.administrator = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["administrator"])
-                return instance
-            }
-			
-
-			// Decoder for [UserTag]
-            Decoders.addDecoder(clazz: [UserTag].self) { (source: AnyObject) -> [UserTag] in
-                return Decoders.decode(clazz: [UserTag].self, source: source)
-            }
-			// Decoder for UserTag
-            Decoders.addDecoder(clazz: UserTag.self) { (source: AnyObject) -> UserTag in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = UserTag()
-                instance.taggedVariableId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["taggedVariableId"])
-                instance.tagVariableId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["tagVariableId"])
-                instance.conversionFactor = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["conversionFactor"])
-                return instance
-            }
-			
-
-			// Decoder for [UserTokenRequest]
-            Decoders.addDecoder(clazz: [UserTokenRequest].self) { (source: AnyObject) -> [UserTokenRequest] in
-                return Decoders.decode(clazz: [UserTokenRequest].self, source: source)
-            }
-			// Decoder for UserTokenRequest
-            Decoders.addDecoder(clazz: UserTokenRequest.self) { (source: AnyObject) -> UserTokenRequest in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = UserTokenRequest()
-                instance.user = Decoders.decodeOptional(clazz: UserTokenRequestInnerUserField.self, source: sourceDictionary["user"])
-                instance.organizationAccessToken = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["organizationAccessToken"])
-                return instance
-            }
-			
-
-			// Decoder for [UserTokenSuccessfulResponse]
-            Decoders.addDecoder(clazz: [UserTokenSuccessfulResponse].self) { (source: AnyObject) -> [UserTokenSuccessfulResponse] in
-                return Decoders.decode(clazz: [UserTokenSuccessfulResponse].self, source: source)
-            }
-			// Decoder for UserTokenSuccessfulResponse
-            Decoders.addDecoder(clazz: UserTokenSuccessfulResponse.self) { (source: AnyObject) -> UserTokenSuccessfulResponse in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = UserTokenSuccessfulResponse()
-                instance.code = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["code"])
-                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
-                instance.user = Decoders.decodeOptional(clazz: UserTokenSuccessfulResponseInnerUserField.self, source: sourceDictionary["user"])
-                return instance
-            }
-			
-
-			// Decoder for [UserTokenFailedResponse]
-            Decoders.addDecoder(clazz: [UserTokenFailedResponse].self) { (source: AnyObject) -> [UserTokenFailedResponse] in
-                return Decoders.decode(clazz: [UserTokenFailedResponse].self, source: source)
-            }
-			// Decoder for UserTokenFailedResponse
-            Decoders.addDecoder(clazz: UserTokenFailedResponse.self) { (source: AnyObject) -> UserTokenFailedResponse in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = UserTokenFailedResponse()
-                instance.code = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["code"])
-                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.connector_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["connector_id"])
+                instance.number_of_measurements = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_measurements"])
                 instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
 
-			// Decoder for [UserTokenRequestInnerUserField]
-            Decoders.addDecoder(clazz: [UserTokenRequestInnerUserField].self) { (source: AnyObject) -> [UserTokenRequestInnerUserField] in
-                return Decoders.decode(clazz: [UserTokenRequestInnerUserField].self, source: source)
+			// Decoder for [UserVariable]
+            Decoders.addDecoder(clazz: [UserVariable].self) { (source: AnyObject) -> [UserVariable] in
+                return Decoders.decode(clazz: [UserVariable].self, source: source)
             }
-			// Decoder for UserTokenRequestInnerUserField
-            Decoders.addDecoder(clazz: UserTokenRequestInnerUserField.self) { (source: AnyObject) -> UserTokenRequestInnerUserField in
+			// Decoder for UserVariable
+            Decoders.addDecoder(clazz: UserVariable.self) { (source: AnyObject) -> UserVariable in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = UserTokenRequestInnerUserField()
+                let instance = UserVariable()
+                instance.parent_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["parent_id"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.client_id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"])
+                instance.variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variable_id"])
+                instance.default_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["default_unit_id"])
+                instance.minimum_allowed_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["minimum_allowed_value"])
+                instance.maximum_allowed_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["maximum_allowed_value"])
+                instance.filling_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["filling_value"])
+                instance.join_with = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["join_with"])
+                instance.onset_delay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onset_delay"])
+                instance.duration_of_action = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["duration_of_action"])
+                instance.variable_category_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variable_category_id"])
+                instance.updated = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["updated"])
+                instance.Swaggerpublic = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["Swaggerpublic"])
+                instance.cause_only = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["cause_only"])
+                instance.filling_type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["filling_type"])
+                instance.number_of_measurements = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_measurements"])
+                instance.number_of_processed_measurements = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_processed_measurements"])
+                instance.measurements_at_last_analysis = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["measurements_at_last_analysis"])
+                instance.last_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["last_unit_id"])
+                instance.last_original_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["last_original_unit_id"])
+                instance.last_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["last_value"])
+                instance.last_original_value = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["last_original_value"])
+                instance.last_source_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["last_source_id"])
+                instance.number_of_correlations = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_correlations"])
+                instance.status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["status"])
+                instance.error_message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_message"])
+                instance.last_successful_update_time = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["last_successful_update_time"])
+                instance.standard_deviation = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["standard_deviation"])
+                instance.variance = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["variance"])
+                instance.minimum_recorded_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["minimum_recorded_value"])
+                instance.maximum_recorded_daily_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["maximum_recorded_daily_value"])
+                instance.mean = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["mean"])
+                instance.median = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["median"])
+                instance.most_common_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["most_common_unit_id"])
+                instance.most_common_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["most_common_value"])
+                instance.number_of_unique_daily_values = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["number_of_unique_daily_values"])
+                instance.number_of_changes = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_changes"])
+                instance.skewness = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["skewness"])
+                instance.kurtosis = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["kurtosis"])
+                instance.latitude = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["latitude"])
+                instance.longitude = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["longitude"])
+                instance.location = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"])
+                instance.experiment_start_time = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["experiment_start_time"])
+                instance.experiment_end_time = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["experiment_end_time"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
+                instance.outcome = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["outcome"])
+                instance.sources = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sources"])
+                instance.earliest_source_time = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["earliest_source_time"])
+                instance.latest_source_time = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["latest_source_time"])
+                instance.earliest_measurement_time = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["earliest_measurement_time"])
+                instance.latest_measurement_time = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["latest_measurement_time"])
+                instance.earliest_filling_time = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["earliest_filling_time"])
+                instance.latest_filling_time = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["latest_filling_time"])
+                return instance
+            }
+			
+
+			// Decoder for [UserVariableRelationship]
+            Decoders.addDecoder(clazz: [UserVariableRelationship].self) { (source: AnyObject) -> [UserVariableRelationship] in
+                return Decoders.decode(clazz: [UserVariableRelationship].self, source: source)
+            }
+			// Decoder for UserVariableRelationship
+            Decoders.addDecoder(clazz: UserVariableRelationship.self) { (source: AnyObject) -> UserVariableRelationship in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = UserVariableRelationship()
                 instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                return instance
-            }
-			
-
-			// Decoder for [UserTokenSuccessfulResponseInnerUserField]
-            Decoders.addDecoder(clazz: [UserTokenSuccessfulResponseInnerUserField].self) { (source: AnyObject) -> [UserTokenSuccessfulResponseInnerUserField] in
-                return Decoders.decode(clazz: [UserTokenSuccessfulResponseInnerUserField].self, source: source)
-            }
-			// Decoder for UserTokenSuccessfulResponseInnerUserField
-            Decoders.addDecoder(clazz: UserTokenSuccessfulResponseInnerUserField.self) { (source: AnyObject) -> UserTokenSuccessfulResponseInnerUserField in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = UserTokenSuccessfulResponseInnerUserField()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                instance.access_token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["access_token"])
-                return instance
-            }
-			
-
-			// Decoder for [ValueObject]
-            Decoders.addDecoder(clazz: [ValueObject].self) { (source: AnyObject) -> [ValueObject] in
-                return Decoders.decode(clazz: [ValueObject].self, source: source)
-            }
-			// Decoder for ValueObject
-            Decoders.addDecoder(clazz: ValueObject.self) { (source: AnyObject) -> ValueObject in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = ValueObject()
-                instance.timestamp = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["timestamp"])
-                instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"])
-                instance.note = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["note"])
+                instance.confidence_level = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["confidence_level"])
+                instance.confidence_score = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["confidence_score"])
+                instance.direction = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["direction"])
+                instance.duration_of_action = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["duration_of_action"])
+                instance.error_message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_message"])
+                instance.onset_delay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onset_delay"])
+                instance.outcome_variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["outcome_variable_id"])
+                instance.predictor_variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["predictor_variable_id"])
+                instance.predictor_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["predictor_unit_id"])
+                instance.sinn_rank = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["sinn_rank"])
+                instance.strength_level = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["strength_level"])
+                instance.strength_score = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["strength_score"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.vote = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vote"])
+                instance.value_predicting_high_outcome = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value_predicting_high_outcome"])
+                instance.value_predicting_low_outcome = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["value_predicting_low_outcome"])
                 return instance
             }
 			
@@ -703,35 +598,41 @@ class Decoders {
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Variable()
                 instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.client_id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"])
+                instance.parent_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["parent_id"])
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                instance.originalName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["originalName"])
-                instance.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"])
-                instance.abbreviatedUnitName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["abbreviatedUnitName"])
-                instance.abbreviatedUnitId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["abbreviatedUnitId"])
-                instance.sources = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sources"])
-                instance.minimumValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["minimumValue"])
-                instance.maximumValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["maximumValue"])
-                instance.combinationOperation = (sourceDictionary["combinationOperation"] as? String).map { Variable.CombinationOperation(rawValue: $0)! } 
-                instance.fillingValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["fillingValue"])
-                instance.joinWith = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["joinWith"])
-                instance.joinedVariables = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["joinedVariables"])
-                instance.parent = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["parent"])
-                instance.subVariables = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["subVariables"])
-                instance.onsetDelay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onsetDelay"])
-                instance.durationOfAction = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["durationOfAction"])
-                instance.earliestMeasurementTime = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["earliestMeasurementTime"])
-                instance.latestMeasurementTime = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["latestMeasurementTime"])
-                instance.updated = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["updated"])
-                instance.causeOnly = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["causeOnly"])
-                instance.numberOfCorrelations = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["numberOfCorrelations"])
-                instance.outcome = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["outcome"])
-                instance.measurementsAtLastAnalysis = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["measurementsAtLastAnalysis"])
-                instance.numberOfMeasurements = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["numberOfMeasurements"])
-                instance.lastUnit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["lastUnit"])
-                instance.lastValue = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["lastValue"])
-                instance.mostCommonValue = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["mostCommonValue"])
-                instance.mostCommonUnit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mostCommonUnit"])
-                instance.lastSource = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["lastSource"])
+                instance.variable_category_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variable_category_id"])
+                instance.default_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["default_unit_id"])
+                instance.combination_operation = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["combination_operation"])
+                instance.filling_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["filling_value"])
+                instance.maximum_allowed_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["maximum_allowed_value"])
+                instance.minimum_allowed_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["minimum_allowed_value"])
+                instance.onset_delay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onset_delay"])
+                instance.duration_of_action = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["duration_of_action"])
+                instance.Swaggerpublic = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["Swaggerpublic"])
+                instance.cause_only = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["cause_only"])
+                instance.most_common_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["most_common_value"])
+                instance.most_common_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["most_common_unit_id"])
+                instance.standard_deviation = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["standard_deviation"])
+                instance.variance = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["variance"])
+                instance.mean = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["mean"])
+                instance.median = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["median"])
+                instance.number_of_measurements = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["number_of_measurements"])
+                instance.number_of_unique_values = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["number_of_unique_values"])
+                instance.skewness = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["skewness"])
+                instance.kurtosis = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["kurtosis"])
+                instance.status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["status"])
+                instance.error_message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_message"])
+                instance.last_successful_update_time = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["last_successful_update_time"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
+                instance.product_url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["product_url"])
+                instance.image_url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["image_url"])
+                instance.price = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["price"])
+                instance.number_of_user_variables = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["number_of_user_variables"])
+                instance.outcome = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["outcome"])
+                instance.minimum_recorded_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["minimum_recorded_value"])
+                instance.maximum_recorded_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["maximum_recorded_value"])
                 return instance
             }
 			
@@ -744,72 +645,62 @@ class Decoders {
             Decoders.addDecoder(clazz: VariableCategory.self) { (source: AnyObject) -> VariableCategory in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = VariableCategory()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
+                instance.filling_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["filling_value"])
+                instance.maximum_allowed_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["maximum_allowed_value"])
+                instance.minimum_allowed_value = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["minimum_allowed_value"])
+                instance.duration_of_action = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["duration_of_action"])
+                instance.onset_delay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onset_delay"])
+                instance.combination_operation = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["combination_operation"])
+                instance.updated = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["updated"])
+                instance.cause_only = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["cause_only"])
+                instance.Swaggerpublic = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["Swaggerpublic"])
+                instance.outcome = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["outcome"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
+                instance.image_url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["image_url"])
+                instance.default_unit_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["default_unit_id"])
                 return instance
             }
 			
 
-			// Decoder for [UserVariables]
-            Decoders.addDecoder(clazz: [UserVariables].self) { (source: AnyObject) -> [UserVariables] in
-                return Decoders.decode(clazz: [UserVariables].self, source: source)
+			// Decoder for [VariableUserSource]
+            Decoders.addDecoder(clazz: [VariableUserSource].self) { (source: AnyObject) -> [VariableUserSource] in
+                return Decoders.decode(clazz: [VariableUserSource].self, source: source)
             }
-			// Decoder for UserVariables
-            Decoders.addDecoder(clazz: UserVariables.self) { (source: AnyObject) -> UserVariables in
+			// Decoder for VariableUserSource
+            Decoders.addDecoder(clazz: VariableUserSource.self) { (source: AnyObject) -> VariableUserSource in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = UserVariables()
-                instance.user = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user"])
-                instance.variableId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variableId"])
-                instance.durationOfAction = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["durationOfAction"])
-                instance.fillingValue = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["fillingValue"])
-                instance.joinWith = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["joinWith"])
-                instance.maximumAllowedValue = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["maximumAllowedValue"])
-                instance.minimumAllowedValue = Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["minimumAllowedValue"])
-                instance.onsetDelay = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["onsetDelay"])
-                instance.experimentStartTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["experimentStartTime"])
-                instance.experimentEndTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["experimentEndTime"])
+                let instance = VariableUserSource()
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.variable_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["variable_id"])
+                instance.source_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["source_id"])
+                instance.timestamp = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["timestamp"])
+                instance.earliest_measurement_time = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["earliest_measurement_time"])
+                instance.latest_measurement_time = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["latest_measurement_time"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
 
-			// Decoder for [VariableNew]
-            Decoders.addDecoder(clazz: [VariableNew].self) { (source: AnyObject) -> [VariableNew] in
-                return Decoders.decode(clazz: [VariableNew].self, source: source)
+			// Decoder for [Vote]
+            Decoders.addDecoder(clazz: [Vote].self) { (source: AnyObject) -> [Vote] in
+                return Decoders.decode(clazz: [Vote].self, source: source)
             }
-			// Decoder for VariableNew
-            Decoders.addDecoder(clazz: VariableNew.self) { (source: AnyObject) -> VariableNew in
+			// Decoder for Vote
+            Decoders.addDecoder(clazz: Vote.self) { (source: AnyObject) -> Vote in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = VariableNew()
-                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                instance.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"])
-                instance.unit = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit"])
-                instance.combinationOperation = (sourceDictionary["combinationOperation"] as? String).map { VariableNew.CombinationOperation(rawValue: $0)! } 
-                instance.parent = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"])
-                return instance
-            }
-			
-
-			// Decoder for [VariablesNew]
-            Decoders.addDecoder(clazz: [VariablesNew].self) { (source: AnyObject) -> [VariablesNew] in
-                return Decoders.decode(clazz: [VariablesNew].self, source: source)
-            }
-			// Decoder for VariablesNew
-            Decoders.addDecoder(clazz: VariablesNew.self) { (source: AnyObject) -> VariablesNew in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = VariablesNew()
-                return instance
-            }
-			
-
-			// Decoder for [VoteDelete]
-            Decoders.addDecoder(clazz: [VoteDelete].self) { (source: AnyObject) -> [VoteDelete] in
-                return Decoders.decode(clazz: [VoteDelete].self, source: source)
-            }
-			// Decoder for VoteDelete
-            Decoders.addDecoder(clazz: VoteDelete.self) { (source: AnyObject) -> VoteDelete in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = VoteDelete()
-                instance.cause = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cause"])
-                instance.effect = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["effect"])
+                let instance = Vote()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.client_id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"])
+                instance.user_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["user_id"])
+                instance.cause_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["cause_id"])
+                instance.effect_id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["effect_id"])
+                instance.value = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["value"])
+                instance.created_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["created_at"])
+                instance.updated_at = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["updated_at"])
                 return instance
             }
 			
@@ -836,7 +727,7 @@ class Decoders {
             Decoders.addDecoder(clazz: Inline_response_200_1.self) { (source: AnyObject) -> Inline_response_200_1 in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Inline_response_200_1()
-                instance.data = Decoders.decodeOptional(clazz: TrackingReminder.self, source: sourceDictionary["data"])
+                instance.data = Decoders.decodeOptional(clazz: AggregatedCorrelation.self, source: sourceDictionary["data"])
                 instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
                 return instance
             }
@@ -850,7 +741,7 @@ class Decoders {
             Decoders.addDecoder(clazz: Inline_response_200_2.self) { (source: AnyObject) -> Inline_response_200_2 in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Inline_response_200_2()
-                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.data = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["data"])
                 instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
                 return instance
             }
@@ -864,7 +755,7 @@ class Decoders {
             Decoders.addDecoder(clazz: Inline_response_200_3.self) { (source: AnyObject) -> Inline_response_200_3 in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Inline_response_200_3()
-                instance.data = Decoders.decodeOptional(clazz: Measurement.self, source: sourceDictionary["data"])
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
                 instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
                 return instance
             }
@@ -878,7 +769,455 @@ class Decoders {
             Decoders.addDecoder(clazz: Inline_response_200_4.self) { (source: AnyObject) -> Inline_response_200_4 in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Inline_response_200_4()
-                instance.data = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["data"])
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_5]
+            Decoders.addDecoder(clazz: [Inline_response_200_5].self) { (source: AnyObject) -> [Inline_response_200_5] in
+                return Decoders.decode(clazz: [Inline_response_200_5].self, source: source)
+            }
+			// Decoder for Inline_response_200_5
+            Decoders.addDecoder(clazz: Inline_response_200_5.self) { (source: AnyObject) -> Inline_response_200_5 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_5()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_6]
+            Decoders.addDecoder(clazz: [Inline_response_200_6].self) { (source: AnyObject) -> [Inline_response_200_6] in
+                return Decoders.decode(clazz: [Inline_response_200_6].self, source: source)
+            }
+			// Decoder for Inline_response_200_6
+            Decoders.addDecoder(clazz: Inline_response_200_6.self) { (source: AnyObject) -> Inline_response_200_6 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_6()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_7]
+            Decoders.addDecoder(clazz: [Inline_response_200_7].self) { (source: AnyObject) -> [Inline_response_200_7] in
+                return Decoders.decode(clazz: [Inline_response_200_7].self, source: source)
+            }
+			// Decoder for Inline_response_200_7
+            Decoders.addDecoder(clazz: Inline_response_200_7.self) { (source: AnyObject) -> Inline_response_200_7 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_7()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_8]
+            Decoders.addDecoder(clazz: [Inline_response_200_8].self) { (source: AnyObject) -> [Inline_response_200_8] in
+                return Decoders.decode(clazz: [Inline_response_200_8].self, source: source)
+            }
+			// Decoder for Inline_response_200_8
+            Decoders.addDecoder(clazz: Inline_response_200_8.self) { (source: AnyObject) -> Inline_response_200_8 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_8()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_9]
+            Decoders.addDecoder(clazz: [Inline_response_200_9].self) { (source: AnyObject) -> [Inline_response_200_9] in
+                return Decoders.decode(clazz: [Inline_response_200_9].self, source: source)
+            }
+			// Decoder for Inline_response_200_9
+            Decoders.addDecoder(clazz: Inline_response_200_9.self) { (source: AnyObject) -> Inline_response_200_9 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_9()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_10]
+            Decoders.addDecoder(clazz: [Inline_response_200_10].self) { (source: AnyObject) -> [Inline_response_200_10] in
+                return Decoders.decode(clazz: [Inline_response_200_10].self, source: source)
+            }
+			// Decoder for Inline_response_200_10
+            Decoders.addDecoder(clazz: Inline_response_200_10.self) { (source: AnyObject) -> Inline_response_200_10 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_10()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_11]
+            Decoders.addDecoder(clazz: [Inline_response_200_11].self) { (source: AnyObject) -> [Inline_response_200_11] in
+                return Decoders.decode(clazz: [Inline_response_200_11].self, source: source)
+            }
+			// Decoder for Inline_response_200_11
+            Decoders.addDecoder(clazz: Inline_response_200_11.self) { (source: AnyObject) -> Inline_response_200_11 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_11()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_12]
+            Decoders.addDecoder(clazz: [Inline_response_200_12].self) { (source: AnyObject) -> [Inline_response_200_12] in
+                return Decoders.decode(clazz: [Inline_response_200_12].self, source: source)
+            }
+			// Decoder for Inline_response_200_12
+            Decoders.addDecoder(clazz: Inline_response_200_12.self) { (source: AnyObject) -> Inline_response_200_12 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_12()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_13]
+            Decoders.addDecoder(clazz: [Inline_response_200_13].self) { (source: AnyObject) -> [Inline_response_200_13] in
+                return Decoders.decode(clazz: [Inline_response_200_13].self, source: source)
+            }
+			// Decoder for Inline_response_200_13
+            Decoders.addDecoder(clazz: Inline_response_200_13.self) { (source: AnyObject) -> Inline_response_200_13 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_13()
+                instance.data = Decoders.decodeOptional(clazz: CommonVariableRelationship.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_14]
+            Decoders.addDecoder(clazz: [Inline_response_200_14].self) { (source: AnyObject) -> [Inline_response_200_14] in
+                return Decoders.decode(clazz: [Inline_response_200_14].self, source: source)
+            }
+			// Decoder for Inline_response_200_14
+            Decoders.addDecoder(clazz: Inline_response_200_14.self) { (source: AnyObject) -> Inline_response_200_14 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_14()
+                instance.data = Decoders.decodeOptional(clazz: Connection.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_15]
+            Decoders.addDecoder(clazz: [Inline_response_200_15].self) { (source: AnyObject) -> [Inline_response_200_15] in
+                return Decoders.decode(clazz: [Inline_response_200_15].self, source: source)
+            }
+			// Decoder for Inline_response_200_15
+            Decoders.addDecoder(clazz: Inline_response_200_15.self) { (source: AnyObject) -> Inline_response_200_15 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_15()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_16]
+            Decoders.addDecoder(clazz: [Inline_response_200_16].self) { (source: AnyObject) -> [Inline_response_200_16] in
+                return Decoders.decode(clazz: [Inline_response_200_16].self, source: source)
+            }
+			// Decoder for Inline_response_200_16
+            Decoders.addDecoder(clazz: Inline_response_200_16.self) { (source: AnyObject) -> Inline_response_200_16 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_16()
+                instance.data = Decoders.decodeOptional(clazz: Connector.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_17]
+            Decoders.addDecoder(clazz: [Inline_response_200_17].self) { (source: AnyObject) -> [Inline_response_200_17] in
+                return Decoders.decode(clazz: [Inline_response_200_17].self, source: source)
+            }
+			// Decoder for Inline_response_200_17
+            Decoders.addDecoder(clazz: Inline_response_200_17.self) { (source: AnyObject) -> Inline_response_200_17 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_17()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_18]
+            Decoders.addDecoder(clazz: [Inline_response_200_18].self) { (source: AnyObject) -> [Inline_response_200_18] in
+                return Decoders.decode(clazz: [Inline_response_200_18].self, source: source)
+            }
+			// Decoder for Inline_response_200_18
+            Decoders.addDecoder(clazz: Inline_response_200_18.self) { (source: AnyObject) -> Inline_response_200_18 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_18()
+                instance.data = Decoders.decodeOptional(clazz: Correlation.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_19]
+            Decoders.addDecoder(clazz: [Inline_response_200_19].self) { (source: AnyObject) -> [Inline_response_200_19] in
+                return Decoders.decode(clazz: [Inline_response_200_19].self, source: source)
+            }
+			// Decoder for Inline_response_200_19
+            Decoders.addDecoder(clazz: Inline_response_200_19.self) { (source: AnyObject) -> Inline_response_200_19 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_19()
+                instance.data = Decoders.decodeOptional(clazz: Credential.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_20]
+            Decoders.addDecoder(clazz: [Inline_response_200_20].self) { (source: AnyObject) -> [Inline_response_200_20] in
+                return Decoders.decode(clazz: [Inline_response_200_20].self, source: source)
+            }
+			// Decoder for Inline_response_200_20
+            Decoders.addDecoder(clazz: Inline_response_200_20.self) { (source: AnyObject) -> Inline_response_200_20 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_20()
+                instance.data = Decoders.decodeOptional(clazz: Measurement.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_21]
+            Decoders.addDecoder(clazz: [Inline_response_200_21].self) { (source: AnyObject) -> [Inline_response_200_21] in
+                return Decoders.decode(clazz: [Inline_response_200_21].self, source: source)
+            }
+			// Decoder for Inline_response_200_21
+            Decoders.addDecoder(clazz: Inline_response_200_21.self) { (source: AnyObject) -> Inline_response_200_21 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_21()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_22]
+            Decoders.addDecoder(clazz: [Inline_response_200_22].self) { (source: AnyObject) -> [Inline_response_200_22] in
+                return Decoders.decode(clazz: [Inline_response_200_22].self, source: source)
+            }
+			// Decoder for Inline_response_200_22
+            Decoders.addDecoder(clazz: Inline_response_200_22.self) { (source: AnyObject) -> Inline_response_200_22 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_22()
+                instance.data = Decoders.decodeOptional(clazz: Source.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_23]
+            Decoders.addDecoder(clazz: [Inline_response_200_23].self) { (source: AnyObject) -> [Inline_response_200_23] in
+                return Decoders.decode(clazz: [Inline_response_200_23].self, source: source)
+            }
+			// Decoder for Inline_response_200_23
+            Decoders.addDecoder(clazz: Inline_response_200_23.self) { (source: AnyObject) -> Inline_response_200_23 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_23()
+                instance.data = Decoders.decodeOptional(clazz: TrackingReminder.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_24]
+            Decoders.addDecoder(clazz: [Inline_response_200_24].self) { (source: AnyObject) -> [Inline_response_200_24] in
+                return Decoders.decode(clazz: [Inline_response_200_24].self, source: source)
+            }
+			// Decoder for Inline_response_200_24
+            Decoders.addDecoder(clazz: Inline_response_200_24.self) { (source: AnyObject) -> Inline_response_200_24 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_24()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_25]
+            Decoders.addDecoder(clazz: [Inline_response_200_25].self) { (source: AnyObject) -> [Inline_response_200_25] in
+                return Decoders.decode(clazz: [Inline_response_200_25].self, source: source)
+            }
+			// Decoder for Inline_response_200_25
+            Decoders.addDecoder(clazz: Inline_response_200_25.self) { (source: AnyObject) -> Inline_response_200_25 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_25()
+                instance.data = Decoders.decodeOptional(clazz: UnitCategory.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_26]
+            Decoders.addDecoder(clazz: [Inline_response_200_26].self) { (source: AnyObject) -> [Inline_response_200_26] in
+                return Decoders.decode(clazz: [Inline_response_200_26].self, source: source)
+            }
+			// Decoder for Inline_response_200_26
+            Decoders.addDecoder(clazz: Inline_response_200_26.self) { (source: AnyObject) -> Inline_response_200_26 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_26()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_27]
+            Decoders.addDecoder(clazz: [Inline_response_200_27].self) { (source: AnyObject) -> [Inline_response_200_27] in
+                return Decoders.decode(clazz: [Inline_response_200_27].self, source: source)
+            }
+			// Decoder for Inline_response_200_27
+            Decoders.addDecoder(clazz: Inline_response_200_27.self) { (source: AnyObject) -> Inline_response_200_27 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_27()
+                instance.data = Decoders.decodeOptional(clazz: Unit.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_28]
+            Decoders.addDecoder(clazz: [Inline_response_200_28].self) { (source: AnyObject) -> [Inline_response_200_28] in
+                return Decoders.decode(clazz: [Inline_response_200_28].self, source: source)
+            }
+			// Decoder for Inline_response_200_28
+            Decoders.addDecoder(clazz: Inline_response_200_28.self) { (source: AnyObject) -> Inline_response_200_28 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_28()
+                instance.data = Decoders.decodeOptional(clazz: Update.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_29]
+            Decoders.addDecoder(clazz: [Inline_response_200_29].self) { (source: AnyObject) -> [Inline_response_200_29] in
+                return Decoders.decode(clazz: [Inline_response_200_29].self, source: source)
+            }
+			// Decoder for Inline_response_200_29
+            Decoders.addDecoder(clazz: Inline_response_200_29.self) { (source: AnyObject) -> Inline_response_200_29 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_29()
+                instance.data = Decoders.decodeOptional(clazz: UserVariableRelationship.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_30]
+            Decoders.addDecoder(clazz: [Inline_response_200_30].self) { (source: AnyObject) -> [Inline_response_200_30] in
+                return Decoders.decode(clazz: [Inline_response_200_30].self, source: source)
+            }
+			// Decoder for Inline_response_200_30
+            Decoders.addDecoder(clazz: Inline_response_200_30.self) { (source: AnyObject) -> Inline_response_200_30 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_30()
+                instance.data = Decoders.decodeOptional(clazz: UserVariable.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_31]
+            Decoders.addDecoder(clazz: [Inline_response_200_31].self) { (source: AnyObject) -> [Inline_response_200_31] in
+                return Decoders.decode(clazz: [Inline_response_200_31].self, source: source)
+            }
+			// Decoder for Inline_response_200_31
+            Decoders.addDecoder(clazz: Inline_response_200_31.self) { (source: AnyObject) -> Inline_response_200_31 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_31()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_32]
+            Decoders.addDecoder(clazz: [Inline_response_200_32].self) { (source: AnyObject) -> [Inline_response_200_32] in
+                return Decoders.decode(clazz: [Inline_response_200_32].self, source: source)
+            }
+			// Decoder for Inline_response_200_32
+            Decoders.addDecoder(clazz: Inline_response_200_32.self) { (source: AnyObject) -> Inline_response_200_32 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_32()
+                instance.data = Decoders.decodeOptional(clazz: VariableCategory.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_33]
+            Decoders.addDecoder(clazz: [Inline_response_200_33].self) { (source: AnyObject) -> [Inline_response_200_33] in
+                return Decoders.decode(clazz: [Inline_response_200_33].self, source: source)
+            }
+			// Decoder for Inline_response_200_33
+            Decoders.addDecoder(clazz: Inline_response_200_33.self) { (source: AnyObject) -> Inline_response_200_33 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_33()
+                instance.data = Decoders.decodeOptional(clazz: VariableUserSource.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_34]
+            Decoders.addDecoder(clazz: [Inline_response_200_34].self) { (source: AnyObject) -> [Inline_response_200_34] in
+                return Decoders.decode(clazz: [Inline_response_200_34].self, source: source)
+            }
+			// Decoder for Inline_response_200_34
+            Decoders.addDecoder(clazz: Inline_response_200_34.self) { (source: AnyObject) -> Inline_response_200_34 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_34()
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_35]
+            Decoders.addDecoder(clazz: [Inline_response_200_35].self) { (source: AnyObject) -> [Inline_response_200_35] in
+                return Decoders.decode(clazz: [Inline_response_200_35].self, source: source)
+            }
+			// Decoder for Inline_response_200_35
+            Decoders.addDecoder(clazz: Inline_response_200_35.self) { (source: AnyObject) -> Inline_response_200_35 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_35()
+                instance.data = Decoders.decodeOptional(clazz: Variable.self, source: sourceDictionary["data"])
+                instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
+                return instance
+            }
+			
+
+			// Decoder for [Inline_response_200_36]
+            Decoders.addDecoder(clazz: [Inline_response_200_36].self) { (source: AnyObject) -> [Inline_response_200_36] in
+                return Decoders.decode(clazz: [Inline_response_200_36].self, source: source)
+            }
+			// Decoder for Inline_response_200_36
+            Decoders.addDecoder(clazz: Inline_response_200_36.self) { (source: AnyObject) -> Inline_response_200_36 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Inline_response_200_36()
+                instance.data = Decoders.decodeOptional(clazz: Vote.self, source: sourceDictionary["data"])
                 instance.success = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["success"])
                 return instance
             }

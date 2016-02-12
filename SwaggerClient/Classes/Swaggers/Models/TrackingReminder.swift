@@ -10,61 +10,40 @@ import Foundation
 
 public class TrackingReminder: JSONEncodable {
 
-    public enum CombinationOperation: String { 
-        case Mean = "MEAN"
-        case Sum = "SUM"
-    }
-    
     /** id */
     public var id: Int?
-    /** clientId */
-    public var clientId: String?
+    /** client_id */
+    public var client_id: String?
     /** ID of User */
-    public var userId: Int?
+    public var user_id: Int?
     /** Id for the variable to be tracked */
-    public var variableId: Int?
+    public var variable_id: Int?
     /** Default value to use for the measurement when tracking */
-    public var defaultValue: Float?
+    public var default_value: Float?
     /** Earliest time of day at which reminders should appear */
-    public var reminderStartTime: String?
+    public var reminder_start_time: String?
     /** Latest time of day at which reminders should appear */
-    public var reminderEndTime: String?
+    public var reminder_end_time: String?
     /** String identifier for the sound to accompany the reminder */
-    public var reminderSound: String?
+    public var reminder_sound: String?
     /** Number of seconds between one reminder and the next */
-    public var reminderFrequency: Int?
+    public var reminder_frequency: Int?
     /** True if the reminders should appear as a popup notification */
-    public var popUp: Bool?
+    public var pop_up: Bool?
     /** True if the reminders should be delivered via SMS */
     public var sms: Bool?
     /** True if the reminders should be delivered via email */
     public var email: Bool?
     /** True if the reminders should appear in the notification bar */
-    public var notificationBar: Bool?
+    public var notification_bar: Bool?
     /** ISO 8601 timestamp for the last time a reminder was sent */
-    public var lastReminded: NSDate?
+    public var last_reminded: NSDate?
     /** ISO 8601 timestamp for the last time a measurement was received for this user and variable */
-    public var lastTracked: NSDate?
-    /** Specific first time of day that the user should be reminded to track in HH:MM:SS format */
-    public var firstDailyReminderTime: String?
-    /** Specific second time of day that the user should be reminded to track in HH:MM:SS format */
-    public var secondDailyReminderTime: String?
-    /** Specific third time of day that the user should be reminded to track in HH:MM:SS format */
-    public var thirdDailyReminderTime: String?
-    /** Earliest date on which the user should be reminded to track in YYYY-MM-DD format */
-    public var startTrackingDate: NSDate?
-    /** Latest date on which the user should be reminded to track in YYYY-MM-DD format */
-    public var stopTrackingDate: NSDate?
-    /** When the record in the database was last updated. Use ISO 8601 datetime format. Time zone should be UTC and not local. */
-    public var updatedAt: NSDate?
-    /** Name of the variable to be used when sending measurements */
-    public var variableName: String?
-    /** Name of the variable category to be used when sending measurements */
-    public var variableCategoryName: String?
-    /** Abbreviated name of the unit to be used when sending measurements */
-    public var abbreviatedUnitName: String?
-    /** The way multiple measurements are aggregated over time */
-    public var combinationOperation: CombinationOperation?
+    public var last_tracked: NSDate?
+    /** When the record was first created. Use ISO 8601 datetime format */
+    public var created_at: NSDate?
+    /** When the record in the database was last updated. Use ISO 8601 datetime format */
+    public var updated_at: NSDate?
     
 
     public init() {}
@@ -73,30 +52,22 @@ public class TrackingReminder: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id
-        nillableDictionary["clientId"] = self.clientId
-        nillableDictionary["userId"] = self.userId
-        nillableDictionary["variableId"] = self.variableId
-        nillableDictionary["defaultValue"] = self.defaultValue
-        nillableDictionary["reminderStartTime"] = self.reminderStartTime
-        nillableDictionary["reminderEndTime"] = self.reminderEndTime
-        nillableDictionary["reminderSound"] = self.reminderSound
-        nillableDictionary["reminderFrequency"] = self.reminderFrequency
-        nillableDictionary["popUp"] = self.popUp
+        nillableDictionary["client_id"] = self.client_id
+        nillableDictionary["user_id"] = self.user_id
+        nillableDictionary["variable_id"] = self.variable_id
+        nillableDictionary["default_value"] = self.default_value
+        nillableDictionary["reminder_start_time"] = self.reminder_start_time
+        nillableDictionary["reminder_end_time"] = self.reminder_end_time
+        nillableDictionary["reminder_sound"] = self.reminder_sound
+        nillableDictionary["reminder_frequency"] = self.reminder_frequency
+        nillableDictionary["pop_up"] = self.pop_up
         nillableDictionary["sms"] = self.sms
         nillableDictionary["email"] = self.email
-        nillableDictionary["notificationBar"] = self.notificationBar
-        nillableDictionary["lastReminded"] = self.lastReminded?.encodeToJSON()
-        nillableDictionary["lastTracked"] = self.lastTracked?.encodeToJSON()
-        nillableDictionary["firstDailyReminderTime"] = self.firstDailyReminderTime
-        nillableDictionary["secondDailyReminderTime"] = self.secondDailyReminderTime
-        nillableDictionary["thirdDailyReminderTime"] = self.thirdDailyReminderTime
-        nillableDictionary["startTrackingDate"] = self.startTrackingDate?.encodeToJSON()
-        nillableDictionary["stopTrackingDate"] = self.stopTrackingDate?.encodeToJSON()
-        nillableDictionary["updatedAt"] = self.updatedAt?.encodeToJSON()
-        nillableDictionary["variableName"] = self.variableName
-        nillableDictionary["variableCategoryName"] = self.variableCategoryName
-        nillableDictionary["abbreviatedUnitName"] = self.abbreviatedUnitName
-        nillableDictionary["combinationOperation"] = self.combinationOperation?.rawValue
+        nillableDictionary["notification_bar"] = self.notification_bar
+        nillableDictionary["last_reminded"] = self.last_reminded?.encodeToJSON()
+        nillableDictionary["last_tracked"] = self.last_tracked?.encodeToJSON()
+        nillableDictionary["created_at"] = self.created_at?.encodeToJSON()
+        nillableDictionary["updated_at"] = self.updated_at?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
