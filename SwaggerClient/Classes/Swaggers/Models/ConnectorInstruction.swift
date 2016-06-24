@@ -9,14 +9,12 @@ import Foundation
 
 
 public class ConnectorInstruction: JSONEncodable {
-
     /** url */
     public var url: String?
     /** parameters array */
     public var parameters: [String]?
     /** usePopup */
     public var usePopup: Bool?
-    
 
     public init() {}
 

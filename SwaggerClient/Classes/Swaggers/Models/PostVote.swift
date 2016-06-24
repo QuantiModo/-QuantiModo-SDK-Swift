@@ -9,14 +9,12 @@ import Foundation
 
 
 public class PostVote: JSONEncodable {
-
     /** Cause variable name */
     public var cause: String?
     /** Effect variable name */
     public var effect: String?
     /** Vote: 0 (for implausible) or 1 (for plausible) */
     public var vote: Bool?
-    
 
     public init() {}
 

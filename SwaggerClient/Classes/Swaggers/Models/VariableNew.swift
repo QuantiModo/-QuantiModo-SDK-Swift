@@ -9,12 +9,10 @@ import Foundation
 
 
 public class VariableNew: JSONEncodable {
-
     public enum CombinationOperation: String { 
         case Mean = "MEAN"
         case Sum = "SUM"
     }
-    
     /** User-defined variable display name. */
     public var name: String?
     /** Variable category like Mood, Sleep, Physical Activity, Treatment, Symptom, etc. */
@@ -25,7 +23,6 @@ public class VariableNew: JSONEncodable {
     public var combinationOperation: CombinationOperation?
     /** Parent */
     public var parent: String?
-    
 
     public init() {}
 

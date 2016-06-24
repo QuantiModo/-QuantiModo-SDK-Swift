@@ -9,7 +9,6 @@ import Foundation
 
 
 public class Measurement: JSONEncodable {
-
     /** ORIGINAL Name of the variable for which we are creating the measurement records */
     public var variable: String?
     /** Application or device used to record the measurement values */
@@ -23,7 +22,7 @@ public class Measurement: JSONEncodable {
     /** Unit of measurement as requested in GET request */
     public var unit: String?
     /** Original value */
-    public var originalValue: Int?
+    public var originalValue: Int32?
     /** Measurement value in the unit as orignally submitted */
     public var storedValue: Double?
     /** Unit of measurement as originally submitted */
@@ -34,7 +33,6 @@ public class Measurement: JSONEncodable {
     public var abbreviatedUnitName: String?
     /** Note of measurement */
     public var note: String?
-    
 
     public init() {}
 
@@ -47,7 +45,7 @@ public class Measurement: JSONEncodable {
         nillableDictionary["humanTime"] = self.humanTime?.encodeToJSON()
         nillableDictionary["value"] = self.value
         nillableDictionary["unit"] = self.unit
-        nillableDictionary["originalValue"] = self.originalValue
+        nillableDictionary["originalValue"] = self.originalValue?.encodeToJSON()
         nillableDictionary["storedValue"] = self.storedValue
         nillableDictionary["storedAbbreviatedUnitName"] = self.storedAbbreviatedUnitName
         nillableDictionary["originalAbbreviatedUnitName"] = self.originalAbbreviatedUnitName

@@ -9,15 +9,14 @@ import Foundation
 
 
 public class UserVariables: JSONEncodable {
-
     /** User ID */
-    public var user: Int?
+    public var user: Int32?
     /** Common variable id */
-    public var variableId: Int?
+    public var variableId: Int32?
     /** Estimated duration of time following the onset delay in which a stimulus produces a perceivable effect */
-    public var durationOfAction: Int?
+    public var durationOfAction: Int32?
     /** fillingValue */
-    public var fillingValue: Int?
+    public var fillingValue: Int32?
     /** joinWith */
     public var joinWith: String?
     /** maximumAllowedValue */
@@ -25,26 +24,25 @@ public class UserVariables: JSONEncodable {
     /** minimumAllowedValue */
     public var minimumAllowedValue: Float?
     /** onsetDelay */
-    public var onsetDelay: Int?
+    public var onsetDelay: Int32?
     /** Earliest measurement startTime that should be used in analysis in ISO format */
     public var experimentStartTime: String?
     /** Latest measurement startTime that should be used in analysis in ISO format */
     public var experimentEndTime: String?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["user"] = self.user
-        nillableDictionary["variableId"] = self.variableId
-        nillableDictionary["durationOfAction"] = self.durationOfAction
-        nillableDictionary["fillingValue"] = self.fillingValue
+        nillableDictionary["user"] = self.user?.encodeToJSON()
+        nillableDictionary["variableId"] = self.variableId?.encodeToJSON()
+        nillableDictionary["durationOfAction"] = self.durationOfAction?.encodeToJSON()
+        nillableDictionary["fillingValue"] = self.fillingValue?.encodeToJSON()
         nillableDictionary["joinWith"] = self.joinWith
         nillableDictionary["maximumAllowedValue"] = self.maximumAllowedValue
         nillableDictionary["minimumAllowedValue"] = self.minimumAllowedValue
-        nillableDictionary["onsetDelay"] = self.onsetDelay
+        nillableDictionary["onsetDelay"] = self.onsetDelay?.encodeToJSON()
         nillableDictionary["experimentStartTime"] = self.experimentStartTime
         nillableDictionary["experimentEndTime"] = self.experimentEndTime
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]

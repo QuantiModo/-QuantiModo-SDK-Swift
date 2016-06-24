@@ -9,20 +9,18 @@ import Foundation
 
 
 public class MeasurementRange: JSONEncodable {
-
     /** The timestamp of the earliest measurement for a user. */
-    public var lowerLimit: Int?
+    public var lowerLimit: Int32?
     /** The timestamp of the most recent measurement for a user. */
-    public var upperLimit: Int?
-    
+    public var upperLimit: Int32?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["lowerLimit"] = self.lowerLimit
-        nillableDictionary["upperLimit"] = self.upperLimit
+        nillableDictionary["lowerLimit"] = self.lowerLimit?.encodeToJSON()
+        nillableDictionary["upperLimit"] = self.upperLimit?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

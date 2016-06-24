@@ -9,11 +9,10 @@ import Foundation
 
 
 public class User: JSONEncodable {
-
     /** User id */
-    public var id: Int?
+    public var id: Int32?
     /** Wordpress user id */
-    public var wpId: Int?
+    public var wpId: Int32?
     /** User display name */
     public var displayName: String?
     /** User login name */
@@ -24,15 +23,14 @@ public class User: JSONEncodable {
     public var token: String?
     /** Is user administrator */
     public var administrator: Bool?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
-        nillableDictionary["wpId"] = self.wpId
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["wpId"] = self.wpId?.encodeToJSON()
         nillableDictionary["displayName"] = self.displayName
         nillableDictionary["loginName"] = self.loginName
         nillableDictionary["email"] = self.email

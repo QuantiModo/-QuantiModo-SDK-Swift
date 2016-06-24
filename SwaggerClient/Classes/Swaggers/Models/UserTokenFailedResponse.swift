@@ -9,20 +9,18 @@ import Foundation
 
 
 public class UserTokenFailedResponse: JSONEncodable {
-
     /** Status code */
-    public var code: Int?
+    public var code: Int32?
     /** Message */
     public var message: String?
     public var success: Bool?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["code"] = self.code
+        nillableDictionary["code"] = self.code?.encodeToJSON()
         nillableDictionary["message"] = self.message
         nillableDictionary["success"] = self.success
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]

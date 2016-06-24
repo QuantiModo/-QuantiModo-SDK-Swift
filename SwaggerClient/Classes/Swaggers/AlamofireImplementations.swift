@@ -75,7 +75,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             request.authenticate(usingCredential: credential)
         }
 
-        request.responseJSON(options: .AllowFragments) { response in
+        request.validate().responseJSON(options: .AllowFragments) { response in
             managerStore.removeValueForKey(managerId)
 
             if response.result.isFailure {
@@ -98,7 +98,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 return
             }
 
-            completion(response: nil, error: NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"]))
+            completion(response: nil, error: NSError(domain: "app.quantimo.do", code: 500, userInfo: ["reason": "unreacheable code"]))
         }
     }
 

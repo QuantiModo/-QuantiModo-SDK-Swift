@@ -7,610 +7,807 @@
 
 import Alamofire
 
-extension SwaggerClientAPI {
-    
-    public class CorrelationsAPI: APIBase {
-    
-        /**
-         
-         Get aggregated correlations
-         
-         - GET /v1/aggregatedCorrelations
-         - Get correlations based on the anonymized aggregate data from all QuantiModo users.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeCategory" : "aeiou",
-  "cause" : "aeiou",
-  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeUnitId" : "",
-  "originalEffect" : "aeiou",
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "effect" : "aeiou",
-  "effectSize" : "aeiou",
-  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
-  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "originalCause" : "aeiou",
-  "causeUnit" : "aeiou",
-  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "statisticalSignificance" : "aeiou"
-} ], contentType=application/json}]
-         
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter effect: (query) ORIGINAL variable name of the effect variable for which the user desires correlations
-         - parameter cause: (query) ORIGINAL variable name of the cause variable for which the user desires correlations
-         - parameter correlationCoefficient: (query) Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action
-         - parameter onsetDelay: (query) The number of seconds which pass following a cause measurement before an effect would likely be observed.
-         - parameter durationOfAction: (query) The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings.
-         - parameter lastUpdated: (query) The time that this measurement was last updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot;
-         - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
-         - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
-         - parameter sort: (query) Sort by given field. If the field is prefixed with `-, it will sort in descending order.
 
-         - returns: RequestBuilder<[Correlation]> 
-         */
-        public class func v1AggregatedCorrelationsGet(accessToken accessToken: String?, effect: String?, cause: String?, correlationCoefficient: String?, onsetDelay: String?, durationOfAction: String?, lastUpdated: String?, limit: Int?, offset: Int?, sort: Int?) -> RequestBuilder<[Correlation]> {
-            let path = "/v1/aggregatedCorrelations"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "effect": effect,
-                "cause": cause,
-                "correlationCoefficient": correlationCoefficient,
-                "onsetDelay": onsetDelay,
-                "durationOfAction": durationOfAction,
-                "lastUpdated": lastUpdated,
-                "limit": limit,
-                "offset": offset,
-                "sort": sort
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+public class CorrelationsAPI: APIBase {
+    /**
+     Get aggregated correlations
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter effect: (query) ORIGINAL variable name of the effect variable for which the user desires correlations (optional)
+     - parameter cause: (query) ORIGINAL variable name of the cause variable for which the user desires correlations (optional)
+     - parameter correlationCoefficient: (query) Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action (optional)
+     - parameter onsetDelay: (query) The number of seconds which pass following a cause measurement before an effect would likely be observed. (optional)
+     - parameter durationOfAction: (query) The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings. (optional)
+     - parameter lastUpdated: (query) The time that this measurement was last updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1AggregatedCorrelationsGet(accessToken accessToken: String? = nil, effect: String? = nil, cause: String? = nil, correlationCoefficient: String? = nil, onsetDelay: String? = nil, durationOfAction: String? = nil, lastUpdated: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: [Correlation]?, error: ErrorType?) -> Void)) {
+        v1AggregatedCorrelationsGetWithRequestBuilder(accessToken: accessToken, effect: effect, cause: cause, correlationCoefficient: correlationCoefficient, onsetDelay: onsetDelay, durationOfAction: durationOfAction, lastUpdated: lastUpdated, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
         }
-    
-        /**
-         
-         Store or Update a Correlation
-         
-         - POST /v1/aggregatedCorrelations
-         - Add correlation
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter body: (body) Provides correlation data
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1AggregatedCorrelationsPost(body body: PostCorrelation, accessToken: String?) -> RequestBuilder<Void> {
-            let path = "/v1/aggregatedCorrelations"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body.encodeToJSON() as? [String:AnyObject]
-
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Get correlations
-         
-         - GET /v1/correlations
-         - Get correlations.<br>Supported filter parameters:<br><ul><li><b>correlationCoefficient</b> - Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action</li><li><b>onsetDelay</b> - The number of seconds which pass following a cause measurement before an effect would likely be observed.</li><li><b>durationOfAction</b> - The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings.</li><li><b>lastUpdated</b> - The time that this measurement was last updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li></ul><br>
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeCategory" : "aeiou",
-  "cause" : "aeiou",
-  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeUnitId" : "",
-  "originalEffect" : "aeiou",
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "effect" : "aeiou",
-  "effectSize" : "aeiou",
-  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
-  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "originalCause" : "aeiou",
-  "causeUnit" : "aeiou",
-  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "statisticalSignificance" : "aeiou"
-} ], contentType=application/json}]
-         
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter effect: (query) ORIGINAL variable name of the effect variable for which the user desires correlations
-         - parameter cause: (query) ORIGINAL variable name of the cause variable for which the user desires correlations
-         - parameter correlationCoefficient: (query) Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action
-         - parameter onsetDelay: (query) The number of seconds which pass following a cause measurement before an effect would likely be observed.
-         - parameter durationOfAction: (query) The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings.
-         - parameter lastUpdated: (query) The time that this measurement was last updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot;
-         - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
-         - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
-         - parameter sort: (query) Sort by given field. If the field is prefixed with `-, it will sort in descending order.
-
-         - returns: RequestBuilder<[Correlation]> 
-         */
-        public class func v1CorrelationsGet(accessToken accessToken: String?, effect: String?, cause: String?, correlationCoefficient: String?, onsetDelay: String?, durationOfAction: String?, lastUpdated: String?, limit: Int?, offset: Int?, sort: Int?) -> RequestBuilder<[Correlation]> {
-            let path = "/v1/correlations"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "effect": effect,
-                "cause": cause,
-                "correlationCoefficient": correlationCoefficient,
-                "onsetDelay": onsetDelay,
-                "durationOfAction": durationOfAction,
-                "lastUpdated": lastUpdated,
-                "limit": limit,
-                "offset": offset,
-                "sort": sort
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Search user correlations for a given cause
-         
-         - GET /v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/causes
-         - Returns average of all correlations and votes for all user cause variables for a given cause. If parameter \"include_public\" is used, it also returns public correlations. User correlation overwrites or supersedes public correlation.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeCategory" : "aeiou",
-  "cause" : "aeiou",
-  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeUnitId" : "",
-  "originalEffect" : "aeiou",
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "effect" : "aeiou",
-  "effectSize" : "aeiou",
-  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
-  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "originalCause" : "aeiou",
-  "causeUnit" : "aeiou",
-  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "statisticalSignificance" : "aeiou"
-} ], contentType=application/json}]
-         
-         - parameter organizationId: (path) Organization ID
-         - parameter userId: (path) User id
-         - parameter variableName: (path) Effect variable name
-         - parameter organizationToken: (query) Organization access token
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter includePublic: (query) Include public correlations, Can be \&quot;1\&quot; or empty.
-
-         - returns: RequestBuilder<[Correlation]> 
-         */
-        public class func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameCausesGet(organizationId organizationId: Int, userId: Int, variableName: String, organizationToken: String, accessToken: String?, includePublic: String?) -> RequestBuilder<[Correlation]> {
-            var path = "/v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/causes"
-            path = path.stringByReplacingOccurrencesOfString("{organizationId}", withString: "\(organizationId)", options: .LiteralSearch, range: nil)
-            path = path.stringByReplacingOccurrencesOfString("{userId}", withString: "\(userId)", options: .LiteralSearch, range: nil)
-            path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "organizationToken": organizationToken,
-                "includePublic": includePublic
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Search user correlations for a given cause
-         
-         - GET /v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/effects
-         - Returns average of all correlations and votes for all user cause variables for a given effect. If parameter \"include_public\" is used, it also returns public correlations. User correlation overwrites or supersedes public correlation.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "message" : "aeiou",
-  "status" : "",
-  "success" : true
-} ], contentType=application/json}]
-         
-         - parameter organizationId: (path) Organization ID
-         - parameter userId: (path) User id
-         - parameter variableName: (path) Cause variable name
-         - parameter organizationToken: (query) Organization access token
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter includePublic: (query) Include public correlations, Can be \&quot;1\&quot; or empty.
-
-         - returns: RequestBuilder<[CommonResponse]> 
-         */
-        public class func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameEffectsGet(organizationId organizationId: Int, userId: Int, variableName: String, organizationToken: String, accessToken: String?, includePublic: String?) -> RequestBuilder<[CommonResponse]> {
-            var path = "/v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/effects"
-            path = path.stringByReplacingOccurrencesOfString("{organizationId}", withString: "\(organizationId)", options: .LiteralSearch, range: nil)
-            path = path.stringByReplacingOccurrencesOfString("{userId}", withString: "\(userId)", options: .LiteralSearch, range: nil)
-            path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "organizationToken": organizationToken,
-                "includePublic": includePublic
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<[CommonResponse]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Get average correlations for variables containing search term
-         
-         - GET /v1/public/correlations/search/{search}
-         - Returns the average correlations from all users for all public variables that contain the characters in the search query. Returns average of all users public variable correlations with a specified cause or effect.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeCategory" : "aeiou",
-  "cause" : "aeiou",
-  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeUnitId" : "",
-  "originalEffect" : "aeiou",
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "effect" : "aeiou",
-  "effectSize" : "aeiou",
-  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
-  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "originalCause" : "aeiou",
-  "causeUnit" : "aeiou",
-  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "statisticalSignificance" : "aeiou"
-} ], contentType=application/json}]
-         
-         - parameter search: (path) Name of the variable that you want to know the causes or effects of.
-         - parameter effectOrCause: (query) Setting this to effect indicates that the searched variable is the effect and that the causes of this variable should be returned.  cause indicates that the searched variable is the cause and the effects should be returned.
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<[Correlation]> 
-         */
-        public class func v1PublicCorrelationsSearchSearchGet(search search: String, effectOrCause: String, accessToken: String?) -> RequestBuilder<[Correlation]> {
-            var path = "/v1/public/correlations/search/{search}"
-            path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "effectOrCause": effectOrCause
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Search user correlations for a given effect
-         
-         - GET /v1/variables/{variableName}/causes
-         - Returns average of all correlations and votes for all user cause variables for a given effect
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeCategory" : "aeiou",
-  "cause" : "aeiou",
-  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeUnitId" : "",
-  "originalEffect" : "aeiou",
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "effect" : "aeiou",
-  "effectSize" : "aeiou",
-  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
-  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "originalCause" : "aeiou",
-  "causeUnit" : "aeiou",
-  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "statisticalSignificance" : "aeiou"
-} ], contentType=application/json}]
-         
-         - parameter variableName: (path) Effect variable name
-
-         - returns: RequestBuilder<[Correlation]> 
-         */
-        public class func v1VariablesVariableNameCausesGet(variableName variableName: String) -> RequestBuilder<[Correlation]> {
-            var path = "/v1/variables/{variableName}/causes"
-            path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [:]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
-        }
-    
-        /**
-         
-         Search user correlations for a given cause
-         
-         - GET /v1/variables/{variableName}/effects
-         - Returns average of all correlations and votes for all user effect variables for a given cause
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeCategory" : "aeiou",
-  "cause" : "aeiou",
-  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeUnitId" : "",
-  "originalEffect" : "aeiou",
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "effect" : "aeiou",
-  "effectSize" : "aeiou",
-  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
-  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "originalCause" : "aeiou",
-  "causeUnit" : "aeiou",
-  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "statisticalSignificance" : "aeiou"
-} ], contentType=application/json}]
-         
-         - parameter variableName: (path) Cause variable name
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<[Correlation]> 
-         */
-        public class func v1VariablesVariableNameEffectsGet(variableName variableName: String, accessToken: String?) -> RequestBuilder<[Correlation]> {
-            var path = "/v1/variables/{variableName}/effects"
-            path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Search public correlations for a given effect
-         
-         - GET /v1/variables/{variableName}/public/causes
-         - Returns average of all correlations and votes for all public cause variables for a given effect
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeCategory" : "aeiou",
-  "cause" : "aeiou",
-  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeUnitId" : "",
-  "originalEffect" : "aeiou",
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "effect" : "aeiou",
-  "effectSize" : "aeiou",
-  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
-  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "originalCause" : "aeiou",
-  "causeUnit" : "aeiou",
-  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "statisticalSignificance" : "aeiou"
-} ], contentType=application/json}]
-         
-         - parameter variableName: (path) Effect variable name
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<[Correlation]> 
-         */
-        public class func v1VariablesVariableNamePublicCausesGet(variableName variableName: String, accessToken: String?) -> RequestBuilder<[Correlation]> {
-            var path = "/v1/variables/{variableName}/public/causes"
-            path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Search public correlations for a given cause
-         
-         - GET /v1/variables/{variableName}/public/effects
-         - Returns average of all correlations and votes for all public cause variables for a given cause
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
-  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeCategory" : "aeiou",
-  "cause" : "aeiou",
-  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
-  "causeUnitId" : "",
-  "originalEffect" : "aeiou",
-  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
-  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
-  "effect" : "aeiou",
-  "effectSize" : "aeiou",
-  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
-  "effectCategory" : "aeiou",
-  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
-  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
-  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
-  "originalCause" : "aeiou",
-  "causeUnit" : "aeiou",
-  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
-  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
-  "statisticalSignificance" : "aeiou"
-} ], contentType=application/json}]
-         
-         - parameter variableName: (path) Cause variable name
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<[Correlation]> 
-         */
-        public class func v1VariablesVariableNamePublicEffectsGet(variableName variableName: String, accessToken: String?) -> RequestBuilder<[Correlation]> {
-            var path = "/v1/variables/{variableName}/public/effects"
-            path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Post or update vote
-         
-         - POST /v1/votes
-         - This is to enable users to indicate their opinion on the plausibility of a causal relationship between a treatment and outcome. QuantiModo incorporates crowd-sourced plausibility estimations into their algorithm. This is done allowing user to indicate their view of the plausibility of each relationship with thumbs up/down buttons placed next to each prediction.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
-  "message" : "aeiou",
-  "status" : "",
-  "success" : true
-}, contentType=application/json}]
-         
-         - parameter body: (body) Contains the cause variable, effect variable, and vote value.
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<CommonResponse> 
-         */
-        public class func v1VotesPost(body body: PostVote, accessToken: String?) -> RequestBuilder<CommonResponse> {
-            let path = "/v1/votes"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body.encodeToJSON() as? [String:AnyObject]
-
-            let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Delete vote
-         
-         - POST /v1/votes/delete
-         - Delete previously posted vote
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
-  "message" : "aeiou",
-  "status" : "",
-  "success" : true
-}, contentType=application/json}]
-         
-         - parameter body: (body) The cause and effect variable names for the predictor vote to be deleted.
-
-         - returns: RequestBuilder<CommonResponse> 
-         */
-        public class func v1VotesDeletePost(body body: VoteDelete) -> RequestBuilder<CommonResponse> {
-            let path = "/v1/votes/delete"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body.encodeToJSON() as? [String:AnyObject]
-
-            let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
-        }
-    
     }
+
+
+    /**
+     Get aggregated correlations
+     - GET /v1/aggregatedCorrelations
+     - Get correlations based on the anonymized aggregate data from all QuantiModo users.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeCategory" : "aeiou",
+  "cause" : "aeiou",
+  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeUnitId" : "",
+  "originalEffect" : "aeiou",
+  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
+  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
+  "effect" : "aeiou",
+  "effectSize" : "aeiou",
+  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "effectCategory" : "aeiou",
+  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
+  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
+  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "originalCause" : "aeiou",
+  "causeUnit" : "aeiou",
+  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
+  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
+  "statisticalSignificance" : "aeiou"
+} ], contentType=application/json}]
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter effect: (query) ORIGINAL variable name of the effect variable for which the user desires correlations (optional)
+     - parameter cause: (query) ORIGINAL variable name of the cause variable for which the user desires correlations (optional)
+     - parameter correlationCoefficient: (query) Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action (optional)
+     - parameter onsetDelay: (query) The number of seconds which pass following a cause measurement before an effect would likely be observed. (optional)
+     - parameter durationOfAction: (query) The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings. (optional)
+     - parameter lastUpdated: (query) The time that this measurement was last updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+
+     - returns: RequestBuilder<[Correlation]> 
+     */
+    public class func v1AggregatedCorrelationsGetWithRequestBuilder(accessToken accessToken: String? = nil, effect: String? = nil, cause: String? = nil, correlationCoefficient: String? = nil, onsetDelay: String? = nil, durationOfAction: String? = nil, lastUpdated: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<[Correlation]> {
+        let path = "/v1/aggregatedCorrelations"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "effect": effect,
+            "cause": cause,
+            "correlationCoefficient": correlationCoefficient,
+            "onsetDelay": onsetDelay,
+            "durationOfAction": durationOfAction,
+            "lastUpdated": lastUpdated,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "sort": sort?.encodeToJSON()
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Store or Update a Correlation
+     
+     - parameter body: (body) Provides correlation data 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1AggregatedCorrelationsPost(body body: PostCorrelation, accessToken: String? = nil, completion: ((error: ErrorType?) -> Void)) {
+        v1AggregatedCorrelationsPostWithRequestBuilder(body: body, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(error: error);
+        }
+    }
+
+
+    /**
+     Store or Update a Correlation
+     - POST /v1/aggregatedCorrelations
+     - Add correlation
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     
+     - parameter body: (body) Provides correlation data 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1AggregatedCorrelationsPostWithRequestBuilder(body body: PostCorrelation, accessToken: String? = nil) -> RequestBuilder<Void> {
+        let path = "/v1/aggregatedCorrelations"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Get correlations
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter effect: (query) ORIGINAL variable name of the effect variable for which the user desires correlations (optional)
+     - parameter cause: (query) ORIGINAL variable name of the cause variable for which the user desires correlations (optional)
+     - parameter correlationCoefficient: (query) Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action (optional)
+     - parameter onsetDelay: (query) The number of seconds which pass following a cause measurement before an effect would likely be observed. (optional)
+     - parameter durationOfAction: (query) The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings. (optional)
+     - parameter lastUpdated: (query) The time that this measurement was last updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1CorrelationsGet(accessToken accessToken: String? = nil, effect: String? = nil, cause: String? = nil, correlationCoefficient: String? = nil, onsetDelay: String? = nil, durationOfAction: String? = nil, lastUpdated: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: [Correlation]?, error: ErrorType?) -> Void)) {
+        v1CorrelationsGetWithRequestBuilder(accessToken: accessToken, effect: effect, cause: cause, correlationCoefficient: correlationCoefficient, onsetDelay: onsetDelay, durationOfAction: durationOfAction, lastUpdated: lastUpdated, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Get correlations
+     - GET /v1/correlations
+     - Get correlations.<br>Supported filter parameters:<br><ul><li><b>correlationCoefficient</b> - Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action</li><li><b>onsetDelay</b> - The number of seconds which pass following a cause measurement before an effect would likely be observed.</li><li><b>durationOfAction</b> - The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings.</li><li><b>lastUpdated</b> - The time that this measurement was last updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li></ul><br>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeCategory" : "aeiou",
+  "cause" : "aeiou",
+  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeUnitId" : "",
+  "originalEffect" : "aeiou",
+  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
+  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
+  "effect" : "aeiou",
+  "effectSize" : "aeiou",
+  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "effectCategory" : "aeiou",
+  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
+  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
+  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "originalCause" : "aeiou",
+  "causeUnit" : "aeiou",
+  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
+  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
+  "statisticalSignificance" : "aeiou"
+} ], contentType=application/json}]
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter effect: (query) ORIGINAL variable name of the effect variable for which the user desires correlations (optional)
+     - parameter cause: (query) ORIGINAL variable name of the cause variable for which the user desires correlations (optional)
+     - parameter correlationCoefficient: (query) Pearson correlation coefficient between cause and effect after lagging by onset delay and grouping by duration of action (optional)
+     - parameter onsetDelay: (query) The number of seconds which pass following a cause measurement before an effect would likely be observed. (optional)
+     - parameter durationOfAction: (query) The time in seconds over which the cause would be expected to exert a measurable effect. We have selected a default value for each variable. This default value may be replaced by a user specified by adjusting their variable user settings. (optional)
+     - parameter lastUpdated: (query) The time that this measurement was last updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+
+     - returns: RequestBuilder<[Correlation]> 
+     */
+    public class func v1CorrelationsGetWithRequestBuilder(accessToken accessToken: String? = nil, effect: String? = nil, cause: String? = nil, correlationCoefficient: String? = nil, onsetDelay: String? = nil, durationOfAction: String? = nil, lastUpdated: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<[Correlation]> {
+        let path = "/v1/correlations"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "effect": effect,
+            "cause": cause,
+            "correlationCoefficient": correlationCoefficient,
+            "onsetDelay": onsetDelay,
+            "durationOfAction": durationOfAction,
+            "lastUpdated": lastUpdated,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "sort": sort?.encodeToJSON()
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Search user correlations for a given cause
+     
+     - parameter organizationId: (path) Organization ID 
+     - parameter userId: (path) User id 
+     - parameter variableName: (path) Effect variable name 
+     - parameter organizationToken: (query) Organization access token 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter includePublic: (query) Include public correlations, Can be \&quot;1\&quot; or empty. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameCausesGet(organizationId organizationId: Int32, userId: Int32, variableName: String, organizationToken: String, accessToken: String? = nil, includePublic: String? = nil, completion: ((data: [Correlation]?, error: ErrorType?) -> Void)) {
+        v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameCausesGetWithRequestBuilder(organizationId: organizationId, userId: userId, variableName: variableName, organizationToken: organizationToken, accessToken: accessToken, includePublic: includePublic).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Search user correlations for a given cause
+     - GET /v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/causes
+     - Returns average of all correlations and votes for all user cause variables for a given cause. If parameter \"include_public\" is used, it also returns public correlations. User correlation overwrites or supersedes public correlation.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeCategory" : "aeiou",
+  "cause" : "aeiou",
+  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeUnitId" : "",
+  "originalEffect" : "aeiou",
+  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
+  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
+  "effect" : "aeiou",
+  "effectSize" : "aeiou",
+  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "effectCategory" : "aeiou",
+  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
+  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
+  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "originalCause" : "aeiou",
+  "causeUnit" : "aeiou",
+  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
+  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
+  "statisticalSignificance" : "aeiou"
+} ], contentType=application/json}]
+     
+     - parameter organizationId: (path) Organization ID 
+     - parameter userId: (path) User id 
+     - parameter variableName: (path) Effect variable name 
+     - parameter organizationToken: (query) Organization access token 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter includePublic: (query) Include public correlations, Can be \&quot;1\&quot; or empty. (optional)
+
+     - returns: RequestBuilder<[Correlation]> 
+     */
+    public class func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameCausesGetWithRequestBuilder(organizationId organizationId: Int32, userId: Int32, variableName: String, organizationToken: String, accessToken: String? = nil, includePublic: String? = nil) -> RequestBuilder<[Correlation]> {
+        var path = "/v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/causes"
+        path = path.stringByReplacingOccurrencesOfString("{organizationId}", withString: "\(organizationId)", options: .LiteralSearch, range: nil)
+        path = path.stringByReplacingOccurrencesOfString("{userId}", withString: "\(userId)", options: .LiteralSearch, range: nil)
+        path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "organization_token": organizationToken,
+            "includePublic": includePublic
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Search user correlations for a given cause
+     
+     - parameter organizationId: (path) Organization ID 
+     - parameter userId: (path) User id 
+     - parameter variableName: (path) Cause variable name 
+     - parameter organizationToken: (query) Organization access token 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter includePublic: (query) Include public correlations, Can be \&quot;1\&quot; or empty. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameEffectsGet(organizationId organizationId: Int32, userId: Int32, variableName: String, organizationToken: String, accessToken: String? = nil, includePublic: String? = nil, completion: ((data: [CommonResponse]?, error: ErrorType?) -> Void)) {
+        v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameEffectsGetWithRequestBuilder(organizationId: organizationId, userId: userId, variableName: variableName, organizationToken: organizationToken, accessToken: accessToken, includePublic: includePublic).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Search user correlations for a given cause
+     - GET /v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/effects
+     - Returns average of all correlations and votes for all user cause variables for a given effect. If parameter \"include_public\" is used, it also returns public correlations. User correlation overwrites or supersedes public correlation.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "message" : "aeiou",
+  "status" : "",
+  "success" : true
+} ], contentType=application/json}]
+     
+     - parameter organizationId: (path) Organization ID 
+     - parameter userId: (path) User id 
+     - parameter variableName: (path) Cause variable name 
+     - parameter organizationToken: (query) Organization access token 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter includePublic: (query) Include public correlations, Can be \&quot;1\&quot; or empty. (optional)
+
+     - returns: RequestBuilder<[CommonResponse]> 
+     */
+    public class func v1OrganizationsOrganizationIdUsersUserIdVariablesVariableNameEffectsGetWithRequestBuilder(organizationId organizationId: Int32, userId: Int32, variableName: String, organizationToken: String, accessToken: String? = nil, includePublic: String? = nil) -> RequestBuilder<[CommonResponse]> {
+        var path = "/v1/organizations/{organizationId}/users/{userId}/variables/{variableName}/effects"
+        path = path.stringByReplacingOccurrencesOfString("{organizationId}", withString: "\(organizationId)", options: .LiteralSearch, range: nil)
+        path = path.stringByReplacingOccurrencesOfString("{userId}", withString: "\(userId)", options: .LiteralSearch, range: nil)
+        path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "organization_token": organizationToken,
+            "include_public": includePublic
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[CommonResponse]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Get average correlations for variables containing search term
+     
+     - parameter search: (path) Name of the variable that you want to know the causes or effects of. 
+     - parameter effectOrCause: (query) Setting this to effect indicates that the searched variable is the effect and that the causes of this variable should be returned.  cause indicates that the searched variable is the cause and the effects should be returned. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1PublicCorrelationsSearchSearchGet(search search: String, effectOrCause: String, accessToken: String? = nil, completion: ((data: [Correlation]?, error: ErrorType?) -> Void)) {
+        v1PublicCorrelationsSearchSearchGetWithRequestBuilder(search: search, effectOrCause: effectOrCause, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Get average correlations for variables containing search term
+     - GET /v1/public/correlations/search/{search}
+     - Returns the average correlations from all users for all public variables that contain the characters in the search query. Returns average of all users public variable correlations with a specified cause or effect.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeCategory" : "aeiou",
+  "cause" : "aeiou",
+  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeUnitId" : "",
+  "originalEffect" : "aeiou",
+  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
+  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
+  "effect" : "aeiou",
+  "effectSize" : "aeiou",
+  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "effectCategory" : "aeiou",
+  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
+  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
+  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "originalCause" : "aeiou",
+  "causeUnit" : "aeiou",
+  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
+  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
+  "statisticalSignificance" : "aeiou"
+} ], contentType=application/json}]
+     
+     - parameter search: (path) Name of the variable that you want to know the causes or effects of. 
+     - parameter effectOrCause: (query) Setting this to effect indicates that the searched variable is the effect and that the causes of this variable should be returned.  cause indicates that the searched variable is the cause and the effects should be returned. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<[Correlation]> 
+     */
+    public class func v1PublicCorrelationsSearchSearchGetWithRequestBuilder(search search: String, effectOrCause: String, accessToken: String? = nil) -> RequestBuilder<[Correlation]> {
+        var path = "/v1/public/correlations/search/{search}"
+        path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "effectOrCause": effectOrCause
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Search user correlations for a given effect
+     
+     - parameter variableName: (path) Effect variable name 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariablesVariableNameCausesGet(variableName variableName: String, completion: ((data: [Correlation]?, error: ErrorType?) -> Void)) {
+        v1VariablesVariableNameCausesGetWithRequestBuilder(variableName: variableName).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Search user correlations for a given effect
+     - GET /v1/variables/{variableName}/causes
+     - Returns average of all correlations and votes for all user cause variables for a given effect
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeCategory" : "aeiou",
+  "cause" : "aeiou",
+  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeUnitId" : "",
+  "originalEffect" : "aeiou",
+  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
+  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
+  "effect" : "aeiou",
+  "effectSize" : "aeiou",
+  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "effectCategory" : "aeiou",
+  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
+  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
+  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "originalCause" : "aeiou",
+  "causeUnit" : "aeiou",
+  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
+  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
+  "statisticalSignificance" : "aeiou"
+} ], contentType=application/json}]
+     
+     - parameter variableName: (path) Effect variable name 
+
+     - returns: RequestBuilder<[Correlation]> 
+     */
+    public class func v1VariablesVariableNameCausesGetWithRequestBuilder(variableName variableName: String) -> RequestBuilder<[Correlation]> {
+        var path = "/v1/variables/{variableName}/causes"
+        path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [:]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Search user correlations for a given cause
+     
+     - parameter variableName: (path) Cause variable name 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariablesVariableNameEffectsGet(variableName variableName: String, accessToken: String? = nil, completion: ((data: [Correlation]?, error: ErrorType?) -> Void)) {
+        v1VariablesVariableNameEffectsGetWithRequestBuilder(variableName: variableName, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Search user correlations for a given cause
+     - GET /v1/variables/{variableName}/effects
+     - Returns average of all correlations and votes for all user effect variables for a given cause
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeCategory" : "aeiou",
+  "cause" : "aeiou",
+  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeUnitId" : "",
+  "originalEffect" : "aeiou",
+  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
+  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
+  "effect" : "aeiou",
+  "effectSize" : "aeiou",
+  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "effectCategory" : "aeiou",
+  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
+  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
+  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "originalCause" : "aeiou",
+  "causeUnit" : "aeiou",
+  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
+  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
+  "statisticalSignificance" : "aeiou"
+} ], contentType=application/json}]
+     
+     - parameter variableName: (path) Cause variable name 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<[Correlation]> 
+     */
+    public class func v1VariablesVariableNameEffectsGetWithRequestBuilder(variableName variableName: String, accessToken: String? = nil) -> RequestBuilder<[Correlation]> {
+        var path = "/v1/variables/{variableName}/effects"
+        path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Search public correlations for a given effect
+     
+     - parameter variableName: (path) Effect variable name 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariablesVariableNamePublicCausesGet(variableName variableName: String, accessToken: String? = nil, completion: ((data: [Correlation]?, error: ErrorType?) -> Void)) {
+        v1VariablesVariableNamePublicCausesGetWithRequestBuilder(variableName: variableName, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Search public correlations for a given effect
+     - GET /v1/variables/{variableName}/public/causes
+     - Returns average of all correlations and votes for all public cause variables for a given effect
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeCategory" : "aeiou",
+  "cause" : "aeiou",
+  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeUnitId" : "",
+  "originalEffect" : "aeiou",
+  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
+  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
+  "effect" : "aeiou",
+  "effectSize" : "aeiou",
+  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "effectCategory" : "aeiou",
+  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
+  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
+  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "originalCause" : "aeiou",
+  "causeUnit" : "aeiou",
+  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
+  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
+  "statisticalSignificance" : "aeiou"
+} ], contentType=application/json}]
+     
+     - parameter variableName: (path) Effect variable name 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<[Correlation]> 
+     */
+    public class func v1VariablesVariableNamePublicCausesGetWithRequestBuilder(variableName variableName: String, accessToken: String? = nil) -> RequestBuilder<[Correlation]> {
+        var path = "/v1/variables/{variableName}/public/causes"
+        path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Search public correlations for a given cause
+     
+     - parameter variableName: (path) Cause variable name 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariablesVariableNamePublicEffectsGet(variableName variableName: String, accessToken: String? = nil, completion: ((data: [Correlation]?, error: ErrorType?) -> Void)) {
+        v1VariablesVariableNamePublicEffectsGetWithRequestBuilder(variableName: variableName, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Search public correlations for a given cause
+     - GET /v1/variables/{variableName}/public/effects
+     - Returns average of all correlations and votes for all public cause variables for a given cause
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
+  "causalityFactor" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeCategory" : "aeiou",
+  "cause" : "aeiou",
+  "valuePredictingHighOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "averageVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "numberOfPairs" : 1.3579000000000001069366817318950779736042022705078125,
+  "causeUnitId" : "",
+  "originalEffect" : "aeiou",
+  "timestamp" : 1.3579000000000001069366817318950779736042022705078125,
+  "correlationCoefficient" : 1.3579000000000001069366817318950779736042022705078125,
+  "effect" : "aeiou",
+  "effectSize" : "aeiou",
+  "userVote" : 1.3579000000000001069366817318950779736042022705078125,
+  "effectCategory" : "aeiou",
+  "reverseCorrelation" : 1.3579000000000001069366817318950779736042022705078125,
+  "onsetDelay" : 1.3579000000000001069366817318950779736042022705078125,
+  "valuePredictingLowOutcome" : 1.3579000000000001069366817318950779736042022705078125,
+  "originalCause" : "aeiou",
+  "causeUnit" : "aeiou",
+  "optimalPearsonProduct" : 1.3579000000000001069366817318950779736042022705078125,
+  "durationOfAction" : 1.3579000000000001069366817318950779736042022705078125,
+  "statisticalSignificance" : "aeiou"
+} ], contentType=application/json}]
+     
+     - parameter variableName: (path) Cause variable name 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<[Correlation]> 
+     */
+    public class func v1VariablesVariableNamePublicEffectsGetWithRequestBuilder(variableName variableName: String, accessToken: String? = nil) -> RequestBuilder<[Correlation]> {
+        var path = "/v1/variables/{variableName}/public/effects"
+        path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Correlation]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Delete vote
+     
+     - parameter body: (body) The cause and effect variable names for the predictor vote to be deleted. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VotesDeletePost(body body: VoteDelete, accessToken: String? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        v1VotesDeletePostWithRequestBuilder(body: body, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Delete vote
+     - POST /v1/votes/delete
+     - Delete previously posted vote
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
+  "message" : "aeiou",
+  "status" : "",
+  "success" : true
+}, contentType=application/json}]
+     
+     - parameter body: (body) The cause and effect variable names for the predictor vote to be deleted. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func v1VotesDeletePostWithRequestBuilder(body body: VoteDelete, accessToken: String? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v1/votes/delete"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Post or update vote
+     
+     - parameter body: (body) Contains the cause variable, effect variable, and vote value. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VotesPost(body body: PostVote, accessToken: String? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        v1VotesPostWithRequestBuilder(body: body, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Post or update vote
+     - POST /v1/votes
+     - This is to enable users to indicate their opinion on the plausibility of a causal relationship between a treatment and outcome. QuantiModo incorporates crowd-sourced plausibility estimations into their algorithm. This is done allowing user to indicate their view of the plausibility of each relationship with thumbs up/down buttons placed next to each prediction.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
+  "message" : "aeiou",
+  "status" : "",
+  "success" : true
+}, contentType=application/json}]
+     
+     - parameter body: (body) Contains the cause variable, effect variable, and vote value. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func v1VotesPostWithRequestBuilder(body body: PostVote, accessToken: String? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v1/votes"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
 }

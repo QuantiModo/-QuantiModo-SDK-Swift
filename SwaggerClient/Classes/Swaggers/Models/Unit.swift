@@ -9,7 +9,6 @@ import Foundation
 
 
 public class Unit: JSONEncodable {
-
     public enum Category: String { 
         case Distance = "Distance"
         case Duration = "Duration"
@@ -23,7 +22,6 @@ public class Unit: JSONEncodable {
         case Volume = "Volume"
         case Weight = "Weight"
     }
-    
     /** Unit name */
     public var name: String?
     /** Unit abbreviation */
@@ -36,7 +34,6 @@ public class Unit: JSONEncodable {
     public var maximumValue: Double?
     /** Conversion steps list */
     public var conversionSteps: [ConversionStep]?
-    
 
     public init() {}
 

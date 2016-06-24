@@ -9,13 +9,11 @@ import Foundation
 
 
 public class HumanTime: JSONEncodable {
-
     /** date time */
     public var date: String?
-    public var timezone_type: Int?
+    public var timezoneType: Int32?
     /** timezone of date time */
     public var timezone: String?
-    
 
     public init() {}
 
@@ -23,7 +21,7 @@ public class HumanTime: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["date"] = self.date
-        nillableDictionary["timezone_type"] = self.timezone_type
+        nillableDictionary["timezone_type"] = self.timezoneType?.encodeToJSON()
         nillableDictionary["timezone"] = self.timezone
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

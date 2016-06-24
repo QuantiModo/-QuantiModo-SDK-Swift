@@ -11,8 +11,6 @@ import Foundation
 /** New variables */
 public class VariablesNew: JSONEncodable {
 
-    
-
     public init() {}
 
     // MARK: JSONEncodable

@@ -7,76 +7,428 @@
 
 import Alamofire
 
-extension SwaggerClientAPI {
-    
-    public class ConnectorsAPI: APIBase {
-    
-        /**
-         
-         Get embeddable connect javascript
-         
-         - GET /v1/connect.js
-         - Get embeddable connect javascript. Usage:\n\n  - Embedding in applications with popups for 3rd-party authentication\nwindows.\n\n    Use `qmSetupInPopup` function after connecting `connect.js`.\n\n  - Embedding in applications with popups for 3rd-party authentication\nwindows.\n\n    Requires a selector to block. It will be embedded in this block.\n\n    Use `qmSetupOnPage` function after connecting `connect.js`.\n\n  - Embedding in mobile applications without popups for 3rd-party\nauthentication.\n\n    Use `qmSetupOnMobile` function after connecting `connect.js`.\n\n    if using the MoodiModo Clones, Use `qmSetupOnIonic` function after connecting `connect.js`.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
 
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1Connect.jsGet(accessToken accessToken: String?) -> RequestBuilder<Void> {
-            let path = "/v1/connect.js"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+public class ConnectorsAPI: APIBase {
+    /**
+     Get embeddable connect javascript
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectJsGet(accessToken accessToken: String? = nil, completion: ((error: ErrorType?) -> Void)) {
+        v1ConnectJsGetWithRequestBuilder(accessToken: accessToken).execute { (response, error) -> Void in
+            completion(error: error);
         }
-    
-        /**
-         
-         Mobile connect page
-         
-         - GET /v1/connect/mobile
-         - This page is designed to be opened in a webview.  Instead of using popup authentication boxes, it uses redirection. You can include the user's access_token as a URL parameter like https://app.quantimo.do/api/v1/connect/mobile?access_token=123
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter accessToken: (query) User OAuth access token
+    }
 
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1ConnectMobileGet(accessToken accessToken: String) -> RequestBuilder<Void> {
-            let path = "/v1/connect/mobile"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+    /**
+     Get embeddable connect javascript
+     - GET /v1/connect.js
+     - Get embeddable connect javascript. Usage:    - Embedding in applications with popups for 3rd-party authentication windows.      Use `qmSetupInPopup` function after connecting `connect.js`.    - Embedding in applications with popups for 3rd-party authentication windows.      Requires a selector to block. It will be embedded in this block.      Use `qmSetupOnPage` function after connecting `connect.js`.    - Embedding in mobile applications without popups for 3rd-party authentication.      Use `qmSetupOnMobile` function after connecting `connect.js`.      if using the MoodiModo Clones, Use `qmSetupOnIonic` function after connecting `connect.js`. 
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - API Key:
+       - type: apiKey api_key 
+       - name: internalApiKey
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1ConnectJsGetWithRequestBuilder(accessToken accessToken: String? = nil) -> RequestBuilder<Void> {
+        let path = "/v1/connect.js"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Mobile connect page
+     
+     - parameter accessToken: (query) User OAuth access token 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectMobileGet(accessToken accessToken: String, completion: ((error: ErrorType?) -> Void)) {
+        v1ConnectMobileGetWithRequestBuilder(accessToken: accessToken).execute { (response, error) -> Void in
+            completion(error: error);
         }
-    
-        /**
-         
-         List of Connectors
-         
-         - GET /v1/connectors/list
-         - A connector pulls data from other data providers using their API or a screenscraper. Returns a list of all available connectors and information about them such as their id, name, whether the user has provided access, logo url, connection instructions, and the update history.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
+    }
+
+
+    /**
+     Mobile connect page
+     - GET /v1/connect/mobile
+     - This page is designed to be opened in a webview.  Instead of using popup authentication boxes, it uses redirection. You can include the user's access_token as a URL parameter like https://app.quantimo.do/api/v1/connect/mobile?access_token=123
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - API Key:
+       - type: apiKey api_key 
+       - name: internalApiKey
+     
+     - parameter accessToken: (query) User OAuth access token 
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1ConnectMobileGetWithRequestBuilder(accessToken accessToken: String) -> RequestBuilder<Void> {
+        let path = "/v1/connect/mobile"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Obtain a token from 3rd party data source
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectorsConnectorConnectGet(connector connector: String, accessToken: String? = nil, completion: ((error: ErrorType?) -> Void)) {
+        v1ConnectorsConnectorConnectGetWithRequestBuilder(connector: connector, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(error: error);
+        }
+    }
+
+
+    /**
+     Obtain a token from 3rd party data source
+     - GET /v1/connectors/{connector}/connect
+     - Attempt to obtain a token from the data provider, store it in the database. With this, the connector to continue to obtain new user data until the token is revoked.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1ConnectorsConnectorConnectGetWithRequestBuilder(connector connector: String, accessToken: String? = nil) -> RequestBuilder<Void> {
+        var path = "/v1/connectors/{connector}/connect"
+        path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Connection Instructions
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter parameters: (query) JSON Array of Parameters for the request to enable connector. 
+     - parameter url: (query) URL which should be used to enable the connector. 
+     - parameter usePopup: (query) Should use popup when enabling connector 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectorsConnectorConnectInstructionsGet(connector connector: String, parameters: String, url: String, usePopup: Bool, accessToken: String? = nil, completion: ((error: ErrorType?) -> Void)) {
+        v1ConnectorsConnectorConnectInstructionsGetWithRequestBuilder(connector: connector, parameters: parameters, url: url, usePopup: usePopup, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(error: error);
+        }
+    }
+
+
+    /**
+     Connection Instructions
+     - GET /v1/connectors/{connector}/connectInstructions
+     - Returns instructions that describe what parameters and endpoint to use to connect to the given data provider.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter parameters: (query) JSON Array of Parameters for the request to enable connector. 
+     - parameter url: (query) URL which should be used to enable the connector. 
+     - parameter usePopup: (query) Should use popup when enabling connector 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1ConnectorsConnectorConnectInstructionsGetWithRequestBuilder(connector connector: String, parameters: String, url: String, usePopup: Bool, accessToken: String? = nil) -> RequestBuilder<Void> {
+        var path = "/v1/connectors/{connector}/connectInstructions"
+        path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "parameters": parameters,
+            "url": url,
+            "usePopup": usePopup
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Connect Parameter
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter displayName: (query) Name of the parameter that is user visible in the form 
+     - parameter key: (query) Name of the property that the user has to enter such as username or password Connector (used in HTTP request) 
+     - parameter placeholder: (query) Placeholder hint value for the parameter input tag. 
+     - parameter type: (query) Type of input field such as those found here http://www.w3schools.com/tags/tag_input.asp 
+     - parameter usePopup: (query) Should use popup when enabling connector 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter defaultValue: (query) Default parameter value (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectorsConnectorConnectParameterGet(connector connector: String, displayName: String, key: String, placeholder: String, type: String, usePopup: Bool, accessToken: String? = nil, defaultValue: String? = nil, completion: ((data: ConnectorInstruction?, error: ErrorType?) -> Void)) {
+        v1ConnectorsConnectorConnectParameterGetWithRequestBuilder(connector: connector, displayName: displayName, key: key, placeholder: placeholder, type: type, usePopup: usePopup, accessToken: accessToken, defaultValue: defaultValue).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Connect Parameter
+     - GET /v1/connectors/{connector}/connectParameter
+     - Returns instructions that describe what parameters and endpoint to use to connect to the given data provider.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
+  "usePopup" : true,
+  "parameters" : [ "aeiou" ],
+  "url" : "aeiou"
+}, contentType=application/json}]
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter displayName: (query) Name of the parameter that is user visible in the form 
+     - parameter key: (query) Name of the property that the user has to enter such as username or password Connector (used in HTTP request) 
+     - parameter placeholder: (query) Placeholder hint value for the parameter input tag. 
+     - parameter type: (query) Type of input field such as those found here http://www.w3schools.com/tags/tag_input.asp 
+     - parameter usePopup: (query) Should use popup when enabling connector 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter defaultValue: (query) Default parameter value (optional)
+
+     - returns: RequestBuilder<ConnectorInstruction> 
+     */
+    public class func v1ConnectorsConnectorConnectParameterGetWithRequestBuilder(connector connector: String, displayName: String, key: String, placeholder: String, type: String, usePopup: Bool, accessToken: String? = nil, defaultValue: String? = nil) -> RequestBuilder<ConnectorInstruction> {
+        var path = "/v1/connectors/{connector}/connectParameter"
+        path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "defaultValue": defaultValue,
+            "displayName": displayName,
+            "key": key,
+            "placeholder": placeholder,
+            "type": type,
+            "usePopup": usePopup
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<ConnectorInstruction>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Delete stored connection info
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectorsConnectorDisconnectGet(connector connector: String, completion: ((error: ErrorType?) -> Void)) {
+        v1ConnectorsConnectorDisconnectGetWithRequestBuilder(connector: connector).execute { (response, error) -> Void in
+            completion(error: error);
+        }
+    }
+
+
+    /**
+     Delete stored connection info
+     - GET /v1/connectors/{connector}/disconnect
+     - The disconnect method deletes any stored tokens or connection information from the connectors database.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1ConnectorsConnectorDisconnectGetWithRequestBuilder(connector connector: String) -> RequestBuilder<Void> {
+        var path = "/v1/connectors/{connector}/disconnect"
+        path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [:]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Get connector info for user
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectorsConnectorInfoGet(connector connector: String, accessToken: String? = nil, completion: ((data: ConnectorInfo?, error: ErrorType?) -> Void)) {
+        v1ConnectorsConnectorInfoGetWithRequestBuilder(connector: connector, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Get connector info for user
+     - GET /v1/connectors/{connector}/info
+     - Returns information about the connector such as the connector id, whether or not is connected for this user (i.e. we have a token or credentials), and its update history for the user.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
+  "history" : [ {
+    "message" : "aeiou",
+    "numberOfMeasurements" : "",
+    "createdAt" : "aeiou",
+    "success" : true
+  } ],
+  "id" : "",
+  "error" : "aeiou",
+  "connected" : true
+}, contentType=application/json}]
+     
+     - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<ConnectorInfo> 
+     */
+    public class func v1ConnectorsConnectorInfoGetWithRequestBuilder(connector connector: String, accessToken: String? = nil) -> RequestBuilder<ConnectorInfo> {
+        var path = "/v1/connectors/{connector}/info"
+        path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<ConnectorInfo>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Sync with data source
+     
+     - parameter connector: (path) Lowercase system name of the source application or device 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectorsConnectorUpdateGet(connector connector: String, accessToken: String? = nil, completion: ((error: ErrorType?) -> Void)) {
+        v1ConnectorsConnectorUpdateGetWithRequestBuilder(connector: connector, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(error: error);
+        }
+    }
+
+
+    /**
+     Sync with data source
+     - GET /v1/connectors/{connector}/update
+     - The update method tells the QM Connector Framework to check with the data provider (such as Fitbit or MyFitnessPal) and retrieve any new measurements available.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     
+     - parameter connector: (path) Lowercase system name of the source application or device 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1ConnectorsConnectorUpdateGetWithRequestBuilder(connector connector: String, accessToken: String? = nil) -> RequestBuilder<Void> {
+        var path = "/v1/connectors/{connector}/update"
+        path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     List of Connectors
+     
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1ConnectorsListGet(completion: ((data: [Connector]?, error: ErrorType?) -> Void)) {
+        v1ConnectorsListGetWithRequestBuilder().execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     List of Connectors
+     - GET /v1/connectors/list
+     - A connector pulls data from other data providers using their API or a screenscraper. Returns a list of all available connectors and information about them such as their id, name, whether the user has provided access, logo url, connection instructions, and the update history.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
   "id" : "",
   "noDataYet" : true,
   "lastUpdate" : "",
@@ -89,230 +441,21 @@ extension SwaggerClientAPI {
   "getItUrl" : "aeiou"
 } ], contentType=application/json}]
 
-         - returns: RequestBuilder<[Connector]> 
-         */
-        public class func v1ConnectorsListGet() -> RequestBuilder<[Connector]> {
-            let path = "/v1/connectors/list"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [:]
-            let parameters = APIHelper.rejectNil(nillableParameters)
+     - returns: RequestBuilder<[Connector]> 
+     */
+    public class func v1ConnectorsListGetWithRequestBuilder() -> RequestBuilder<[Connector]> {
+        let path = "/v1/connectors/list"
+        let URLString = SwaggerClientAPI.basePath + path
 
-            let requestBuilder: RequestBuilder<[Connector]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let nillableParameters: [String:AnyObject?] = [:]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Connector]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
-        }
-    
-        /**
-         
-         Obtain a token from 3rd party data source
-         
-         - GET /v1/connectors/{connector}/connect
-         - Attempt to obtain a token from the data provider, store it in the database. With this, the connector to continue to obtain new user data until the token is revoked.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1ConnectorsConnectorConnectGet(connector connector: String, accessToken: String?) -> RequestBuilder<Void> {
-            var path = "/v1/connectors/{connector}/connect"
-            path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Connection Instructions
-         
-         - GET /v1/connectors/{connector}/connectInstructions
-         - Returns instructions that describe what parameters and endpoint to use to connect to the given data provider.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
-         - parameter parameters: (query) JSON Array of Parameters for the request to enable connector.
-         - parameter url: (query) URL which should be used to enable the connector.
-         - parameter usePopup: (query) Should use popup when enabling connector
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1ConnectorsConnectorConnectInstructionsGet(connector connector: String, parameters: String, url: String, usePopup: Bool, accessToken: String?) -> RequestBuilder<Void> {
-            var path = "/v1/connectors/{connector}/connectInstructions"
-            path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "parameters": parameters,
-                "url": url,
-                "usePopup": usePopup
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Connect Parameter
-         
-         - GET /v1/connectors/{connector}/connectParameter
-         - Returns instructions that describe what parameters and endpoint to use to connect to the given data provider.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
-  "usePopup" : true,
-  "parameters" : [ "aeiou" ],
-  "url" : "aeiou"
-}, contentType=application/json}]
-         
-         - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
-         - parameter displayName: (query) Name of the parameter that is user visible in the form
-         - parameter key: (query) Name of the property that the user has to enter such as username or password Connector (used in HTTP request)
-         - parameter placeholder: (query) Placeholder hint value for the parameter input tag.
-         - parameter type: (query) Type of input field such as those found here http://www.w3schools.com/tags/tag_input.asp
-         - parameter usePopup: (query) Should use popup when enabling connector
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter defaultValue: (query) Default parameter value
-
-         - returns: RequestBuilder<ConnectorInstruction> 
-         */
-        public class func v1ConnectorsConnectorConnectParameterGet(connector connector: String, displayName: String, key: String, placeholder: String, type: String, usePopup: Bool, accessToken: String?, defaultValue: String?) -> RequestBuilder<ConnectorInstruction> {
-            var path = "/v1/connectors/{connector}/connectParameter"
-            path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "defaultValue": defaultValue,
-                "displayName": displayName,
-                "key": key,
-                "placeholder": placeholder,
-                "type": type,
-                "usePopup": usePopup
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<ConnectorInstruction>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Delete stored connection info
-         
-         - GET /v1/connectors/{connector}/disconnect
-         - The disconnect method deletes any stored tokens or connection information from the connectors database.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
-
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1ConnectorsConnectorDisconnectGet(connector connector: String) -> RequestBuilder<Void> {
-            var path = "/v1/connectors/{connector}/disconnect"
-            path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [:]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
-        }
-    
-        /**
-         
-         Get connector info for user
-         
-         - GET /v1/connectors/{connector}/info
-         - Returns information about the connector such as the connector id, whether or not is connected for this user (i.e. we have a token or credentials), and its update history for the user.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
-  "history" : [ {
-    "message" : "aeiou",
-    "numberOfMeasurements" : "",
-    "createdAt" : "aeiou",
-    "success" : true
-  } ],
-  "id" : "",
-  "error" : "aeiou",
-  "connected" : true
-}, contentType=application/json}]
-         
-         - parameter connector: (path) Lowercase system name of the source application or device. Get a list of available connectors from the /connectors/list endpoint.
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<ConnectorInfo> 
-         */
-        public class func v1ConnectorsConnectorInfoGet(connector connector: String, accessToken: String?) -> RequestBuilder<ConnectorInfo> {
-            var path = "/v1/connectors/{connector}/info"
-            path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<ConnectorInfo>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Sync with data source
-         
-         - GET /v1/connectors/{connector}/update
-         - The update method tells the QM Connector Framework to check with the data provider (such as Fitbit or MyFitnessPal) and retrieve any new measurements available.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter connector: (path) Lowercase system name of the source application or device
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1ConnectorsConnectorUpdateGet(connector connector: String, accessToken: String?) -> RequestBuilder<Void> {
-            var path = "/v1/connectors/{connector}/update"
-            path = path.stringByReplacingOccurrencesOfString("{connector}", withString: "\(connector)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
+
 }

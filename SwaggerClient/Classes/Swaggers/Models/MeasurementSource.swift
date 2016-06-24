@@ -9,10 +9,8 @@ import Foundation
 
 
 public class MeasurementSource: JSONEncodable {
-
     /** Name of the application or device. */
     public var name: String?
-    
 
     public init() {}
 

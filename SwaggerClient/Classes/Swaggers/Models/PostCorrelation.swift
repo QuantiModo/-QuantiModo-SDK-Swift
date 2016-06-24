@@ -9,7 +9,6 @@ import Foundation
 
 
 public class PostCorrelation: JSONEncodable {
-
     /** Cause variable name */
     public var cause: String?
     /** Effect variable name */
@@ -17,8 +16,7 @@ public class PostCorrelation: JSONEncodable {
     /** Correlation value */
     public var correlation: Double?
     /** Vote: 0 or 1 */
-    public var vote: Int?
-    
+    public var vote: Int32?
 
     public init() {}
 
@@ -28,7 +26,7 @@ public class PostCorrelation: JSONEncodable {
         nillableDictionary["cause"] = self.cause
         nillableDictionary["effect"] = self.effect
         nillableDictionary["correlation"] = self.correlation
-        nillableDictionary["vote"] = self.vote
+        nillableDictionary["vote"] = self.vote?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

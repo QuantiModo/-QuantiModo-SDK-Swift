@@ -9,10 +9,8 @@ import Foundation
 
 
 public class VariableCategory: JSONEncodable {
-
     /** Category name */
     public var name: String?
-    
 
     public init() {}
 

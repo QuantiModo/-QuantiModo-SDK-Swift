@@ -7,20 +7,29 @@
 
 import Alamofire
 
-extension SwaggerClientAPI {
-    
-    public class VariablesAPI: APIBase {
-    
-        /**
-         
-         Get public variables
-         
-         - GET /v1/public/variables
-         - This endpoint retrieves an array of all public variables. Public variables are things like foods, medications, symptoms, conditions, and anything not unique to a particular user. For instance, a telephone number or name would not be a public variable.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
+
+
+public class VariablesAPI: APIBase {
+    /**
+     Get public variables
+     
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1PublicVariablesGet(completion: ((data: Variable?, error: ErrorType?) -> Void)) {
+        v1PublicVariablesGetWithRequestBuilder().execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Get public variables
+     - GET /v1/public/variables
+     - This endpoint retrieves an array of all public variables. Public variables are things like foods, medications, symptoms, conditions, and anything not unique to a particular user. For instance, a telephone number or name would not be a public variable.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
   "minimumValue" : 1.3579000000000001069366817318950779736042022705078125,
   "originalName" : "aeiou",
   "sources" : "aeiou",
@@ -53,30 +62,52 @@ extension SwaggerClientAPI {
   "abbreviatedUnitId" : ""
 }, contentType=application/json}]
 
-         - returns: RequestBuilder<Variable> 
-         */
-        public class func v1PublicVariablesGet() -> RequestBuilder<Variable> {
-            let path = "/v1/public/variables"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [:]
-            let parameters = APIHelper.rejectNil(nillableParameters)
+     - returns: RequestBuilder<Variable> 
+     */
+    public class func v1PublicVariablesGetWithRequestBuilder() -> RequestBuilder<Variable> {
+        let path = "/v1/public/variables"
+        let URLString = SwaggerClientAPI.basePath + path
 
-            let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let nillableParameters: [String:AnyObject?] = [:]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Get top 5 PUBLIC variables with the most correlations
+     
+     - parameter search: (path) Search query can be some fraction of a variable name. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter categoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work. (optional)
+     - parameter source: (query) Specify a data source name to only return variables from a specific data source. (optional)
+     - parameter effectOrCause: (query) Indicate if you only want variables that have user correlations.  Possible values are effect and cause. (optional)
+     - parameter publicEffectOrCause: (query) Indicate if you only want variables that have aggregated correlations.  Possible values are effect and cause. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1PublicVariablesSearchSearchGet(search search: String, accessToken: String? = nil, categoryName: String? = nil, source: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: Variable?, error: ErrorType?) -> Void)) {
+        v1PublicVariablesSearchSearchGetWithRequestBuilder(search: search, accessToken: accessToken, categoryName: categoryName, source: source, effectOrCause: effectOrCause, publicEffectOrCause: publicEffectOrCause, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
         }
-    
-        /**
-         
-         Get top 5 PUBLIC variables with the most correlations
-         
-         - GET /v1/public/variables/search/{search}
-         - Get top 5 PUBLIC variables with the most correlations containing the entered search characters. For example, search for 'mood' as an effect. Since 'Overall Mood' has a lot of correlations with other variables, it should be in the autocomplete list.<br>Supported filter parameters:<br><ul><li><b>category</b> - Category of Variable</li></ul><br>
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
+    }
+
+
+    /**
+     Get top 5 PUBLIC variables with the most correlations
+     - GET /v1/public/variables/search/{search}
+     - Get top 5 PUBLIC variables with the most correlations containing the entered search characters. For example, search for 'mood' as an effect. Since 'Overall Mood' has a lot of correlations with other variables, it should be in the autocomplete list.<br>Supported filter parameters:<br><ul><li><b>category</b> - Category of Variable</li></ul><br>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
   "minimumValue" : 1.3579000000000001069366817318950779736042022705078125,
   "originalName" : "aeiou",
   "sources" : "aeiou",
@@ -108,99 +139,157 @@ extension SwaggerClientAPI {
   "numberOfCorrelations" : "",
   "abbreviatedUnitId" : ""
 }, contentType=application/json}]
-         
-         - parameter search: (path) Search query can be some fraction of a variable name.
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter categoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work.
-         - parameter source: (query) Specify a data source name to only return variables from a specific data source.
-         - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
-         - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
-         - parameter sort: (query) Sort by given field. If the field is prefixed with `-, it will sort in descending order.
+     
+     - parameter search: (path) Search query can be some fraction of a variable name. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter categoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work. (optional)
+     - parameter source: (query) Specify a data source name to only return variables from a specific data source. (optional)
+     - parameter effectOrCause: (query) Indicate if you only want variables that have user correlations.  Possible values are effect and cause. (optional)
+     - parameter publicEffectOrCause: (query) Indicate if you only want variables that have aggregated correlations.  Possible values are effect and cause. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
 
-         - returns: RequestBuilder<Variable> 
-         */
-        public class func v1PublicVariablesSearchSearchGet(search search: String, accessToken: String?, categoryName: String?, source: String?, limit: Int?, offset: Int?, sort: Int?) -> RequestBuilder<Variable> {
-            var path = "/v1/public/variables/search/{search}"
-            path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "categoryName": categoryName,
-                "source": source,
-                "limit": limit,
-                "offset": offset,
-                "sort": sort
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
+     - returns: RequestBuilder<Variable> 
+     */
+    public class func v1PublicVariablesSearchSearchGetWithRequestBuilder(search search: String, accessToken: String? = nil, categoryName: String? = nil, source: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<Variable> {
+        var path = "/v1/public/variables/search/{search}"
+        path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
 
-            let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "categoryName": categoryName,
+            "source": source,
+            "effectOrCause": effectOrCause,
+            "publicEffectOrCause": publicEffectOrCause,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "sort": sort?.encodeToJSON()
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Update User Settings for a Variable
+     
+     - parameter userVariables: (body) Variable user settings data 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1UserVariablesPost(userVariables userVariables: UserVariables, completion: ((error: ErrorType?) -> Void)) {
+        v1UserVariablesPostWithRequestBuilder(userVariables: userVariables).execute { (response, error) -> Void in
+            completion(error: error);
         }
-    
-        /**
-         
-         Update User Settings for a Variable
-         
-         - POST /v1/userVariables
-         - Users can change the parameters used in analysis of that variable such as the expected duration of action for a variable to have an effect, the estimated delay before the onset of action. In order to filter out erroneous data, they are able to set the maximum and minimum reasonable daily values for a variable.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter userVariables: (body) Variable user settings data
+    }
 
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1UserVariablesPost(userVariables userVariables: UserVariables) -> RequestBuilder<Void> {
-            let path = "/v1/userVariables"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = userVariables.encodeToJSON() as? [String:AnyObject]
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+    /**
+     Update User Settings for a Variable
+     - POST /v1/userVariables
+     - Users can change the parameters used in analysis of that variable such as the expected duration of action for a variable to have an effect, the estimated delay before the onset of action. In order to filter out erroneous data, they are able to set the maximum and minimum reasonable daily values for a variable.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     
+     - parameter userVariables: (body) Variable user settings data 
 
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1UserVariablesPostWithRequestBuilder(userVariables userVariables: UserVariables) -> RequestBuilder<Void> {
+        let path = "/v1/userVariables"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = userVariables.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Variable categories
+     
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariableCategoriesGet(completion: ((data: [VariableCategory]?, error: ErrorType?) -> Void)) {
+        v1VariableCategoriesGetWithRequestBuilder().execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
         }
-    
-        /**
-         
-         Variable categories
-         
-         - GET /v1/variableCategories
-         - The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
+    }
+
+
+    /**
+     Variable categories
+     - GET /v1/variableCategories
+     - The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
   "name" : "aeiou"
 } ], contentType=application/json}]
 
-         - returns: RequestBuilder<[VariableCategory]> 
-         */
-        public class func v1VariableCategoriesGet() -> RequestBuilder<[VariableCategory]> {
-            let path = "/v1/variableCategories"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [:]
-            let parameters = APIHelper.rejectNil(nillableParameters)
+     - returns: RequestBuilder<[VariableCategory]> 
+     */
+    public class func v1VariableCategoriesGetWithRequestBuilder() -> RequestBuilder<[VariableCategory]> {
+        let path = "/v1/variableCategories"
+        let URLString = SwaggerClientAPI.basePath + path
 
-            let requestBuilder: RequestBuilder<[VariableCategory]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let nillableParameters: [String:AnyObject?] = [:]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[VariableCategory]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Get variables by the category name
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter id: (query) Common variable id (optional)
+     - parameter userId: (query) User id (optional)
+     - parameter category: (query) Filter data by category (optional)
+     - parameter name: (query) Original name of the variable (supports exact name match only) (optional)
+     - parameter lastUpdated: (query) Filter by the last time any of the properties of the variable were changed. Uses UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter source: (query) The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here (optional)
+     - parameter latestMeasurementTime: (query) Filter variables based on the last time a measurement for them was created or updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter numberOfMeasurements: (query) Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity. (optional)
+     - parameter lastSource: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only) (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariablesGet(accessToken accessToken: String? = nil, id: Int32? = nil, userId: Int32? = nil, category: String? = nil, name: String? = nil, lastUpdated: String? = nil, source: String? = nil, latestMeasurementTime: String? = nil, numberOfMeasurements: String? = nil, lastSource: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: Variable?, error: ErrorType?) -> Void)) {
+        v1VariablesGetWithRequestBuilder(accessToken: accessToken, id: id, userId: userId, category: category, name: name, lastUpdated: lastUpdated, source: source, latestMeasurementTime: latestMeasurementTime, numberOfMeasurements: numberOfMeasurements, lastSource: lastSource, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
         }
-    
-        /**
-         
-         Get variables by the category name
-         
-         - GET /v1/variables
-         - Get variables by the category name. <br>Supported filter parameters:<br><ul><li><b>name</b> - Original name of the variable (supports exact name match only)</li><li><b>lastUpdated</b> - Filter by the last time any of the properties of the variable were changed. Uses UTC format \"YYYY-MM-DDThh:mm:ss\"</li><li><b>source</b> - The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here</li><li><b>latestMeasurementTime</b> - Filter variables based on the last time a measurement for them was created or updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li><li><b>numberOfMeasurements</b> - Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity.</li><li><b>lastSource</b> - Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only)</li></ul><br>
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
+    }
+
+
+    /**
+     Get variables by the category name
+     - GET /v1/variables
+     - Get variables by the category name. <br>Supported filter parameters:<br><ul><li><b>name</b> - Original name of the variable (supports exact name match only)</li><li><b>lastUpdated</b> - Filter by the last time any of the properties of the variable were changed. Uses UTC format \"YYYY-MM-DDThh:mm:ss\"</li><li><b>source</b> - The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here</li><li><b>latestMeasurementTime</b> - Filter variables based on the last time a measurement for them was created or updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li><li><b>numberOfMeasurements</b> - Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity.</li><li><b>lastSource</b> - Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only)</li></ul><br>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - BASIC:
+       - type: basic
+       - name: basicAuth
+     - examples: [{example={
   "minimumValue" : 1.3579000000000001069366817318950779736042022705078125,
   "originalName" : "aeiou",
   "sources" : "aeiou",
@@ -232,85 +321,121 @@ extension SwaggerClientAPI {
   "numberOfCorrelations" : "",
   "abbreviatedUnitId" : ""
 }, contentType=application/json}]
-         
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter id: (query) Common variable id
-         - parameter userId: (query) User id
-         - parameter category: (query) Filter data by category
-         - parameter name: (query) Original name of the variable (supports exact name match only)
-         - parameter lastUpdated: (query) Filter by the last time any of the properties of the variable were changed. Uses UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot;
-         - parameter source: (query) The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here
-         - parameter latestMeasurementTime: (query) Filter variables based on the last time a measurement for them was created or updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot;
-         - parameter numberOfMeasurements: (query) Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity.
-         - parameter lastSource: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only)
-         - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
-         - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
-         - parameter sort: (query) Sort by given field. If the field is prefixed with `-, it will sort in descending order.
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter id: (query) Common variable id (optional)
+     - parameter userId: (query) User id (optional)
+     - parameter category: (query) Filter data by category (optional)
+     - parameter name: (query) Original name of the variable (supports exact name match only) (optional)
+     - parameter lastUpdated: (query) Filter by the last time any of the properties of the variable were changed. Uses UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter source: (query) The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here (optional)
+     - parameter latestMeasurementTime: (query) Filter variables based on the last time a measurement for them was created or updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter numberOfMeasurements: (query) Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity. (optional)
+     - parameter lastSource: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only) (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
 
-         - returns: RequestBuilder<Variable> 
-         */
-        public class func v1VariablesGet(accessToken accessToken: String?, id: Int?, userId: Int?, category: String?, name: String?, lastUpdated: String?, source: String?, latestMeasurementTime: String?, numberOfMeasurements: String?, lastSource: String?, limit: Int?, offset: Int?, sort: Int?) -> RequestBuilder<Variable> {
-            let path = "/v1/variables"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "id": id,
-                "userId": userId,
-                "category": category,
-                "name": name,
-                "lastUpdated": lastUpdated,
-                "source": source,
-                "latestMeasurementTime": latestMeasurementTime,
-                "numberOfMeasurements": numberOfMeasurements,
-                "lastSource": lastSource,
-                "limit": limit,
-                "offset": offset,
-                "sort": sort
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
+     - returns: RequestBuilder<Variable> 
+     */
+    public class func v1VariablesGetWithRequestBuilder(accessToken accessToken: String? = nil, id: Int32? = nil, userId: Int32? = nil, category: String? = nil, name: String? = nil, lastUpdated: String? = nil, source: String? = nil, latestMeasurementTime: String? = nil, numberOfMeasurements: String? = nil, lastSource: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<Variable> {
+        let path = "/v1/variables"
+        let URLString = SwaggerClientAPI.basePath + path
 
-            let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "id": id?.encodeToJSON(),
+            "userId": userId?.encodeToJSON(),
+            "category": category,
+            "name": name,
+            "lastUpdated": lastUpdated,
+            "source": source,
+            "latestMeasurementTime": latestMeasurementTime,
+            "numberOfMeasurements": numberOfMeasurements,
+            "lastSource": lastSource,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "sort": sort?.encodeToJSON()
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Create Variables
+     
+     - parameter body: (body) Original name for the variable. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariablesPost(body body: VariablesNew, accessToken: String? = nil, completion: ((error: ErrorType?) -> Void)) {
+        v1VariablesPostWithRequestBuilder(body: body, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(error: error);
         }
-    
-        /**
-         
-         Create Variables
-         
-         - POST /v1/variables
-         - Allows the client to create a new variable in the `variables` table.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         
-         - parameter body: (body) Original name for the variable.
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
+    }
 
-         - returns: RequestBuilder<Void> 
-         */
-        public class func v1VariablesPost(body body: VariablesNew, accessToken: String?) -> RequestBuilder<Void> {
-            let path = "/v1/variables"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body.encodeToJSON() as? [String:AnyObject]
 
-            let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+    /**
+     Create Variables
+     - POST /v1/variables
+     - Allows the client to create a new variable in the `variables` table.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     
+     - parameter body: (body) Original name for the variable. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
 
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
+     - returns: RequestBuilder<Void> 
+     */
+    public class func v1VariablesPostWithRequestBuilder(body body: VariablesNew, accessToken: String? = nil) -> RequestBuilder<Void> {
+        let path = "/v1/variables"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Get variables by search query
+     
+     - parameter search: (path) Search query which may be an entire variable name or a fragment of one. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter categoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work. (optional)
+     - parameter includePublic: (query) Set to true if you would like to include public variables when no user variables are found. (optional)
+     - parameter manualTracking: (query) Set to true if you would like to exlude variables like apps and website names. (optional)
+     - parameter source: (query) Specify a data source name to only return variables from a specific data source. (optional)
+     - parameter effectOrCause: (query) Indicate if you only want variables that have user correlations.  Possible values are effect and cause. (optional)
+     - parameter publicEffectOrCause: (query) Indicate if you only want variables that have aggregated correlations.  Possible values are effect and cause. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariablesSearchSearchGet(search search: String, accessToken: String? = nil, categoryName: String? = nil, includePublic: Bool? = nil, manualTracking: Bool? = nil, source: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, limit: Int32? = nil, offset: Int32? = nil, completion: ((data: [Variable]?, error: ErrorType?) -> Void)) {
+        v1VariablesSearchSearchGetWithRequestBuilder(search: search, accessToken: accessToken, categoryName: categoryName, includePublic: includePublic, manualTracking: manualTracking, source: source, effectOrCause: effectOrCause, publicEffectOrCause: publicEffectOrCause, limit: limit, offset: offset).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
         }
-    
-        /**
-         
-         Get variables by search query
-         
-         - GET /v1/variables/search/{search}
-         - Get variables containing the search characters for which the currently logged in user has measurements. Used to provide auto-complete function in variable search boxes.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example=[ {
+    }
+
+
+    /**
+     Get variables by search query
+     - GET /v1/variables/search/{search}
+     - Get variables containing the search characters for which the currently logged in user has measurements. Used to provide auto-complete function in variable search boxes.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example=[ {
   "minimumValue" : 1.3579000000000001069366817318950779736042022705078125,
   "originalName" : "aeiou",
   "sources" : "aeiou",
@@ -342,49 +467,68 @@ extension SwaggerClientAPI {
   "numberOfCorrelations" : "",
   "abbreviatedUnitId" : ""
 } ], contentType=application/json}]
-         
-         - parameter search: (path) Search query which may be an entire variable name or a fragment of one.
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter categoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work.
-         - parameter includePublic: (query) Set to true if you would like to include public variables when no user variables are found.
-         - parameter manualTracking: (query) Set to true if you would like to exlude variables like apps and website names.
-         - parameter source: (query) Specify a data source name to only return variables from a specific data source.
-         - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0.
-         - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10.
+     
+     - parameter search: (path) Search query which may be an entire variable name or a fragment of one. 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter categoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work. (optional)
+     - parameter includePublic: (query) Set to true if you would like to include public variables when no user variables are found. (optional)
+     - parameter manualTracking: (query) Set to true if you would like to exlude variables like apps and website names. (optional)
+     - parameter source: (query) Specify a data source name to only return variables from a specific data source. (optional)
+     - parameter effectOrCause: (query) Indicate if you only want variables that have user correlations.  Possible values are effect and cause. (optional)
+     - parameter publicEffectOrCause: (query) Indicate if you only want variables that have aggregated correlations.  Possible values are effect and cause. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
+     - parameter offset: (query) Now suppose you wanted to show results 11-20. You&#39;d set the offset to 10 and the limit to 10. (optional)
 
-         - returns: RequestBuilder<[Variable]> 
-         */
-        public class func v1VariablesSearchSearchGet(search search: String, accessToken: String?, categoryName: String?, includePublic: Bool?, manualTracking: Bool?, source: String?, limit: Int?, offset: Int?) -> RequestBuilder<[Variable]> {
-            var path = "/v1/variables/search/{search}"
-            path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "categoryName": categoryName,
-                "includePublic": includePublic,
-                "manualTracking": manualTracking,
-                "source": source,
-                "limit": limit,
-                "offset": offset
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
+     - returns: RequestBuilder<[Variable]> 
+     */
+    public class func v1VariablesSearchSearchGetWithRequestBuilder(search search: String, accessToken: String? = nil, categoryName: String? = nil, includePublic: Bool? = nil, manualTracking: Bool? = nil, source: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, limit: Int32? = nil, offset: Int32? = nil) -> RequestBuilder<[Variable]> {
+        var path = "/v1/variables/search/{search}"
+        path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
 
-            let requestBuilder: RequestBuilder<[Variable]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "categoryName": categoryName,
+            "includePublic": includePublic,
+            "manualTracking": manualTracking,
+            "source": source,
+            "effectOrCause": effectOrCause,
+            "publicEffectOrCause": publicEffectOrCause,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON()
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Variable]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Get info about a variable
+     
+     - parameter variableName: (path) Variable name 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1VariablesVariableNameGet(variableName variableName: String, accessToken: String? = nil, completion: ((data: Variable?, error: ErrorType?) -> Void)) {
+        v1VariablesVariableNameGetWithRequestBuilder(variableName: variableName, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
         }
-    
-        /**
-         
-         Get info about a variable
-         
-         - GET /v1/variables/{variableName}
-         - Get all of the settings and information about a variable by its name. If the logged in user has modified the settings for the variable, these will be provided instead of the default settings for that variable.
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
+    }
+
+
+    /**
+     Get info about a variable
+     - GET /v1/variables/{variableName}
+     - Get all of the settings and information about a variable by its name. If the logged in user has modified the settings for the variable, these will be provided instead of the default settings for that variable.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
   "minimumValue" : 1.3579000000000001069366817318950779736042022705078125,
   "originalName" : "aeiou",
   "sources" : "aeiou",
@@ -416,26 +560,28 @@ extension SwaggerClientAPI {
   "numberOfCorrelations" : "",
   "abbreviatedUnitId" : ""
 }, contentType=application/json}]
-         
-         - parameter variableName: (path) Variable name
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
+     
+     - parameter variableName: (path) Variable name 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
 
-         - returns: RequestBuilder<Variable> 
-         */
-        public class func v1VariablesVariableNameGet(variableName variableName: String, accessToken: String?) -> RequestBuilder<Variable> {
-            var path = "/v1/variables/{variableName}"
-            path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
+     - returns: RequestBuilder<Variable> 
+     */
+    public class func v1VariablesVariableNameGetWithRequestBuilder(variableName variableName: String, accessToken: String? = nil) -> RequestBuilder<Variable> {
+        var path = "/v1/variables/{variableName}"
+        path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
+        let URLString = SwaggerClientAPI.basePath + path
 
-            let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
+
 }

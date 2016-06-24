@@ -9,12 +9,10 @@ import Foundation
 
 
 public class JsonErrorResponse: JSONEncodable {
-
     /** Status: \&quot;ok\&quot; or \&quot;error\&quot; */
     public var status: String?
     /** Error message */
     public var message: String?
-    
 
     public init() {}
 

@@ -9,12 +9,10 @@ import Foundation
 
 
 public class VoteDelete: JSONEncodable {
-
     /** Cause variable name for the correlation to which the vote pertains */
     public var cause: String?
     /** Effect variable name for the correlation to which the vote pertains */
     public var effect: String?
-    
 
     public init() {}
 

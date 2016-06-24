@@ -7,182 +7,43 @@
 
 import Alamofire
 
-extension SwaggerClientAPI {
-    
-    public class RemindersAPI: APIBase {
-    
-        /**
-         
-         Get repeating tracking reminder settings
-         
-         - GET /v1/trackingReminders
-         - Users can be reminded to track certain variables at a specified frequency with a default value.
-         - OAuth:
-           - type: oauth2
-           - name: quantimodo_oauth2
-         - examples: [{example={
-  "data" : [ {
-    "reminderStartTime" : "aeiou",
-    "thirdDailyReminderTime" : "aeiou",
-    "firstDailyReminderTime" : "aeiou",
-    "reminderEndTime" : "aeiou",
-    "lastReminded" : "2016-01-27T19:24:17.169+0000",
-    "variableName" : "aeiou",
-    "secondDailyReminderTime" : "aeiou",
-    "lastTracked" : "2016-01-27T19:24:17.169+0000",
-    "popUp" : true,
-    "sms" : true,
-    "clientId" : "aeiou",
-    "updatedAt" : "2016-01-27T19:24:17.169+0000",
-    "startTrackingDate" : "2016-01-27T19:24:17.169+0000",
-    "id" : 123,
-    "combinationOperation" : "aeiou",
-    "stopTrackingDate" : "2016-01-27T19:24:17.169+0000",
-    "email" : true,
-    "reminderFrequency" : 123,
-    "userId" : 123,
-    "notificationBar" : true,
-    "reminderSound" : "aeiou",
-    "abbreviatedUnitName" : "aeiou",
-    "variableId" : 123,
-    "defaultValue" : 1.3579000000000001069366817318950779736042022705078125,
-    "variableCategoryName" : "aeiou"
-  } ],
-  "success" : true
-}, contentType=application/json}]
-         
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter createdAt: (query) When the record was first created. Use ISO 8601 datetime format. Time zone should be UTC and not local.
-         - parameter updatedAt: (query) When the record was last updated. Use ISO 8601 datetime format. Time zone should be UTC and not local.
-         - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records.
-         - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned.
-         - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order.
 
-         - returns: RequestBuilder<Inline_response_200> 
-         */
-        public class func v1TrackingRemindersGet(accessToken accessToken: String?, createdAt: String?, updatedAt: String?, limit: Int?, offset: Int?, sort: String?) -> RequestBuilder<Inline_response_200> {
-            let path = "/v1/trackingReminders"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "createdAt": createdAt,
-                "updatedAt": updatedAt,
-                "limit": limit,
-                "offset": offset,
-                "sort": sort
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
 
-            let requestBuilder: RequestBuilder<Inline_response_200>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+public class RemindersAPI: APIBase {
+    /**
+     Get specific pending tracking reminders
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter variableCategoryName: (query) Limit tracking reminder notifications to a specific variable category (optional)
+     - parameter createdAt: (query) When the record was first created. Use ISO 8601 datetime format. Time zone should be UTC and not local.  (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use ISO 8601 datetime format. Time zone should be UTC and not local.  (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1TrackingReminderNotificationsGet(accessToken accessToken: String? = nil, variableCategoryName: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
+        v1TrackingReminderNotificationsGetWithRequestBuilder(accessToken: accessToken, variableCategoryName: variableCategoryName, createdAt: createdAt, updatedAt: updatedAt, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
         }
-    
-        /**
-         
-         Store a Tracking Reminder
-         
-         - POST /v1/trackingReminders
-         - This is to enable users to create reminders to track a variable with a default value at a specified frequency
-         - OAuth:
-           - type: oauth2
-           - name: quantimodo_oauth2
-         - examples: [{example={
-  "data" : {
-    "reminderStartTime" : "aeiou",
-    "thirdDailyReminderTime" : "aeiou",
-    "firstDailyReminderTime" : "aeiou",
-    "reminderEndTime" : "aeiou",
-    "lastReminded" : "2016-01-27T19:24:17.190+0000",
-    "variableName" : "aeiou",
-    "secondDailyReminderTime" : "aeiou",
-    "lastTracked" : "2016-01-27T19:24:17.190+0000",
-    "popUp" : true,
-    "sms" : true,
-    "clientId" : "aeiou",
-    "updatedAt" : "2016-01-27T19:24:17.190+0000",
-    "startTrackingDate" : "2016-01-27T19:24:17.190+0000",
-    "id" : 123,
-    "combinationOperation" : "aeiou",
-    "stopTrackingDate" : "2016-01-27T19:24:17.190+0000",
-    "email" : true,
-    "reminderFrequency" : 123,
-    "userId" : 123,
-    "notificationBar" : true,
-    "reminderSound" : "aeiou",
-    "abbreviatedUnitName" : "aeiou",
-    "variableId" : 123,
-    "defaultValue" : 1.3579000000000001069366817318950779736042022705078125,
-    "variableCategoryName" : "aeiou"
-  },
-  "success" : true
-}, contentType=application/json}]
-         
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter body: (body) TrackingReminder that should be stored
+    }
 
-         - returns: RequestBuilder<Inline_response_200_1> 
-         */
-        public class func v1TrackingRemindersPost(accessToken accessToken: String?, body: TrackingReminder?) -> RequestBuilder<Inline_response_200_1> {
-            let path = "/v1/trackingReminders"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
-            let requestBuilder: RequestBuilder<Inline_response_200_1>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Delete tracking reminder
-         
-         - POST /v1/trackingReminders/delete
-         - Delete previously created tracking reminder
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
-  "message" : "aeiou",
-  "status" : "",
-  "success" : true
-}, contentType=application/json}]
-         
-         - parameter body: (body) Id of reminder to be deleted
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<CommonResponse> 
-         */
-        public class func v1TrackingRemindersDeletePost(body body: TrackingReminderDelete, accessToken: String?) -> RequestBuilder<CommonResponse> {
-            let path = "/v1/trackingReminders/delete"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body.encodeToJSON() as? [String:AnyObject]
-
-            let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Get specific pending tracking reminders
-         
-         - GET /v1/trackingRemindersPending
-         - Specfic pending reminder instances that still need to be tracked.
-         - OAuth:
-           - type: oauth2
-           - name: quantimodo_oauth2
-         - examples: [{example={
+    /**
+     Get specific pending tracking reminders
+     - GET /v1/trackingReminderNotifications
+     - Specfic pending reminder instances that still need to be tracked.  
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     - examples: [{example={
   "data" : [ {
     "variableName" : "aeiou",
-    "pendingReminderTime" : "2016-01-27T19:24:17.192+0000",
+    "pendingReminderTime" : "2000-01-23T04:56:07.000+0000",
     "popUp" : true,
     "sms" : true,
     "clientId" : "aeiou",
-    "updatedAt" : "2016-01-27T19:24:17.193+0000",
+    "updatedAt" : "2000-01-23T04:56:07.000+0000",
     "id" : 123,
     "combinationOperation" : "aeiou",
     "trackingReminderId" : 123,
@@ -197,127 +58,373 @@ extension SwaggerClientAPI {
   } ],
   "success" : true
 }, contentType=application/json}]
-         
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-         - parameter createdAt: (query) When the record was first created. Use ISO 8601 datetime format. Time zone should be UTC and not local.
-         - parameter updatedAt: (query) When the record was last updated. Use ISO 8601 datetime format. Time zone should be UTC and not local.
-         - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records.
-         - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned.
-         - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order.
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter variableCategoryName: (query) Limit tracking reminder notifications to a specific variable category (optional)
+     - parameter createdAt: (query) When the record was first created. Use ISO 8601 datetime format. Time zone should be UTC and not local.  (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use ISO 8601 datetime format. Time zone should be UTC and not local.  (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order. (optional)
 
-         - returns: RequestBuilder<Inline_response_200_2> 
-         */
-        public class func v1TrackingRemindersPendingGet(accessToken accessToken: String?, createdAt: String?, updatedAt: String?, limit: Int?, offset: Int?, sort: String?) -> RequestBuilder<Inline_response_200_2> {
-            let path = "/v1/trackingRemindersPending"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [
-                "accessToken": accessToken,
-                "createdAt": createdAt,
-                "updatedAt": updatedAt,
-                "limit": limit,
-                "offset": offset,
-                "sort": sort
-            ]
-            let parameters = APIHelper.rejectNil(nillableParameters)
+     - returns: RequestBuilder<InlineResponse200> 
+     */
+    public class func v1TrackingReminderNotificationsGetWithRequestBuilder(accessToken accessToken: String? = nil, variableCategoryName: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil) -> RequestBuilder<InlineResponse200> {
+        let path = "/v1/trackingReminderNotifications"
+        let URLString = SwaggerClientAPI.basePath + path
 
-            let requestBuilder: RequestBuilder<Inline_response_200_2>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "variableCategoryName": variableCategoryName,
+            "createdAt": createdAt,
+            "updatedAt": updatedAt,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "sort": sort
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse200>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Skip a pending tracking reminder
-         
-         - POST /v1/trackingRemindersPending/skip
-         - Deletes the pending tracking reminder
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
-  "message" : "aeiou",
-  "status" : "",
-  "success" : true
-}, contentType=application/json}]
-         
-         - parameter body: (body) Id of the pending reminder to be skipped or deleted
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<CommonResponse> 
-         */
-        public class func v1TrackingRemindersPendingSkipPost(body body: TrackingReminderPendingSkip, accessToken: String?) -> RequestBuilder<CommonResponse> {
-            let path = "/v1/trackingRemindersPending/skip"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body.encodeToJSON() as? [String:AnyObject]
-
-            let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Snooze a pending tracking reminder
-         
-         - POST /v1/trackingRemindersPending/snooze
-         - Changes the reminder time to now plus one hour
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
-  "message" : "aeiou",
-  "status" : "",
-  "success" : true
-}, contentType=application/json}]
-         
-         - parameter body: (body) Id of the pending reminder to be snoozed
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<CommonResponse> 
-         */
-        public class func v1TrackingRemindersPendingSnoozePost(body body: TrackingReminderPendingSnooze, accessToken: String?) -> RequestBuilder<CommonResponse> {
-            let path = "/v1/trackingRemindersPending/snooze"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body.encodeToJSON() as? [String:AnyObject]
-
-            let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
-        /**
-         
-         Track a pending tracking reminder
-         
-         - POST /v1/trackingRemindersPending/track
-         - Adds the default measurement for the pending tracking reminder with the reminder time as the measurment start time
-         - OAuth:
-           - type: oauth2
-           - name: oauth2
-         - examples: [{example={
-  "message" : "aeiou",
-  "status" : "",
-  "success" : true
-}, contentType=application/json}]
-         
-         - parameter body: (body) Id of the pending reminder to be tracked
-         - parameter accessToken: (query) User&#39;s OAuth2 access token
-
-         - returns: RequestBuilder<CommonResponse> 
-         */
-        public class func v1TrackingRemindersPendingTrackPost(body body: TrackingReminderPendingTrack, accessToken: String?) -> RequestBuilder<CommonResponse> {
-            let path = "/v1/trackingRemindersPending/track"
-            let URLString = SwaggerClientAPI.basePath + path
-            
-            let parameters = body.encodeToJSON() as? [String:AnyObject]
-
-            let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
-        }
-    
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
+
+    /**
+     Skip a pending tracking reminder
+     
+     - parameter body: (body) Id of the pending reminder to be skipped or deleted 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1TrackingReminderNotificationsSkipPost(body body: TrackingReminderNotificationSkip, accessToken: String? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        v1TrackingReminderNotificationsSkipPostWithRequestBuilder(body: body, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Skip a pending tracking reminder
+     - POST /v1/trackingReminderNotifications/skip
+     - Deletes the pending tracking reminder
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
+  "message" : "aeiou",
+  "status" : "",
+  "success" : true
+}, contentType=application/json}]
+     
+     - parameter body: (body) Id of the pending reminder to be skipped or deleted 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func v1TrackingReminderNotificationsSkipPostWithRequestBuilder(body body: TrackingReminderNotificationSkip, accessToken: String? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v1/trackingReminderNotifications/skip"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Snooze a pending tracking reminder
+     
+     - parameter body: (body) Id of the pending reminder to be snoozed 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1TrackingReminderNotificationsSnoozePost(body body: TrackingReminderNotificationSnooze, accessToken: String? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        v1TrackingReminderNotificationsSnoozePostWithRequestBuilder(body: body, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Snooze a pending tracking reminder
+     - POST /v1/trackingReminderNotifications/snooze
+     - Changes the reminder time to now plus one hour
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
+  "message" : "aeiou",
+  "status" : "",
+  "success" : true
+}, contentType=application/json}]
+     
+     - parameter body: (body) Id of the pending reminder to be snoozed 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func v1TrackingReminderNotificationsSnoozePostWithRequestBuilder(body body: TrackingReminderNotificationSnooze, accessToken: String? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v1/trackingReminderNotifications/snooze"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Track a pending tracking reminder
+     
+     - parameter body: (body) Id of the pending reminder to be tracked 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1TrackingReminderNotificationsTrackPost(body body: TrackingReminderNotificationTrack, accessToken: String? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        v1TrackingReminderNotificationsTrackPostWithRequestBuilder(body: body, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Track a pending tracking reminder
+     - POST /v1/trackingReminderNotifications/track
+     - Adds the default measurement for the pending tracking reminder with the reminder time as the measurment start time
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
+  "message" : "aeiou",
+  "status" : "",
+  "success" : true
+}, contentType=application/json}]
+     
+     - parameter body: (body) Id of the pending reminder to be tracked 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func v1TrackingReminderNotificationsTrackPostWithRequestBuilder(body body: TrackingReminderNotificationTrack, accessToken: String? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v1/trackingReminderNotifications/track"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Delete tracking reminder
+     
+     - parameter body: (body) Id of reminder to be deleted 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1TrackingRemindersDeletePost(body body: TrackingReminderDelete, accessToken: String? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        v1TrackingRemindersDeletePostWithRequestBuilder(body: body, accessToken: accessToken).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Delete tracking reminder
+     - POST /v1/trackingReminders/delete
+     - Delete previously created tracking reminder
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - examples: [{example={
+  "message" : "aeiou",
+  "status" : "",
+  "success" : true
+}, contentType=application/json}]
+     
+     - parameter body: (body) Id of reminder to be deleted 
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func v1TrackingRemindersDeletePostWithRequestBuilder(body body: TrackingReminderDelete, accessToken: String? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v1/trackingReminders/delete"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Get repeating tracking reminder settings
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter variableCategoryName: (query) Limit tracking reminders to a specific variable category (optional)
+     - parameter createdAt: (query) When the record was first created. Use ISO 8601 datetime format. Time zone should be UTC and not local.  (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use ISO 8601 datetime format. Time zone should be UTC and not local.  (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1TrackingRemindersGet(accessToken accessToken: String? = nil, variableCategoryName: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, completion: ((data: InlineResponse2001?, error: ErrorType?) -> Void)) {
+        v1TrackingRemindersGetWithRequestBuilder(accessToken: accessToken, variableCategoryName: variableCategoryName, createdAt: createdAt, updatedAt: updatedAt, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Get repeating tracking reminder settings
+     - GET /v1/trackingReminders
+     - Users can be reminded to track certain variables at a specified frequency with a default value.  
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     - examples: [{example={
+  "data" : [ {
+    "reminderStartTime" : "aeiou",
+    "thirdDailyReminderTime" : "aeiou",
+    "firstDailyReminderTime" : "aeiou",
+    "reminderEndTime" : "aeiou",
+    "lastReminded" : "2000-01-23T04:56:07.000+0000",
+    "variableName" : "aeiou",
+    "secondDailyReminderTime" : "aeiou",
+    "lastTracked" : "2000-01-23T04:56:07.000+0000",
+    "popUp" : true,
+    "sms" : true,
+    "clientId" : "aeiou",
+    "updatedAt" : "2000-01-23T04:56:07.000+0000",
+    "startTrackingDate" : "aeiou",
+    "id" : 123,
+    "combinationOperation" : "aeiou",
+    "stopTrackingDate" : "aeiou",
+    "email" : true,
+    "reminderFrequency" : 123,
+    "userId" : 123,
+    "notificationBar" : true,
+    "reminderSound" : "aeiou",
+    "abbreviatedUnitName" : "aeiou",
+    "variableId" : 123,
+    "defaultValue" : 1.3579000000000001069366817318950779736042022705078125,
+    "variableCategoryName" : "aeiou"
+  } ],
+  "success" : true
+}, contentType=application/json}]
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter variableCategoryName: (query) Limit tracking reminders to a specific variable category (optional)
+     - parameter createdAt: (query) When the record was first created. Use ISO 8601 datetime format. Time zone should be UTC and not local.  (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use ISO 8601 datetime format. Time zone should be UTC and not local.  (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order. (optional)
+
+     - returns: RequestBuilder<InlineResponse2001> 
+     */
+    public class func v1TrackingRemindersGetWithRequestBuilder(accessToken accessToken: String? = nil, variableCategoryName: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil) -> RequestBuilder<InlineResponse2001> {
+        let path = "/v1/trackingReminders"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "access_token": accessToken,
+            "variableCategoryName": variableCategoryName,
+            "createdAt": createdAt,
+            "updatedAt": updatedAt,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "sort": sort
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse2001>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Store a Tracking Reminder
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) TrackingReminder that should be stored (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func v1TrackingRemindersPost(accessToken accessToken: String? = nil, body: TrackingReminder? = nil, completion: ((data: InlineResponse2002?, error: ErrorType?) -> Void)) {
+        v1TrackingRemindersPostWithRequestBuilder(accessToken: accessToken, body: body).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Store a Tracking Reminder
+     - POST /v1/trackingReminders
+     - This is to enable users to create reminders to track a variable with a default value at a specified frequency
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     - examples: [{example={
+  "data" : {
+    "reminderStartTime" : "aeiou",
+    "thirdDailyReminderTime" : "aeiou",
+    "firstDailyReminderTime" : "aeiou",
+    "reminderEndTime" : "aeiou",
+    "lastReminded" : "2000-01-23T04:56:07.000+0000",
+    "variableName" : "aeiou",
+    "secondDailyReminderTime" : "aeiou",
+    "lastTracked" : "2000-01-23T04:56:07.000+0000",
+    "popUp" : true,
+    "sms" : true,
+    "clientId" : "aeiou",
+    "updatedAt" : "2000-01-23T04:56:07.000+0000",
+    "startTrackingDate" : "aeiou",
+    "id" : 123,
+    "combinationOperation" : "aeiou",
+    "stopTrackingDate" : "aeiou",
+    "email" : true,
+    "reminderFrequency" : 123,
+    "userId" : 123,
+    "notificationBar" : true,
+    "reminderSound" : "aeiou",
+    "abbreviatedUnitName" : "aeiou",
+    "variableId" : 123,
+    "defaultValue" : 1.3579000000000001069366817318950779736042022705078125,
+    "variableCategoryName" : "aeiou"
+  },
+  "success" : true
+}, contentType=application/json}]
+     
+     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) TrackingReminder that should be stored (optional)
+
+     - returns: RequestBuilder<InlineResponse2002> 
+     */
+    public class func v1TrackingRemindersPostWithRequestBuilder(accessToken accessToken: String? = nil, body: TrackingReminder? = nil) -> RequestBuilder<InlineResponse2002> {
+        let path = "/v1/trackingReminders"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse2002>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
 }

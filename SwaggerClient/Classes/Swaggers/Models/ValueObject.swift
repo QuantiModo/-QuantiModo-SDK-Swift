@@ -9,21 +9,19 @@ import Foundation
 
 
 public class ValueObject: JSONEncodable {
-
     /** Timestamp for the measurement event in epoch time (unixtime) */
-    public var timestamp: Int?
+    public var timestamp: Int64?
     /** Measurement value */
     public var value: Double?
     /** Optional note to include with the measurement */
     public var note: String?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["timestamp"] = self.timestamp
+        nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
         nillableDictionary["value"] = self.value
         nillableDictionary["note"] = self.note
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]

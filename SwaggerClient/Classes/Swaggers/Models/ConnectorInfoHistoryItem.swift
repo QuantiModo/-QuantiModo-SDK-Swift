@@ -9,23 +9,21 @@ import Foundation
 
 
 public class ConnectorInfoHistoryItem: JSONEncodable {
-
     /** Number of measurements */
-    public var numberOfMeasurements: Int?
+    public var numberOfMeasurements: Int32?
     /** True if the update was successfull */
     public var success: Bool?
     /** Error message. */
     public var message: String?
     /** Date and time of the update in UTC time zone */
     public var createdAt: String?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["numberOfMeasurements"] = self.numberOfMeasurements
+        nillableDictionary["numberOfMeasurements"] = self.numberOfMeasurements?.encodeToJSON()
         nillableDictionary["success"] = self.success
         nillableDictionary["message"] = self.message
         nillableDictionary["createdAt"] = self.createdAt

@@ -9,9 +9,8 @@ import Foundation
 
 
 public class Connector: JSONEncodable {
-
     /** Connector ID number */
-    public var id: Int?
+    public var id: Int32?
     /** Connector lowercase system name */
     public var name: String?
     /** Connector pretty display name */
@@ -25,27 +24,26 @@ public class Connector: JSONEncodable {
     /** URL and parameters used when connecting to a service */
     public var connectInstructions: String?
     /** Epoch timestamp of last sync */
-    public var lastUpdate: Int?
+    public var lastUpdate: Int32?
     /** Number of measurements obtained during latest update */
-    public var totalMeasurementsInLastUpdate: Int?
+    public var totalMeasurementsInLastUpdate: Int32?
     /** True if user has no measurements for this connector */
     public var noDataYet: Bool?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
         nillableDictionary["displayName"] = self.displayName
         nillableDictionary["image"] = self.image
         nillableDictionary["getItUrl"] = self.getItUrl
         nillableDictionary["connected"] = self.connected
         nillableDictionary["connectInstructions"] = self.connectInstructions
-        nillableDictionary["lastUpdate"] = self.lastUpdate
-        nillableDictionary["totalMeasurementsInLastUpdate"] = self.totalMeasurementsInLastUpdate
+        nillableDictionary["lastUpdate"] = self.lastUpdate?.encodeToJSON()
+        nillableDictionary["totalMeasurementsInLastUpdate"] = self.totalMeasurementsInLastUpdate?.encodeToJSON()
         nillableDictionary["noDataYet"] = self.noDataYet
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

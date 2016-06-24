@@ -9,17 +9,14 @@ import Foundation
 
 
 public class ConversionStep: JSONEncodable {
-
     public enum Operation: String { 
         case Multiply = "MULTIPLY"
         case Add = "ADD"
     }
-    
     /** ADD or MULTIPLY */
     public var operation: Operation?
     /** This specifies the order of conversion steps starting with 0 */
     public var value: Double?
-    
 
     public init() {}
 

@@ -9,24 +9,22 @@ import Foundation
 
 
 public class Variable: JSONEncodable {
-
     public enum CombinationOperation: String { 
         case Mean = "MEAN"
         case Sum = "SUM"
     }
-    
     /** Variable ID */
-    public var id: Int?
+    public var id: Int32?
     /** User-defined variable display name. */
     public var name: String?
-    /** Name used when the variable was originally created in the `variables` table. */
+    /** Name used when the variable was originally created in the &#x60;variables&#x60; table. */
     public var originalName: String?
     /** Variable category like Mood, Sleep, Physical Activity, Treatment, Symptom, etc. */
     public var category: String?
     /** Abbreviated name of the default unit for the variable */
     public var abbreviatedUnitName: String?
     /** Id of the default unit for the variable */
-    public var abbreviatedUnitId: Int?
+    public var abbreviatedUnitId: Int32?
     /** Comma-separated list of source names to limit variables to those sources */
     public var sources: String?
     /** Minimum reasonable value for this variable (uses default unit) */
@@ -42,52 +40,51 @@ public class Variable: JSONEncodable {
     /** Array of Variables that are joined with this Variable */
     public var joinedVariables: [Variable]?
     /** Id of the parent variable if this variable has any parent */
-    public var parent: Int?
+    public var parent: Int32?
     /** Array of Variables that are sub variables to this Variable */
     public var subVariables: [Variable]?
     /** How long it takes for a measurement in this variable to take effect */
-    public var onsetDelay: Int?
+    public var onsetDelay: Int32?
     /** How long the effect of a measurement in this variable lasts */
-    public var durationOfAction: Int?
+    public var durationOfAction: Int32?
     /** Earliest measurement time */
-    public var earliestMeasurementTime: Int?
+    public var earliestMeasurementTime: Int32?
     /** Latest measurement time */
-    public var latestMeasurementTime: Int?
+    public var latestMeasurementTime: Int32?
     /** When this variable or its settings were last updated */
-    public var updated: Int?
+    public var updated: Int32?
     /** A value of 1 indicates that this variable is generally a cause in a causal relationship.  An example of a causeOnly variable would be a variable such as Cloud Cover which would generally not be influenced by the behaviour of the user. */
-    public var causeOnly: Int?
+    public var causeOnly: Int32?
     /** Number of correlations */
-    public var numberOfCorrelations: Int?
-    /** Outcome variables (those with `outcome` == 1) are variables for which a human would generally want to identify the influencing factors.  These include symptoms of illness, physique, mood, cognitive performance, etc.  Generally correlation calculations are only performed on outcome variables. */
-    public var outcome: Int?
+    public var numberOfCorrelations: Int32?
+    /** Outcome variables (those with &#x60;outcome&#x60; &#x3D;&#x3D; 1) are variables for which a human would generally want to identify the influencing factors.  These include symptoms of illness, physique, mood, cognitive performance, etc.  Generally correlation calculations are only performed on outcome variables. */
+    public var outcome: Int32?
     /** The number of measurements that a given user had for this variable the last time a correlation calculation was performed. Generally correlation values are only updated once the current number of measurements for a variable is more than 10% greater than the measurementsAtLastAnalysis.  This avoids a computationally-demanding recalculation when there&#39;s not enough new data to make a significant difference in the correlation. */
-    public var measurementsAtLastAnalysis: Int?
+    public var measurementsAtLastAnalysis: Int32?
     /** Number of measurements */
-    public var numberOfMeasurements: Int?
+    public var numberOfMeasurements: Int32?
     /** Last unit */
     public var lastUnit: String?
     /** Last value */
-    public var lastValue: Int?
+    public var lastValue: Int32?
     /** Most common value */
-    public var mostCommonValue: Int?
+    public var mostCommonValue: Int32?
     /** Most common unit */
     public var mostCommonUnit: String?
     /** Last source */
-    public var lastSource: Int?
-    
+    public var lastSource: Int32?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
         nillableDictionary["originalName"] = self.originalName
         nillableDictionary["category"] = self.category
         nillableDictionary["abbreviatedUnitName"] = self.abbreviatedUnitName
-        nillableDictionary["abbreviatedUnitId"] = self.abbreviatedUnitId
+        nillableDictionary["abbreviatedUnitId"] = self.abbreviatedUnitId?.encodeToJSON()
         nillableDictionary["sources"] = self.sources
         nillableDictionary["minimumValue"] = self.minimumValue
         nillableDictionary["maximumValue"] = self.maximumValue
@@ -95,23 +92,23 @@ public class Variable: JSONEncodable {
         nillableDictionary["fillingValue"] = self.fillingValue
         nillableDictionary["joinWith"] = self.joinWith
         nillableDictionary["joinedVariables"] = self.joinedVariables?.encodeToJSON()
-        nillableDictionary["parent"] = self.parent
+        nillableDictionary["parent"] = self.parent?.encodeToJSON()
         nillableDictionary["subVariables"] = self.subVariables?.encodeToJSON()
-        nillableDictionary["onsetDelay"] = self.onsetDelay
-        nillableDictionary["durationOfAction"] = self.durationOfAction
-        nillableDictionary["earliestMeasurementTime"] = self.earliestMeasurementTime
-        nillableDictionary["latestMeasurementTime"] = self.latestMeasurementTime
-        nillableDictionary["updated"] = self.updated
-        nillableDictionary["causeOnly"] = self.causeOnly
-        nillableDictionary["numberOfCorrelations"] = self.numberOfCorrelations
-        nillableDictionary["outcome"] = self.outcome
-        nillableDictionary["measurementsAtLastAnalysis"] = self.measurementsAtLastAnalysis
-        nillableDictionary["numberOfMeasurements"] = self.numberOfMeasurements
+        nillableDictionary["onsetDelay"] = self.onsetDelay?.encodeToJSON()
+        nillableDictionary["durationOfAction"] = self.durationOfAction?.encodeToJSON()
+        nillableDictionary["earliestMeasurementTime"] = self.earliestMeasurementTime?.encodeToJSON()
+        nillableDictionary["latestMeasurementTime"] = self.latestMeasurementTime?.encodeToJSON()
+        nillableDictionary["updated"] = self.updated?.encodeToJSON()
+        nillableDictionary["causeOnly"] = self.causeOnly?.encodeToJSON()
+        nillableDictionary["numberOfCorrelations"] = self.numberOfCorrelations?.encodeToJSON()
+        nillableDictionary["outcome"] = self.outcome?.encodeToJSON()
+        nillableDictionary["measurementsAtLastAnalysis"] = self.measurementsAtLastAnalysis?.encodeToJSON()
+        nillableDictionary["numberOfMeasurements"] = self.numberOfMeasurements?.encodeToJSON()
         nillableDictionary["lastUnit"] = self.lastUnit
-        nillableDictionary["lastValue"] = self.lastValue
-        nillableDictionary["mostCommonValue"] = self.mostCommonValue
+        nillableDictionary["lastValue"] = self.lastValue?.encodeToJSON()
+        nillableDictionary["mostCommonValue"] = self.mostCommonValue?.encodeToJSON()
         nillableDictionary["mostCommonUnit"] = self.mostCommonUnit
-        nillableDictionary["lastSource"] = self.lastSource
+        nillableDictionary["lastSource"] = self.lastSource?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

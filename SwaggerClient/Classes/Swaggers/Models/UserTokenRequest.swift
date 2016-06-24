@@ -9,11 +9,9 @@ import Foundation
 
 
 public class UserTokenRequest: JSONEncodable {
-
     public var user: UserTokenRequestInnerUserField?
     /** Organization Access token */
     public var organizationAccessToken: String?
-    
 
     public init() {}
 

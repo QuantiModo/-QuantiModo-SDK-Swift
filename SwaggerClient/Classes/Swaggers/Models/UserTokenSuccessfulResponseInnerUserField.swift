@@ -9,20 +9,18 @@ import Foundation
 
 
 public class UserTokenSuccessfulResponseInnerUserField: JSONEncodable {
-
     /** WordPress user ID */
-    public var id: Int?
+    public var id: Int32?
     /** User token */
-    public var access_token: String?
-    
+    public var accessToken: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
-        nillableDictionary["access_token"] = self.access_token
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["access_token"] = self.accessToken
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

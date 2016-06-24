@@ -9,34 +9,32 @@ import Foundation
 
 
 public class Permission: JSONEncodable {
-
     /** Grant permission to target user or public so they may access measurements within the given parameters. TODO: Rename target to something more intuitive. */
-    public var target: Int?
+    public var target: Int32?
     /** ORIGINAL Variable name */
     public var variableName: String?
     /** Earliest time when measurements will be accessible in epoch seconds */
-    public var minTimestamp: Int?
+    public var minTimestamp: Int32?
     /** Latest time when measurements will be accessible in epoch seconds */
-    public var maxTimestamp: Int?
+    public var maxTimestamp: Int32?
     /** Earliest time of day when measurements will be accessible in epoch seconds */
-    public var minTimeOfDay: Int?
+    public var minTimeOfDay: Int32?
     /** Latest time of day when measurements will be accessible in epoch seconds */
-    public var maxTimeOfDay: Int?
+    public var maxTimeOfDay: Int32?
     /** Maybe specifies if only weekday measurements should be accessible */
     public var week: String?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["target"] = self.target
+        nillableDictionary["target"] = self.target?.encodeToJSON()
         nillableDictionary["variableName"] = self.variableName
-        nillableDictionary["minTimestamp"] = self.minTimestamp
-        nillableDictionary["maxTimestamp"] = self.maxTimestamp
-        nillableDictionary["minTimeOfDay"] = self.minTimeOfDay
-        nillableDictionary["maxTimeOfDay"] = self.maxTimeOfDay
+        nillableDictionary["minTimestamp"] = self.minTimestamp?.encodeToJSON()
+        nillableDictionary["maxTimestamp"] = self.maxTimestamp?.encodeToJSON()
+        nillableDictionary["minTimeOfDay"] = self.minTimeOfDay?.encodeToJSON()
+        nillableDictionary["maxTimeOfDay"] = self.maxTimeOfDay?.encodeToJSON()
         nillableDictionary["week"] = self.week
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

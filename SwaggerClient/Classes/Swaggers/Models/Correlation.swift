@@ -9,7 +9,6 @@ import Foundation
 
 
 public class Correlation: JSONEncodable {
-
     /** Pearson correlation coefficient between cause and effect measurements */
     public var correlationCoefficient: Double?
     /** ORIGINAL variable name of the cause variable for which the user desires correlations. */
@@ -53,8 +52,7 @@ public class Correlation: JSONEncodable {
     /** Unit of the predictor variable */
     public var causeUnit: String?
     /** Unit Id of the predictor variable */
-    public var causeUnitId: Int?
-    
+    public var causeUnitId: Int32?
 
     public init() {}
 
@@ -82,7 +80,7 @@ public class Correlation: JSONEncodable {
         nillableDictionary["averageVote"] = self.averageVote
         nillableDictionary["userVote"] = self.userVote
         nillableDictionary["causeUnit"] = self.causeUnit
-        nillableDictionary["causeUnitId"] = self.causeUnitId
+        nillableDictionary["causeUnitId"] = self.causeUnitId?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
