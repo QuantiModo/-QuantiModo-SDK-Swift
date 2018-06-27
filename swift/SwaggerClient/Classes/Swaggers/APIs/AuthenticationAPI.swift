@@ -11,167 +11,31 @@ import Alamofire
 
 public class AuthenticationAPI: APIBase {
     /**
-     Second Step in Social Authentication flow with JWT Token
-     
-     - parameter code: (query) Authorization code obtained from the provider. 
-     - parameter provider: (query) The current options are &#x60;google&#x60; and &#x60;facebook&#x60;. 
-     - parameter completion: completion handler to receive the data and the error objects
+     * enum for parameter platform
      */
-    public class func v2AuthSocialAuthorizeCodeGet(code code: String, provider: String, completion: ((error: ErrorType?) -> Void)) {
-        v2AuthSocialAuthorizeCodeGetWithRequestBuilder(code: code, provider: provider).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-
-    /**
-     Second Step in Social Authentication flow with JWT Token
-     - GET /v2/auth/social/authorizeCode
-     -  Here is the flow for how social authentication works with a JWT Token 1.**Client:** The client needs to open popup with social auth url (`https://app/quantimo.do/api/v2/auth/social/login?provider={provider}&redirectUrl={url}`) of server with `provider` and `redirectUrl`. (Url should be registered with our social apps. Facebook is fine with any redirect url with the same domain base url but Google needs exact redirect url.) 2.**Server:** The QM server will redirect user to that provider to get access. 3.**Client:** After successful or failed authentication, it will be redirected to given `redirectUrl` with code or error. 4.**Client:** The client needs to get that code and needs to send an Ajax request to server at `https://app.quantimo.do/api/v2/auth/social/authorizeCode?provider={provider}&code={authorizationCode}` 5.**Server:** The QM server will authorize that code from the social connection and will authenticate user and will retrieve user info. 6.**Server:** The QM server will try to find existing user by unique identity. If the user already exists then it will login. Otherwise, it will create new user and will then login. 7.**Server:** Once user is found/created, it will return a JWT token for that user in the response.
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     
-     - parameter code: (query) Authorization code obtained from the provider. 
-     - parameter provider: (query) The current options are &#x60;google&#x60; and &#x60;facebook&#x60;. 
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func v2AuthSocialAuthorizeCodeGetWithRequestBuilder(code code: String, provider: String) -> RequestBuilder<Void> {
-        let path = "/v2/auth/social/authorizeCode"
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "code": code,
-            "provider": provider
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Native Social Authentication
-     
-     - parameter accessToken: (query) User&#39;s OAuth2 access token obtained from Google or FB native SDK 
-     - parameter provider: (query) The current options are &#x60;google&#x60; and &#x60;facebook&#x60;. 
-     - parameter refreshToken: (query) Optional refresh token obtained from Google or FB native SDK (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v2AuthSocialAuthorizeTokenGet(accessToken accessToken: String, provider: String, refreshToken: String? = nil, completion: ((error: ErrorType?) -> Void)) {
-        v2AuthSocialAuthorizeTokenGetWithRequestBuilder(accessToken: accessToken, provider: provider, refreshToken: refreshToken).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-
-    /**
-     Native Social Authentication
-     - GET /v2/auth/social/authorizeToken
-     - If you are using native authentication via Facebook or Google SDKs then you should use the following flow. 1.**Client:** Using native authentication via your native mobile app, get an access token using the instructions provided by the Facebook SDK (https://developers.facebook.com/docs/facebook-login) or Google (https://developers.google.com/identity/protocols/OAuth2) 2.**Client:** Send an Ajax request with provider name and access token on `https://app.quantimo.do/api/v2/auth/social/authorizeToken?provider={provider}&accessToken={accessToken}&refreshToken={refreshToken}` (`refreshToken` is optional) 3.**Server:** Server will try to get user info and will find existing user by unique identity. If user exist then it will do a login for that or it will create new user and will do login 4.**Server:** Once user is found/created, it will return a JWT token for that user in response 5.**Client:** After getting the JWT token to get a QM access token follow these steps and include your JWT token in them as a header (Authorization: Bearer **{yourJWThere}**) or as a url parameter (https://app.quantimo.do/api/v2/oauth/authorize?token={yourJWThere}).
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     
-     - parameter accessToken: (query) User&#39;s OAuth2 access token obtained from Google or FB native SDK 
-     - parameter provider: (query) The current options are &#x60;google&#x60; and &#x60;facebook&#x60;. 
-     - parameter refreshToken: (query) Optional refresh token obtained from Google or FB native SDK (optional)
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func v2AuthSocialAuthorizeTokenGetWithRequestBuilder(accessToken accessToken: String, provider: String, refreshToken: String? = nil) -> RequestBuilder<Void> {
-        let path = "/v2/auth/social/authorizeToken"
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "refreshToken": refreshToken,
-            "accessToken": accessToken,
-            "provider": provider
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     First Setp in Social Authentication flow with JWT Token
-     
-     - parameter redirectUrl: (query) The redirect URI is the URL within your client application that will receive the OAuth2 credentials. Url should be registered with our social apps. Facebook and Twitter are fine with any redirect url with the same domain base url but Google needs exact redirect url. 
-     - parameter provider: (query) The current options are &#x60;google&#x60; and &#x60;facebook&#x60;. 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v2AuthSocialLoginGet(redirectUrl redirectUrl: String, provider: String, completion: ((error: ErrorType?) -> Void)) {
-        v2AuthSocialLoginGetWithRequestBuilder(redirectUrl: redirectUrl, provider: provider).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-
-    /**
-     First Setp in Social Authentication flow with JWT Token
-     - GET /v2/auth/social/login
-     -  Here is the flow for how social authentication works with a JWT Token 1.**Client:** The client needs to open popup with social auth url (`https://app/quantimo.do/api/v2/auth/social/login?provider={provider}&redirectUrl={url}`) of server with `provider` and `redirectUrl`. (Url should be registered with our social apps. Facebook and Twitter are fine with any redirect url with the same domain base url but Google needs exact redirect url.) 2.**Server:** The QM server will redirect user to that provider to get access. 3.**Client:** After successful or failed authentication, it will be redirected to given `redirectUrl` with code or error. 4.**Client:** The client needs to get that code and needs to send an Ajax request to server at `https://app.quantimo.do/api/v2/auth/social/authorizeCode?provider={provider}&code={authorizationCode}` 5.**Server:** The QM server will authorize that code from the social connection and will authenticate user and will retrieve user info. 6.**Server:** The QM server will try to find existing user by unique identity. If the user already exists then it will login. Otherwise, it will create new user and will then login. 7.**Server:** Once user is found/created, it will return a JWT token for that user in the response.
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     
-     - parameter redirectUrl: (query) The redirect URI is the URL within your client application that will receive the OAuth2 credentials. Url should be registered with our social apps. Facebook and Twitter are fine with any redirect url with the same domain base url but Google needs exact redirect url. 
-     - parameter provider: (query) The current options are &#x60;google&#x60; and &#x60;facebook&#x60;. 
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func v2AuthSocialLoginGetWithRequestBuilder(redirectUrl redirectUrl: String, provider: String) -> RequestBuilder<Void> {
-        let path = "/v2/auth/social/login"
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "redirectUrl": redirectUrl,
-            "provider": provider
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    public enum Platform_getAccessToken: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
     }
 
     /**
      Get a user access token
      
-     - parameter clientId: (query) This is the unique ID that QuantiModo uses to identify your application. Obtain a client id by emailing info@quantimo.do. 
-     - parameter clientSecret: (query) This is the secret for your obtained clientId. QuantiModo uses this to validate that only your application uses the clientId. 
      - parameter grantType: (query) Grant Type can be &#39;authorization_code&#39; or &#39;refresh_token&#39; 
      - parameter code: (query) Authorization code you received with the previous request. 
-     - parameter responseType: (query) If the value is code, launches a Basic flow, requiring a POST to the token endpoint to obtain the tokens. If the value is token id_token or id_token token, launches an Implicit flow, requiring the use of Javascript at the redirect URI to retrieve tokens from the URI #fragment. (optional)
-     - parameter scope: (query) Scopes include basic, readmeasurements, and writemeasurements. The \&quot;basic\&quot; scope allows you to read user info (displayname, email, etc). The \&quot;readmeasurements\&quot; scope allows one to read a user&#39;s data. The \&quot;writemeasurements\&quot; scope allows you to write user data. Separate multiple scopes by a space. (optional)
+     - parameter responseType: (query) If the value is code, launches a Basic flow, requiring a POST to the token endpoint to obtain the tokens. If the value is token id_token or id_token token, launches an Implicit flow, requiring the use of Javascript at the redirect URI to retrieve tokens from the URI #fragment. 
+     - parameter scope: (query) Scopes include basic, readmeasurements, and writemeasurements. The &#x60;basic&#x60; scope allows you to read user info (displayName, email, etc). The &#x60;readmeasurements&#x60; scope allows one to read a user&#39;s data. The &#x60;writemeasurements&#x60; scope allows you to write user data. Separate multiple scopes by a space. 
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter clientSecret: (query) This is the secret for your obtained clientId. We use this to ensure that only your application uses the clientId.  Obtain this by creating a free application at [https://app.quantimo.do/api/v2/apps](https://app.quantimo.do/api/v2/apps). (optional)
      - parameter redirectUri: (query) The redirect URI is the URL within your client application that will receive the OAuth2 credentials. (optional)
      - parameter state: (query) An opaque string that is round-tripped in the protocol; that is to say, it is returned as a URI parameter in the Basic flow, and in the URI (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v2Oauth2AccessTokenGet(clientId clientId: String, clientSecret: String, grantType: String, code: String, responseType: String? = nil, scope: String? = nil, redirectUri: String? = nil, state: String? = nil, completion: ((error: ErrorType?) -> Void)) {
-        v2Oauth2AccessTokenGetWithRequestBuilder(clientId: clientId, clientSecret: clientSecret, grantType: grantType, code: code, responseType: responseType, scope: scope, redirectUri: redirectUri, state: state).execute { (response, error) -> Void in
+    public class func getAccessToken(grantType grantType: String, code: String, responseType: String, scope: String, clientId: String? = nil, clientSecret: String? = nil, redirectUri: String? = nil, state: String? = nil, platform: Platform_getAccessToken? = nil, completion: ((error: ErrorType?) -> Void)) {
+        getAccessTokenWithRequestBuilder(grantType: grantType, code: code, responseType: responseType, scope: scope, clientId: clientId, clientSecret: clientSecret, redirectUri: redirectUri, state: state, platform: platform).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -179,8 +43,8 @@ public class AuthenticationAPI: APIBase {
 
     /**
      Get a user access token
-     - GET /v2/oauth2/access_token
-     - Client provides authorization token obtained from /api/v1/oauth2/authorize to this endpoint and receives an access token. Access token can then be used to query different API endpoints of QuantiModo. ### Request Access Token After user approves your access to the given scope form the https:/app.quantimo.do/v2/oauth2/authorize endpoint, you'll receive an authorization code to request an access token. This time make a `POST` request to `/api/v2/oauth/access_token` with parameters including: * `grant_type` Can be `authorization_code` or `refresh_token` since we are getting the `access_token` for the first time we don't have a `refresh_token` so this must be `authorization_code`. * `code` Authorization code you received with the previous request. * `redirect_uri` Your application's redirect url. ### Refreshing Access Token Access tokens expire at some point, to continue using our api you need to refresh them with `refresh_token` you received along with the `access_token`. To do this make a `POST` request to `/api/v2/oauth/access_token` with correct parameters, which are: * `grant_type` This time grant type must be `refresh_token` since we have it. * `clientId` Your application's client id. * `client_secret` Your application's client secret. * `refresh_token` The refresh token you received with the `access_token`. Every request you make to this endpoint will give you a new refresh token and make the old one expired. So you can keep getting new access tokens with new refresh tokens. ### Using Access Token Currently we support 2 ways for this, you can't use both at the same time. * Adding access token to the request header as `Authorization: Bearer {access_token}` * Adding to the url as a query parameter `?access_token={access_token}` You can read more about OAuth2 from [here](http://oauth.net/2/)
+     - GET /v3/oauth2/token
+     - Client provides authorization token obtained from /api/v3/oauth2/authorize to this endpoint and receives an access token. Access token can then be used to query API endpoints. ### Request Access Token After user approves your access to the given scope form the https:/app.quantimo.do/v2/oauth2/authorize endpoint, you'll receive an authorization code to request an access token. This time make a `POST` request to `/api/v2/oauth/access_token` with parameters including: * `grant_type` Can be `authorization_code` or `refresh_token` since we are getting the `access_token` for the first time we don't have a `refresh_token` so this must be `authorization_code`. * `code` Authorization code you received with the previous request. * `redirect_uri` Your application's redirect url. ### Refreshing Access Token Access tokens expire at some point, to continue using our api you need to refresh them with `refresh_token` you received along with the `access_token`. To do this make a `POST` request to `/api/v2/oauth/access_token` with correct parameters, which are: * `grant_type` This time grant type must be `refresh_token` since we have it. * `clientId` Your application's client id. * `client_secret` Your application's client secret. * `refresh_token` The refresh token you received with the `access_token`. Every request you make to this endpoint will give you a new refresh token and make the old one expired. So you can keep getting new access tokens with new refresh tokens. ### Using Access Token Currently we support 2 ways for this, you can't use both at the same time. * Adding access token to the request header as `Authorization: Bearer {access_token}` * Adding to the url as a query parameter `?access_token={access_token}` You can read more about OAuth2 from [here](http://oauth.net/2/)
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
@@ -188,19 +52,20 @@ public class AuthenticationAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      
-     - parameter clientId: (query) This is the unique ID that QuantiModo uses to identify your application. Obtain a client id by emailing info@quantimo.do. 
-     - parameter clientSecret: (query) This is the secret for your obtained clientId. QuantiModo uses this to validate that only your application uses the clientId. 
      - parameter grantType: (query) Grant Type can be &#39;authorization_code&#39; or &#39;refresh_token&#39; 
      - parameter code: (query) Authorization code you received with the previous request. 
-     - parameter responseType: (query) If the value is code, launches a Basic flow, requiring a POST to the token endpoint to obtain the tokens. If the value is token id_token or id_token token, launches an Implicit flow, requiring the use of Javascript at the redirect URI to retrieve tokens from the URI #fragment. (optional)
-     - parameter scope: (query) Scopes include basic, readmeasurements, and writemeasurements. The \&quot;basic\&quot; scope allows you to read user info (displayname, email, etc). The \&quot;readmeasurements\&quot; scope allows one to read a user&#39;s data. The \&quot;writemeasurements\&quot; scope allows you to write user data. Separate multiple scopes by a space. (optional)
+     - parameter responseType: (query) If the value is code, launches a Basic flow, requiring a POST to the token endpoint to obtain the tokens. If the value is token id_token or id_token token, launches an Implicit flow, requiring the use of Javascript at the redirect URI to retrieve tokens from the URI #fragment. 
+     - parameter scope: (query) Scopes include basic, readmeasurements, and writemeasurements. The &#x60;basic&#x60; scope allows you to read user info (displayName, email, etc). The &#x60;readmeasurements&#x60; scope allows one to read a user&#39;s data. The &#x60;writemeasurements&#x60; scope allows you to write user data. Separate multiple scopes by a space. 
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter clientSecret: (query) This is the secret for your obtained clientId. We use this to ensure that only your application uses the clientId.  Obtain this by creating a free application at [https://app.quantimo.do/api/v2/apps](https://app.quantimo.do/api/v2/apps). (optional)
      - parameter redirectUri: (query) The redirect URI is the URL within your client application that will receive the OAuth2 credentials. (optional)
      - parameter state: (query) An opaque string that is round-tripped in the protocol; that is to say, it is returned as a URI parameter in the Basic flow, and in the URI (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    public class func v2Oauth2AccessTokenGetWithRequestBuilder(clientId clientId: String, clientSecret: String, grantType: String, code: String, responseType: String? = nil, scope: String? = nil, redirectUri: String? = nil, state: String? = nil) -> RequestBuilder<Void> {
-        let path = "/v2/oauth2/access_token"
+    public class func getAccessTokenWithRequestBuilder(grantType grantType: String, code: String, responseType: String, scope: String, clientId: String? = nil, clientSecret: String? = nil, redirectUri: String? = nil, state: String? = nil, platform: Platform_getAccessToken? = nil) -> RequestBuilder<Void> {
+        let path = "/v3/oauth2/token"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
@@ -211,7 +76,8 @@ public class AuthenticationAPI: APIBase {
             "response_type": responseType,
             "scope": scope,
             "redirect_uri": redirectUri,
-            "state": state
+            "state": state,
+            "platform": platform?.rawValue
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -224,18 +90,29 @@ public class AuthenticationAPI: APIBase {
     }
 
     /**
+     * enum for parameter platform
+     */
+    public enum Platform_getOauthAuthorizationCode: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
+    }
+
+    /**
      Request Authorization Code
      
-     - parameter clientId: (query) This is the unique ID that QuantiModo uses to identify your application. Obtain a client id by creating a free application at [https://app.quantimo.do/api/v2/apps](https://app.quantimo.do/api/v2/apps). 
-     - parameter clientSecret: (query) This is the secret for your obtained clientId. QuantiModo uses this to validate that only your application uses the clientId.  Obtain this by creating a free application at [https://app.quantimo.do/api/v2/apps](https://app.quantimo.do/api/v2/apps). 
      - parameter responseType: (query) If the value is code, launches a Basic flow, requiring a POST to the token endpoint to obtain the tokens. If the value is token id_token or id_token token, launches an Implicit flow, requiring the use of Javascript at the redirect URI to retrieve tokens from the URI #fragment. 
-     - parameter scope: (query) Scopes include basic, readmeasurements, and writemeasurements. The \&quot;basic\&quot; scope allows you to read user info (displayname, email, etc). The \&quot;readmeasurements\&quot; scope allows one to read a user&#39;s data. The \&quot;writemeasurements\&quot; scope allows you to write user data. Separate multiple scopes by a space. 
+     - parameter scope: (query) Scopes include basic, readmeasurements, and writemeasurements. The &#x60;basic&#x60; scope allows you to read user info (displayName, email, etc). The &#x60;readmeasurements&#x60; scope allows one to read a user&#39;s data. The &#x60;writemeasurements&#x60; scope allows you to write user data. Separate multiple scopes by a space. 
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter clientSecret: (query) This is the secret for your obtained clientId. We use this to ensure that only your application uses the clientId.  Obtain this by creating a free application at [https://app.quantimo.do/api/v2/apps](https://app.quantimo.do/api/v2/apps). (optional)
      - parameter redirectUri: (query) The redirect URI is the URL within your client application that will receive the OAuth2 credentials. (optional)
      - parameter state: (query) An opaque string that is round-tripped in the protocol; that is to say, it is returned as a URI parameter in the Basic flow, and in the URI (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v2OauthAuthorizeGet(clientId clientId: String, clientSecret: String, responseType: String, scope: String, redirectUri: String? = nil, state: String? = nil, completion: ((error: ErrorType?) -> Void)) {
-        v2OauthAuthorizeGetWithRequestBuilder(clientId: clientId, clientSecret: clientSecret, responseType: responseType, scope: scope, redirectUri: redirectUri, state: state).execute { (response, error) -> Void in
+    public class func getOauthAuthorizationCode(responseType responseType: String, scope: String, clientId: String? = nil, clientSecret: String? = nil, redirectUri: String? = nil, state: String? = nil, platform: Platform_getOauthAuthorizationCode? = nil, completion: ((error: ErrorType?) -> Void)) {
+        getOauthAuthorizationCodeWithRequestBuilder(responseType: responseType, scope: scope, clientId: clientId, clientSecret: clientSecret, redirectUri: redirectUri, state: state, platform: platform).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -243,8 +120,8 @@ public class AuthenticationAPI: APIBase {
 
     /**
      Request Authorization Code
-     - GET /v2/oauth/authorize
-     - You can implement OAuth2 authentication to your application using our **OAuth2** endpoints.  You need to redirect users to `/api/v2/oauth/authorize` endpoint to get an authorization code and include the parameters below.   This page will ask the user if they want to allow a client's application to submit or obtain data from their QM account. It will redirect the user to the url provided by the client application with the code as a query parameter or error in case of an error. See the /api/v2/oauth/access_token endpoint for the next steps.
+     - GET /v3/oauth2/authorize
+     - You can implement OAuth2 authentication to your application using our **OAuth2** endpoints.  You need to redirect users to `/api/v3/oauth2/authorize` endpoint to get an authorization code and include the parameters below.   This page will ask the user if they want to allow a client's application to submit or obtain data from their QM account. It will redirect the user to the url provided by the client application with the code as a query parameter or error in case of an error. See the /api/v2/oauth/access_token endpoint for the next steps.
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
@@ -252,17 +129,18 @@ public class AuthenticationAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      
-     - parameter clientId: (query) This is the unique ID that QuantiModo uses to identify your application. Obtain a client id by creating a free application at [https://app.quantimo.do/api/v2/apps](https://app.quantimo.do/api/v2/apps). 
-     - parameter clientSecret: (query) This is the secret for your obtained clientId. QuantiModo uses this to validate that only your application uses the clientId.  Obtain this by creating a free application at [https://app.quantimo.do/api/v2/apps](https://app.quantimo.do/api/v2/apps). 
      - parameter responseType: (query) If the value is code, launches a Basic flow, requiring a POST to the token endpoint to obtain the tokens. If the value is token id_token or id_token token, launches an Implicit flow, requiring the use of Javascript at the redirect URI to retrieve tokens from the URI #fragment. 
-     - parameter scope: (query) Scopes include basic, readmeasurements, and writemeasurements. The \&quot;basic\&quot; scope allows you to read user info (displayname, email, etc). The \&quot;readmeasurements\&quot; scope allows one to read a user&#39;s data. The \&quot;writemeasurements\&quot; scope allows you to write user data. Separate multiple scopes by a space. 
+     - parameter scope: (query) Scopes include basic, readmeasurements, and writemeasurements. The &#x60;basic&#x60; scope allows you to read user info (displayName, email, etc). The &#x60;readmeasurements&#x60; scope allows one to read a user&#39;s data. The &#x60;writemeasurements&#x60; scope allows you to write user data. Separate multiple scopes by a space. 
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter clientSecret: (query) This is the secret for your obtained clientId. We use this to ensure that only your application uses the clientId.  Obtain this by creating a free application at [https://app.quantimo.do/api/v2/apps](https://app.quantimo.do/api/v2/apps). (optional)
      - parameter redirectUri: (query) The redirect URI is the URL within your client application that will receive the OAuth2 credentials. (optional)
      - parameter state: (query) An opaque string that is round-tripped in the protocol; that is to say, it is returned as a URI parameter in the Basic flow, and in the URI (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    public class func v2OauthAuthorizeGetWithRequestBuilder(clientId clientId: String, clientSecret: String, responseType: String, scope: String, redirectUri: String? = nil, state: String? = nil) -> RequestBuilder<Void> {
-        let path = "/v2/oauth/authorize"
+    public class func getOauthAuthorizationCodeWithRequestBuilder(responseType responseType: String, scope: String, clientId: String? = nil, clientSecret: String? = nil, redirectUri: String? = nil, state: String? = nil, platform: Platform_getOauthAuthorizationCode? = nil) -> RequestBuilder<Void> {
+        let path = "/v3/oauth2/authorize"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
@@ -271,7 +149,8 @@ public class AuthenticationAPI: APIBase {
             "response_type": responseType,
             "scope": scope,
             "redirect_uri": redirectUri,
-            "state": state
+            "state": state,
+            "platform": platform?.rawValue
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -281,6 +160,40 @@ public class AuthenticationAPI: APIBase {
         let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Post GoogleIdToken
+     
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func postGoogleIdToken(completion: ((error: ErrorType?) -> Void)) {
+        postGoogleIdTokenWithRequestBuilder().execute { (response, error) -> Void in
+            completion(error: error);
+        }
+    }
+
+
+    /**
+     Post GoogleIdToken
+     - POST /v3/googleIdToken
+     - Post GoogleIdToken
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func postGoogleIdTokenWithRequestBuilder() -> RequestBuilder<Void> {
+        let path = "/v3/googleIdToken"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [:]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

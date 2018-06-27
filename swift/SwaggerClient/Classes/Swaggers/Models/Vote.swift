@@ -9,36 +9,36 @@ import Foundation
 
 
 public class Vote: JSONEncodable {
+    /** Cause variable id */
+    public var causeVariableId: Int32?
+    /** Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do */
+    public var clientId: String?
+    /** When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format */
+    public var createdAt: String?
+    /** Effect variable id */
+    public var effectVariableId: Int32?
     /** id */
     public var id: Int32?
-    /** clientId */
-    public var clientId: String?
+    /** When the record in the database was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format */
+    public var updatedAt: String?
     /** ID of User */
     public var userId: Int32?
-    /** ID of the predictor variable */
-    public var causeId: Int32?
-    /** ID of effect variable */
-    public var effectId: Int32?
-    /** Value of Vote */
-    public var value: Int32?
-    /** When the record was first created. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format */
-    public var createdAt: NSDate?
-    /** When the record in the database was last updated. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format */
-    public var updatedAt: NSDate?
+    /** Vote: 0 (for implausible) or 1 (for plausible) */
+    public var value: Bool?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["causeVariableId"] = self.causeVariableId?.encodeToJSON()
         nillableDictionary["clientId"] = self.clientId
+        nillableDictionary["createdAt"] = self.createdAt
+        nillableDictionary["effectVariableId"] = self.effectVariableId?.encodeToJSON()
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["updatedAt"] = self.updatedAt
         nillableDictionary["userId"] = self.userId?.encodeToJSON()
-        nillableDictionary["causeId"] = self.causeId?.encodeToJSON()
-        nillableDictionary["effectId"] = self.effectId?.encodeToJSON()
-        nillableDictionary["value"] = self.value?.encodeToJSON()
-        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
-        nillableDictionary["updatedAt"] = self.updatedAt?.encodeToJSON()
+        nillableDictionary["value"] = self.value
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

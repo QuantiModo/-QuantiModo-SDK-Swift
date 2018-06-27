@@ -9,41 +9,153 @@ import Foundation
 
 
 public class Measurement: JSONEncodable {
-    /** Name of the variable for which we are creating the measurement records */
-    public var variableName: String?
-    /** Application or device used to record the measurement values */
-    public var sourceName: String?
-    /** Start Time for the measurement event in UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot; */
-    public var startTimeString: String?
-    /** Seconds between the start of the event measured and 1970 (Unix timestamp) */
-    public var startTimeEpoch: Int32?
-    public var humanTime: HumanTime?
-    /** Converted measurement value in requested unit */
-    public var value: Double?
-    /** Original value as originally submitted */
-    public var originalValue: Int32?
-    /** Original Unit of measurement as originally submitted */
-    public var originalunitAbbreviatedName: String?
-    /** Abbreviated name for the unit of measurement */
-    public var unitAbbreviatedName: String?
+    /** Ex: quantimodo */
+    public var clientId: String?
+    /** Ex: 13 */
+    public var connectorId: Int32?
+    /** Ex: 2017-07-30 21:08:36 */
+    public var createdAt: String?
+    /** Examples: 3/5, $10, or 1 count */
+    public var displayValueAndUnitString: String?
+    /** Ex: ion-sad-outline */
+    public var iconIcon: String?
+    /** Ex: 1051466127 */
+    public var id: Int32?
+    /** Ex: value */
+    public var inputType: String?
+    /** Ex: ion-ios-medkit-outline */
+    public var ionIcon: String?
+    /** Ex: 1 */
+    public var manualTracking: Bool?
+    /** Ex: 5 */
+    public var maximumAllowedValue: Int32?
+    /** Ex: 1 */
+    public var minimumAllowedValue: Int32?
     /** Note of measurement */
     public var note: String?
+    /** Additional meta data for the measurement */
+    public var noteObject: AnyObject?
+    /** Embeddable HTML with message hyperlinked with associated url */
+    public var noteHtml: AnyObject?
+    /** Ex: 23 */
+    public var originalUnitId: Int32?
+    /** Original value as originally submitted */
+    public var originalValue: Int32?
+    /** Ex: img/variable_categories/treatments.png */
+    public var pngPath: String?
+    /** Ex: https://quantimodo.quantimo.do/ionic/Modo/www/img/variable_categories/treatments.png */
+    public var pngUrl: String?
+    /** Link to associated product for purchase */
+    public var productUrl: String?
+    /** Application or device used to record the measurement values */
+    public var sourceName: String?
+    /** Ex: 2014-08-27 */
+    public var startDate: String?
+    /** Seconds between the start of the event measured and 1970 (Unix timestamp) */
+    public var startTimeEpoch: Int32?
+    /** Start Time for the measurement event in UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var startTimeString: String?
+    /** Ex: https://quantimodo.quantimo.do/ionic/Modo/www/img/variable_categories/treatments.svg */
+    public var svgUrl: String?
+    /** Abbreviated name for the unit of measurement */
+    public var unitAbbreviatedName: String?
+    /** Ex: 6 */
+    public var unitCategoryId: Int32?
+    /** Ex: Miscellany */
+    public var unitCategoryName: String?
+    /** Ex: 23 */
+    public var unitId: Int32?
+    /** Ex: Count */
+    public var unitName: String?
+    /** Ex: 2017-07-30 21:08:36 */
+    public var updatedAt: String?
+    /** Link to associated Facebook like or Github commit, for instance */
+    public var url: String?
+    /** Ex: count */
+    public var userVariableUnitAbbreviatedName: String?
+    /** Ex: 6 */
+    public var userVariableUnitCategoryId: Int32?
+    /** Ex: Miscellany */
+    public var userVariableUnitCategoryName: String?
+    /** Ex: 23 */
+    public var userVariableUnitId: Int32?
+    /** Ex: Count */
+    public var userVariableUnitName: String?
+    /** Ex: 13 */
+    public var userVariableVariableCategoryId: Int32?
+    /** Ex: Treatments */
+    public var userVariableVariableCategoryName: String?
+    /** Ex: negative */
+    public var valence: String?
+    /** Converted measurement value in requested unit */
+    public var value: Double?
+    /** Ex: 13 */
+    public var variableCategoryId: Int32?
+    /** Ex: https://maxcdn.icons8.com/Color/PNG/96/Healthcare/pill-96.png */
+    public var variableCategoryImageUrl: String?
+    /** Ex: Treatments */
+    public var variableCategoryName: String?
+    /** Ex: negative */
+    public var variableDescription: String?
+    /** Ex: 5956846 */
+    public var variableId: Int32?
+    /** Name of the variable for which we are creating the measurement records */
+    public var variableName: String?
+    /** Ex: Trader Joe&#39;s Bedtime Tea */
+    public var displayName: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["variableName"] = self.variableName
-        nillableDictionary["sourceName"] = self.sourceName
-        nillableDictionary["startTimeString"] = self.startTimeString
-        nillableDictionary["startTimeEpoch"] = self.startTimeEpoch?.encodeToJSON()
-        nillableDictionary["humanTime"] = self.humanTime?.encodeToJSON()
-        nillableDictionary["value"] = self.value
-        nillableDictionary["originalValue"] = self.originalValue?.encodeToJSON()
-        nillableDictionary["originalunitAbbreviatedName"] = self.originalunitAbbreviatedName
-        nillableDictionary["unitAbbreviatedName"] = self.unitAbbreviatedName
+        nillableDictionary["clientId"] = self.clientId
+        nillableDictionary["connectorId"] = self.connectorId?.encodeToJSON()
+        nillableDictionary["createdAt"] = self.createdAt
+        nillableDictionary["displayValueAndUnitString"] = self.displayValueAndUnitString
+        nillableDictionary["iconIcon"] = self.iconIcon
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["inputType"] = self.inputType
+        nillableDictionary["ionIcon"] = self.ionIcon
+        nillableDictionary["manualTracking"] = self.manualTracking
+        nillableDictionary["maximumAllowedValue"] = self.maximumAllowedValue?.encodeToJSON()
+        nillableDictionary["minimumAllowedValue"] = self.minimumAllowedValue?.encodeToJSON()
         nillableDictionary["note"] = self.note
+        nillableDictionary["noteObject"] = self.noteObject
+        nillableDictionary["noteHtml"] = self.noteHtml
+        nillableDictionary["originalUnitId"] = self.originalUnitId?.encodeToJSON()
+        nillableDictionary["originalValue"] = self.originalValue?.encodeToJSON()
+        nillableDictionary["pngPath"] = self.pngPath
+        nillableDictionary["pngUrl"] = self.pngUrl
+        nillableDictionary["productUrl"] = self.productUrl
+        nillableDictionary["sourceName"] = self.sourceName
+        nillableDictionary["startDate"] = self.startDate
+        nillableDictionary["startTimeEpoch"] = self.startTimeEpoch?.encodeToJSON()
+        nillableDictionary["startTimeString"] = self.startTimeString
+        nillableDictionary["svgUrl"] = self.svgUrl
+        nillableDictionary["unitAbbreviatedName"] = self.unitAbbreviatedName
+        nillableDictionary["unitCategoryId"] = self.unitCategoryId?.encodeToJSON()
+        nillableDictionary["unitCategoryName"] = self.unitCategoryName
+        nillableDictionary["unitId"] = self.unitId?.encodeToJSON()
+        nillableDictionary["unitName"] = self.unitName
+        nillableDictionary["updatedAt"] = self.updatedAt
+        nillableDictionary["url"] = self.url
+        nillableDictionary["userVariableUnitAbbreviatedName"] = self.userVariableUnitAbbreviatedName
+        nillableDictionary["userVariableUnitCategoryId"] = self.userVariableUnitCategoryId?.encodeToJSON()
+        nillableDictionary["userVariableUnitCategoryName"] = self.userVariableUnitCategoryName
+        nillableDictionary["userVariableUnitId"] = self.userVariableUnitId?.encodeToJSON()
+        nillableDictionary["userVariableUnitName"] = self.userVariableUnitName
+        nillableDictionary["userVariableVariableCategoryId"] = self.userVariableVariableCategoryId?.encodeToJSON()
+        nillableDictionary["userVariableVariableCategoryName"] = self.userVariableVariableCategoryName
+        nillableDictionary["valence"] = self.valence
+        nillableDictionary["value"] = self.value
+        nillableDictionary["variableCategoryId"] = self.variableCategoryId?.encodeToJSON()
+        nillableDictionary["variableCategoryImageUrl"] = self.variableCategoryImageUrl
+        nillableDictionary["variableCategoryName"] = self.variableCategoryName
+        nillableDictionary["variableDescription"] = self.variableDescription
+        nillableDictionary["variableId"] = self.variableId?.encodeToJSON()
+        nillableDictionary["variableName"] = self.variableName
+        nillableDictionary["displayName"] = self.displayName
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

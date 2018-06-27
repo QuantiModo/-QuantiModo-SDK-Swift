@@ -9,201 +9,315 @@ import Foundation
 
 
 public class Correlation: JSONEncodable {
-    /**  */
-    public var averageDailyLowCause: Double?
-    /**  */
+    /** Ex: 4.19 */
     public var averageDailyHighCause: Double?
-    /**  */
+    /** Ex: 1.97 */
+    public var averageDailyLowCause: Double?
+    /** Ex: 3.0791054117396 */
     public var averageEffect: Double?
-    /**  */
+    /** Ex: 3.55 */
     public var averageEffectFollowingHighCause: Double?
-    /**  */
+    /** Ex: 2.65 */
     public var averageEffectFollowingLowCause: Double?
-    /**  */
-    public var averageEffectFollowingHighCauseExplanation: String?
-    /**  */
-    public var averageEffectFollowingLowCauseExplanation: String?
-    /** Average Vote */
+    /** Ex: 0.396 */
+    public var averageForwardPearsonCorrelationOverOnsetDelays: Double?
+    /** Ex: 0.453667 */
+    public var averageReversePearsonCorrelationOverOnsetDelays: Double?
+    /** Ex: 0.9855 */
     public var averageVote: Double?
-    /**  */
-    public var causalityFactor: Double?
-    /** Variable name of the cause variable for which the user desires correlations. */
-    public var cause: String?
-    /** Variable category of the cause variable. */
-    public var causeVariableCategoryName: String?
-    /** Number of changes in the predictor variable (a.k.a the number of experiments) */
+    /** Ex: 164 */
     public var causeChanges: Int32?
-    /** The way cause measurements are aggregated */
+    public var causeDataSource: DataSource?
+    /** Ex: 1 */
+    public var causeUserVariableShareUserMeasurements: Int32?
+    /** Ex: 6 */
+    public var causeVariableCategoryId: Int32?
+    /** Ex: Sleep */
+    public var causeVariableCategoryName: String?
+    /** Ex: MEAN */
     public var causeVariableCombinationOperation: String?
-    /**  */
-    public var causeVariableImageUrl: String?
-    /** For use in Ionic apps */
-    public var causeVariableIonIcon: String?
-    /** Unit of the predictor variable */
-    public var causeUnit: String?
-    /** Unit Id of the predictor variable */
-    public var causeVariableDefaultUnitId: Int32?
-    /**  */
+    /** Ex: /5 */
+    public var causeVariableUnitAbbreviatedName: String?
+    /** Ex: 1448 */
     public var causeVariableId: Int32?
-    /** Variable name of the cause variable for which the user desires correlations. */
+    /** Ex: 6 */
+    public var causeVariableMostCommonConnectorId: Int32?
+    /** Ex: Sleep Quality */
     public var causeVariableName: String?
-    /** Pearson correlation coefficient between cause and effect measurements */
+    /** Ex: 0.14344467795996 */
+    public var confidenceInterval: Double?
+    /** Ex: high */
+    public var confidenceLevel: String?
+    /** Ex: 0.538 */
     public var correlationCoefficient: Double?
-    /** When the record was first created. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format */
-    public var createdAt: NSDate?
-    /** How the data was analyzed */
-    public var dataAnalysis: String?
-    /** How the data was obtained */
-    public var dataSources: String?
-    /** The amount of time over which a predictor/stimulus event can exert an observable influence on an outcome variable’s value. For instance, aspirin (stimulus/predictor) typically decreases headache severity for approximately four hours (duration of action) following the onset delay. */
-    public var durationOfAction: Double?
-    /** Variable name of the effect variable for which the user desires correlations. */
-    public var effect: String?
-    /** Variable category of the effect variable. */
-    public var effectVariableCategoryName: String?
-    /**  */
-    public var effectVariableImageUrl: String?
-    /** For use in Ionic apps */
-    public var effectVariableIonIcon: String?
-    /** Magnitude of the effects of a cause indicating whether it&#39;s practically meaningful. */
+    /** Ex: false */
+    public var correlationIsContradictoryToOptimalValues: Bool?
+    /** Ex: 2016-12-28 20:47:30 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var createdAt: String?
+    /** Ex: 1.646 */
+    public var criticalTValue: Double?
+    /** Ex: higher */
+    public var direction: String?
+    /** Ex: 604800 */
+    public var durationOfAction: Int32?
+    /** Ex: 168 */
+    public var durationOfActionInHours: Int32?
+    /** Ex: 200 */
+    public var degreesOfFreedom: Int32?
+    /** Ex: 145 */
+    public var effectNumberOfProcessedDailyMeasurements: Int32?
+    /** Ex: optimalPearsonProduct is not defined */
+    public var error: String?
+    /** Ex: 193 */
+    public var effectChanges: Int32?
+    public var effectDataSource: DataSource?
+    /** Ex: moderately positive */
     public var effectSize: String?
-    /** Magnitude of the effects of a cause indicating whether it&#39;s practically meaningful. */
-    public var effectVariableId: String?
-    /** Variable name of the effect variable for which the user desires correlations. */
+    /** Ex: /5 */
+    public var effectUnit: String?
+    /** Ex: 1 */
+    public var effectUserVariableShareUserMeasurements: Int32?
+    /** Ex: 1 */
+    public var effectVariableCategoryId: Int32?
+    /** Ex: Emotions */
+    public var effectVariableCategoryName: String?
+    /** Ex: MEAN */
+    public var effectVariableCombinationOperation: String?
+    /** Ex: Mood_(psychology) */
+    public var effectVariableCommonAlias: String?
+    /** Ex: /5 */
+    public var effectVariableUnitAbbreviatedName: String?
+    /** Ex: 10 */
+    public var effectVariableUnitId: Int32?
+    /** Ex: 1 to 5 Rating */
+    public var effectVariableUnitName: String?
+    /** Ex: 1398 */
+    public var effectVariableId: Int32?
+    /** Ex: 10 */
+    public var effectVariableMostCommonConnectorId: Int32?
+    /** Ex: Overall Mood */
     public var effectVariableName: String?
-    /** Illustrates the strength of the relationship */
-    public var gaugeImage: String?
-    /** Large image for Facebook */
-    public var imageUrl: String?
-    /** Number of points that went into the correlation calculation */
-    public var numberOfPairs: Double?
-    /** The amount of time in seconds that elapses after the predictor/stimulus event before the outcome as perceived by a self-tracker is known as the “onset delay”. For example, the “onset delay” between the time a person takes an aspirin (predictor/stimulus event) and the time a person perceives a change in their headache severity (outcome) is approximately 30 minutes. */
-    public var onsetDelay: Double?
-    /** Optimal Pearson Product */
+    /** Ex: 2014-07-30 12:50:00 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var experimentEndTime: String?
+    /** Ex: 2012-05-06 21:15:00 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var experimentStartTime: String?
+    /** Ex: 0.528359 */
+    public var forwardSpearmanCorrelationCoefficient: Double?
+    /** Ex: 298 */
+    public var numberOfPairs: Int32?
+    /** Ex: 0 */
+    public var onsetDelay: Int32?
+    /** Ex: 0 */
+    public var onsetDelayInHours: Int32?
+    /** Ex: -86400 */
+    public var onsetDelayWithStrongestPearsonCorrelation: Int32?
+    /** Ex: -24 */
+    public var onsetDelayWithStrongestPearsonCorrelationInHours: Int32?
+    /** Ex: 0.68582816186982 */
     public var optimalPearsonProduct: Double?
+    /** Ex: -1 */
+    public var outcomeFillingValue: Int32?
+    /** Ex: 23 */
+    public var outcomeMaximumAllowedValue: Double?
+    /** Ex: 0.1 */
+    public var outcomeMinimumAllowedValue: Double?
+    /** Ex: 0.477 */
+    public var pearsonCorrelationWithNoOnsetDelay: Double?
+    /** Ex: 0.538 */
+    public var predictivePearsonCorrelation: Double?
+    /** Ex: 0.538 */
+    public var predictivePearsonCorrelationCoefficient: Double?
+    /** Ex: RescueTime */
+    public var predictorDataSources: String?
+    /** Ex: -1 */
+    public var predictorFillingValue: Int32?
+    /** Ex: 200 */
+    public var predictorMaximumAllowedValue: Double?
+    /** Ex: 30 */
+    public var predictorMinimumAllowedValue: Double?
+    /** Ex: 17 */
+    public var predictsHighEffectChange: Int32?
+    /** Ex: -11 */
+    public var predictsLowEffectChange: Int32?
+    /** Ex: 0.39628900511586 */
+    public var pValue: Double?
+    /** Ex: 0.528 */
+    public var qmScore: Double?
+    /** Ex: 0.01377184270977 */
+    public var reversePearsonCorrelationCoefficient: Double?
+    /** Ex: 1 */
+    public var shareUserMeasurements: Bool?
+    /** Ex: N1 Study: Sleep Quality Predicts Higher Overall Mood */
+    public var sharingDescription: String?
+    /** Ex: N1 Study: Sleep Quality Predicts Higher Overall Mood */
+    public var sharingTitle: String?
+    /** Ex: 1 */
+    public var significantDifference: Bool?
+    /** Ex: 0.9813 */
+    public var statisticalSignificance: Double?
+    /** Ex: moderate */
+    public var strengthLevel: String?
+    /** Ex: 0.613 */
+    public var strongestPearsonCorrelationCoefficient: Double?
+    public var studyHtml: StudyHtml?
+    public var studyImages: StudyImages?
+    public var studyLinks: StudyLinks?
+    public var studyText: StudyText?
+    /** Ex: 9.6986079652717 */
+    public var tValue: Double?
+    /** Ex: 2017-05-06 15:40:38 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var updatedAt: String?
+    /** Ex: 230 */
+    public var userId: Int32?
+    /** Ex: 1 */
+    public var userVote: Int32?
+    /** Ex: 4.14 */
+    public var valuePredictingHighOutcome: Double?
+    /** Ex: 3.03 */
+    public var valuePredictingLowOutcome: Double?
     /** original name of the cause. */
     public var outcomeDataSources: String?
-    /** HIGHER Remeron predicts HIGHER Overall Mood */
-    public var predictorExplanation: String?
     /** Mike Sinn */
     public var principalInvestigator: String?
-    /** Value representing the significance of the relationship as a function of crowdsourced insights, predictive strength, data quantity, and data quality */
-    public var qmScore: Double?
     /** Correlation when cause and effect are reversed. For any causal relationship, the forward correlation should exceed the reverse correlation. */
     public var reverseCorrelation: Double?
-    /** Using a two-tailed t-test with alpha &#x3D; 0.05, it was determined that the change... */
-    public var significanceExplanation: String?
-    /** A function of the effect size and sample size */
-    public var statisticalSignificance: String?
-    /** weak, moderate, strong */
-    public var strengthLevel: String?
-    /** These data suggest with a high degree of confidence... */
-    public var studyAbstract: String?
-    /** In order to reduce suffering through the advancement of human knowledge... */
-    public var studyBackground: String?
-    /** This study is based on data donated by one QuantiModo user... */
-    public var studyDesign: String?
-    /** As with any human experiment, it was impossible to control for all potentially confounding variables... */
-    public var studyLimitations: String?
-    /** Url for the interactive study within the web app */
-    public var studyLinkDynamic: String?
-    /** Url for sharing the study on Facebook */
-    public var studyLinkFacebook: String?
-    /** Url for sharing the study on Google+ */
-    public var studyLinkGoogle: String?
-    /** Url for sharing the study on Twitter */
-    public var studyLinkTwitter: String?
-    /** Url for sharing the statically rendered study on social media */
-    public var studyLinkStatic: String?
-    /** The objective of this study is to determine... */
-    public var studyObjective: String?
-    /** This analysis suggests that... */
-    public var studyResults: String?
-    /** N1 Study HIGHER Remeron predicts HIGHER Overall Mood */
-    public var studyTitle: String?
-    /** Time at which correlation was calculated */
-    public var timestamp: Double?
-    /** When the record in the database was last updated. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. */
-    public var updatedAt: NSDate?
-    /** User Vote */
-    public var userVote: Double?
-    /** cause value that predicts an above average effect value (in default unit for cause variable) */
-    public var valuePredictingHighOutcome: Double?
-    /** Overall Mood, on average, 34% HIGHER after around 3.98mg Remeron */
-    public var valuePredictingHighOutcomeExplanation: String?
-    /** cause value that predicts a below average effect value (in default unit for cause variable) */
-    public var valuePredictingLowOutcome: Double?
-    /** Overall Mood, on average, 4% LOWER after around 0mg Remeron */
-    public var valuePredictingLowOutcomeExplanation: String?
+    /** Ex:  */
+    public var averagePearsonCorrelationCoefficientOverOnsetDelays: String?
+    /** Ex: 14764 */
+    public var causeNumberOfRawMeasurements: Int32?
+    /** Ex:  */
+    public var correlationsOverDurationsOfAction: String?
+    /** Ex:  */
+    public var correlationsOverDurationsOfActionChartConfig: String?
+    /** Ex:  */
+    public var correlationsOverOnsetDelaysChartConfig: String?
+    /** Ex: 1 */
+    public var numberOfUsers: Double?
+    /** Ex: 1 */
+    public var rawCauseMeasurementSignificance: Double?
+    /** Ex: 1 */
+    public var rawEffectMeasurementSignificance: Double?
+    /** Ex: 1 */
+    public var reversePairsCount: String?
+    /** Ex: 1 */
+    public var voteStatisticalSignificance: Int32?
+    /** Ex: 0.011598441286655 */
+    public var aggregateQMScore: Double?
+    /** Ex: 0.0333 */
+    public var forwardPearsonCorrelationCoefficient: Double?
+    /** Ex: 6 */
+    public var numberOfCorrelations: Int32?
+    /** Ex: 1 or 0 */
+    public var vote: Double?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["averageDailyLowCause"] = self.averageDailyLowCause
         nillableDictionary["averageDailyHighCause"] = self.averageDailyHighCause
+        nillableDictionary["averageDailyLowCause"] = self.averageDailyLowCause
         nillableDictionary["averageEffect"] = self.averageEffect
         nillableDictionary["averageEffectFollowingHighCause"] = self.averageEffectFollowingHighCause
         nillableDictionary["averageEffectFollowingLowCause"] = self.averageEffectFollowingLowCause
-        nillableDictionary["averageEffectFollowingHighCauseExplanation"] = self.averageEffectFollowingHighCauseExplanation
-        nillableDictionary["averageEffectFollowingLowCauseExplanation"] = self.averageEffectFollowingLowCauseExplanation
+        nillableDictionary["averageForwardPearsonCorrelationOverOnsetDelays"] = self.averageForwardPearsonCorrelationOverOnsetDelays
+        nillableDictionary["averageReversePearsonCorrelationOverOnsetDelays"] = self.averageReversePearsonCorrelationOverOnsetDelays
         nillableDictionary["averageVote"] = self.averageVote
-        nillableDictionary["causalityFactor"] = self.causalityFactor
-        nillableDictionary["cause"] = self.cause
-        nillableDictionary["causeVariableCategoryName"] = self.causeVariableCategoryName
         nillableDictionary["causeChanges"] = self.causeChanges?.encodeToJSON()
+        nillableDictionary["causeDataSource"] = self.causeDataSource?.encodeToJSON()
+        nillableDictionary["causeUserVariableShareUserMeasurements"] = self.causeUserVariableShareUserMeasurements?.encodeToJSON()
+        nillableDictionary["causeVariableCategoryId"] = self.causeVariableCategoryId?.encodeToJSON()
+        nillableDictionary["causeVariableCategoryName"] = self.causeVariableCategoryName
         nillableDictionary["causeVariableCombinationOperation"] = self.causeVariableCombinationOperation
-        nillableDictionary["causeVariableImageUrl"] = self.causeVariableImageUrl
-        nillableDictionary["causeVariableIonIcon"] = self.causeVariableIonIcon
-        nillableDictionary["causeUnit"] = self.causeUnit
-        nillableDictionary["causeVariableDefaultUnitId"] = self.causeVariableDefaultUnitId?.encodeToJSON()
+        nillableDictionary["causeVariableUnitAbbreviatedName"] = self.causeVariableUnitAbbreviatedName
         nillableDictionary["causeVariableId"] = self.causeVariableId?.encodeToJSON()
+        nillableDictionary["causeVariableMostCommonConnectorId"] = self.causeVariableMostCommonConnectorId?.encodeToJSON()
         nillableDictionary["causeVariableName"] = self.causeVariableName
+        nillableDictionary["confidenceInterval"] = self.confidenceInterval
+        nillableDictionary["confidenceLevel"] = self.confidenceLevel
         nillableDictionary["correlationCoefficient"] = self.correlationCoefficient
-        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
-        nillableDictionary["dataAnalysis"] = self.dataAnalysis
-        nillableDictionary["dataSources"] = self.dataSources
-        nillableDictionary["durationOfAction"] = self.durationOfAction
-        nillableDictionary["effect"] = self.effect
-        nillableDictionary["effectVariableCategoryName"] = self.effectVariableCategoryName
-        nillableDictionary["effectVariableImageUrl"] = self.effectVariableImageUrl
-        nillableDictionary["effectVariableIonIcon"] = self.effectVariableIonIcon
+        nillableDictionary["correlationIsContradictoryToOptimalValues"] = self.correlationIsContradictoryToOptimalValues
+        nillableDictionary["createdAt"] = self.createdAt
+        nillableDictionary["criticalTValue"] = self.criticalTValue
+        nillableDictionary["direction"] = self.direction
+        nillableDictionary["durationOfAction"] = self.durationOfAction?.encodeToJSON()
+        nillableDictionary["durationOfActionInHours"] = self.durationOfActionInHours?.encodeToJSON()
+        nillableDictionary["degreesOfFreedom"] = self.degreesOfFreedom?.encodeToJSON()
+        nillableDictionary["effectNumberOfProcessedDailyMeasurements"] = self.effectNumberOfProcessedDailyMeasurements?.encodeToJSON()
+        nillableDictionary["error"] = self.error
+        nillableDictionary["effectChanges"] = self.effectChanges?.encodeToJSON()
+        nillableDictionary["effectDataSource"] = self.effectDataSource?.encodeToJSON()
         nillableDictionary["effectSize"] = self.effectSize
-        nillableDictionary["effectVariableId"] = self.effectVariableId
+        nillableDictionary["effectUnit"] = self.effectUnit
+        nillableDictionary["effectUserVariableShareUserMeasurements"] = self.effectUserVariableShareUserMeasurements?.encodeToJSON()
+        nillableDictionary["effectVariableCategoryId"] = self.effectVariableCategoryId?.encodeToJSON()
+        nillableDictionary["effectVariableCategoryName"] = self.effectVariableCategoryName
+        nillableDictionary["effectVariableCombinationOperation"] = self.effectVariableCombinationOperation
+        nillableDictionary["effectVariableCommonAlias"] = self.effectVariableCommonAlias
+        nillableDictionary["effectVariableUnitAbbreviatedName"] = self.effectVariableUnitAbbreviatedName
+        nillableDictionary["effectVariableUnitId"] = self.effectVariableUnitId?.encodeToJSON()
+        nillableDictionary["effectVariableUnitName"] = self.effectVariableUnitName
+        nillableDictionary["effectVariableId"] = self.effectVariableId?.encodeToJSON()
+        nillableDictionary["effectVariableMostCommonConnectorId"] = self.effectVariableMostCommonConnectorId?.encodeToJSON()
         nillableDictionary["effectVariableName"] = self.effectVariableName
-        nillableDictionary["gaugeImage"] = self.gaugeImage
-        nillableDictionary["imageUrl"] = self.imageUrl
-        nillableDictionary["numberOfPairs"] = self.numberOfPairs
-        nillableDictionary["onsetDelay"] = self.onsetDelay
+        nillableDictionary["experimentEndTime"] = self.experimentEndTime
+        nillableDictionary["experimentStartTime"] = self.experimentStartTime
+        nillableDictionary["forwardSpearmanCorrelationCoefficient"] = self.forwardSpearmanCorrelationCoefficient
+        nillableDictionary["numberOfPairs"] = self.numberOfPairs?.encodeToJSON()
+        nillableDictionary["onsetDelay"] = self.onsetDelay?.encodeToJSON()
+        nillableDictionary["onsetDelayInHours"] = self.onsetDelayInHours?.encodeToJSON()
+        nillableDictionary["onsetDelayWithStrongestPearsonCorrelation"] = self.onsetDelayWithStrongestPearsonCorrelation?.encodeToJSON()
+        nillableDictionary["onsetDelayWithStrongestPearsonCorrelationInHours"] = self.onsetDelayWithStrongestPearsonCorrelationInHours?.encodeToJSON()
         nillableDictionary["optimalPearsonProduct"] = self.optimalPearsonProduct
-        nillableDictionary["outcomeDataSources"] = self.outcomeDataSources
-        nillableDictionary["predictorExplanation"] = self.predictorExplanation
-        nillableDictionary["principalInvestigator"] = self.principalInvestigator
+        nillableDictionary["outcomeFillingValue"] = self.outcomeFillingValue?.encodeToJSON()
+        nillableDictionary["outcomeMaximumAllowedValue"] = self.outcomeMaximumAllowedValue
+        nillableDictionary["outcomeMinimumAllowedValue"] = self.outcomeMinimumAllowedValue
+        nillableDictionary["pearsonCorrelationWithNoOnsetDelay"] = self.pearsonCorrelationWithNoOnsetDelay
+        nillableDictionary["predictivePearsonCorrelation"] = self.predictivePearsonCorrelation
+        nillableDictionary["predictivePearsonCorrelationCoefficient"] = self.predictivePearsonCorrelationCoefficient
+        nillableDictionary["predictorDataSources"] = self.predictorDataSources
+        nillableDictionary["predictorFillingValue"] = self.predictorFillingValue?.encodeToJSON()
+        nillableDictionary["predictorMaximumAllowedValue"] = self.predictorMaximumAllowedValue
+        nillableDictionary["predictorMinimumAllowedValue"] = self.predictorMinimumAllowedValue
+        nillableDictionary["predictsHighEffectChange"] = self.predictsHighEffectChange?.encodeToJSON()
+        nillableDictionary["predictsLowEffectChange"] = self.predictsLowEffectChange?.encodeToJSON()
+        nillableDictionary["pValue"] = self.pValue
         nillableDictionary["qmScore"] = self.qmScore
-        nillableDictionary["reverseCorrelation"] = self.reverseCorrelation
-        nillableDictionary["significanceExplanation"] = self.significanceExplanation
+        nillableDictionary["reversePearsonCorrelationCoefficient"] = self.reversePearsonCorrelationCoefficient
+        nillableDictionary["shareUserMeasurements"] = self.shareUserMeasurements
+        nillableDictionary["sharingDescription"] = self.sharingDescription
+        nillableDictionary["sharingTitle"] = self.sharingTitle
+        nillableDictionary["significantDifference"] = self.significantDifference
         nillableDictionary["statisticalSignificance"] = self.statisticalSignificance
         nillableDictionary["strengthLevel"] = self.strengthLevel
-        nillableDictionary["studyAbstract"] = self.studyAbstract
-        nillableDictionary["studyBackground"] = self.studyBackground
-        nillableDictionary["studyDesign"] = self.studyDesign
-        nillableDictionary["studyLimitations"] = self.studyLimitations
-        nillableDictionary["studyLinkDynamic"] = self.studyLinkDynamic
-        nillableDictionary["studyLinkFacebook"] = self.studyLinkFacebook
-        nillableDictionary["studyLinkGoogle"] = self.studyLinkGoogle
-        nillableDictionary["studyLinkTwitter"] = self.studyLinkTwitter
-        nillableDictionary["studyLinkStatic"] = self.studyLinkStatic
-        nillableDictionary["studyObjective"] = self.studyObjective
-        nillableDictionary["studyResults"] = self.studyResults
-        nillableDictionary["studyTitle"] = self.studyTitle
-        nillableDictionary["timestamp"] = self.timestamp
-        nillableDictionary["updatedAt"] = self.updatedAt?.encodeToJSON()
-        nillableDictionary["userVote"] = self.userVote
+        nillableDictionary["strongestPearsonCorrelationCoefficient"] = self.strongestPearsonCorrelationCoefficient
+        nillableDictionary["studyHtml"] = self.studyHtml?.encodeToJSON()
+        nillableDictionary["studyImages"] = self.studyImages?.encodeToJSON()
+        nillableDictionary["studyLinks"] = self.studyLinks?.encodeToJSON()
+        nillableDictionary["studyText"] = self.studyText?.encodeToJSON()
+        nillableDictionary["tValue"] = self.tValue
+        nillableDictionary["updatedAt"] = self.updatedAt
+        nillableDictionary["userId"] = self.userId?.encodeToJSON()
+        nillableDictionary["userVote"] = self.userVote?.encodeToJSON()
         nillableDictionary["valuePredictingHighOutcome"] = self.valuePredictingHighOutcome
-        nillableDictionary["valuePredictingHighOutcomeExplanation"] = self.valuePredictingHighOutcomeExplanation
         nillableDictionary["valuePredictingLowOutcome"] = self.valuePredictingLowOutcome
-        nillableDictionary["valuePredictingLowOutcomeExplanation"] = self.valuePredictingLowOutcomeExplanation
+        nillableDictionary["outcomeDataSources"] = self.outcomeDataSources
+        nillableDictionary["principalInvestigator"] = self.principalInvestigator
+        nillableDictionary["reverseCorrelation"] = self.reverseCorrelation
+        nillableDictionary["averagePearsonCorrelationCoefficientOverOnsetDelays"] = self.averagePearsonCorrelationCoefficientOverOnsetDelays
+        nillableDictionary["causeNumberOfRawMeasurements"] = self.causeNumberOfRawMeasurements?.encodeToJSON()
+        nillableDictionary["correlationsOverDurationsOfAction"] = self.correlationsOverDurationsOfAction
+        nillableDictionary["correlationsOverDurationsOfActionChartConfig"] = self.correlationsOverDurationsOfActionChartConfig
+        nillableDictionary["correlationsOverOnsetDelaysChartConfig"] = self.correlationsOverOnsetDelaysChartConfig
+        nillableDictionary["numberOfUsers"] = self.numberOfUsers
+        nillableDictionary["rawCauseMeasurementSignificance"] = self.rawCauseMeasurementSignificance
+        nillableDictionary["rawEffectMeasurementSignificance"] = self.rawEffectMeasurementSignificance
+        nillableDictionary["reversePairsCount"] = self.reversePairsCount
+        nillableDictionary["voteStatisticalSignificance"] = self.voteStatisticalSignificance?.encodeToJSON()
+        nillableDictionary["aggregateQMScore"] = self.aggregateQMScore
+        nillableDictionary["forwardPearsonCorrelationCoefficient"] = self.forwardPearsonCorrelationCoefficient
+        nillableDictionary["numberOfCorrelations"] = self.numberOfCorrelations?.encodeToJSON()
+        nillableDictionary["vote"] = self.vote
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

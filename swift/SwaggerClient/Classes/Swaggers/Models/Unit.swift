@@ -21,31 +21,55 @@ public class Unit: JSONEncodable {
         case Temperature = "Temperature"
         case Volume = "Volume"
         case Weight = "Weight"
+        case Count = "Count"
     }
-    /** Unit name */
-    public var name: String?
     /** Unit abbreviation */
     public var abbreviatedName: String?
+    /** Ex: 1 */
+    public var advanced: Int32?
     /** Unit category */
     public var category: Category?
-    /** The minimum allowed value for measurements. While you can record a value below this minimum, it will be excluded from the correlation analysis. */
-    public var minimumAllowedValue: Double?
-    /** The maximum allowed value for measurements. While you can record a value above this maximum, it will be excluded from the correlation analysis. */
-    public var maximumAllowedValue: Double?
+    /** Ex: 6 */
+    public var categoryId: Int32?
+    /** Ex: Miscellany */
+    public var categoryName: String?
     /** Conversion steps list */
     public var conversionSteps: [ConversionStep]?
+    /** Ex: 29 */
+    public var id: Int32?
+    /** Ex: 0 */
+    public var manualTracking: Int32?
+    /** The maximum allowed value for measurements. While you can record a value above this maximum, it will be excluded from the correlation analysis. */
+    public var maximumAllowedValue: Double?
+    /** Ex: 4 */
+    public var maximumValue: Int32?
+    /** The minimum allowed value for measurements. While you can record a value below this minimum, it will be excluded from the correlation analysis. */
+    public var minimumAllowedValue: Double?
+    /** Ex: 0 */
+    public var minimumValue: Int32?
+    /** Unit name */
+    public var name: String?
+    public var unitCategory: UnitCategory?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["name"] = self.name
         nillableDictionary["abbreviatedName"] = self.abbreviatedName
+        nillableDictionary["advanced"] = self.advanced?.encodeToJSON()
         nillableDictionary["category"] = self.category?.rawValue
-        nillableDictionary["minimumAllowedValue"] = self.minimumAllowedValue
-        nillableDictionary["maximumAllowedValue"] = self.maximumAllowedValue
+        nillableDictionary["categoryId"] = self.categoryId?.encodeToJSON()
+        nillableDictionary["categoryName"] = self.categoryName
         nillableDictionary["conversionSteps"] = self.conversionSteps?.encodeToJSON()
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["manualTracking"] = self.manualTracking?.encodeToJSON()
+        nillableDictionary["maximumAllowedValue"] = self.maximumAllowedValue
+        nillableDictionary["maximumValue"] = self.maximumValue?.encodeToJSON()
+        nillableDictionary["minimumAllowedValue"] = self.minimumAllowedValue
+        nillableDictionary["minimumValue"] = self.minimumValue?.encodeToJSON()
+        nillableDictionary["name"] = self.name
+        nillableDictionary["unitCategory"] = self.unitCategory?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

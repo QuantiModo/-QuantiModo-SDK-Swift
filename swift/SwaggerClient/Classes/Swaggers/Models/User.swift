@@ -9,33 +9,152 @@ import Foundation
 
 
 public class User: JSONEncodable {
-    /** User id */
-    public var id: Int32?
-    /** Wordpress user id */
-    public var wpId: Int32?
-    /** User display name */
-    public var displayName: String?
-    /** User login name */
-    public var loginName: String?
-    /** User email */
-    public var email: String?
-    /** User token */
-    public var token: String?
+    /** User access token */
+    public var accessToken: String?
+    /** Ex: 2018-08-08 02:41:19 */
+    public var accessTokenExpires: String?
+    /** Ex: 1533696079000 */
+    public var accessTokenExpiresAtMilliseconds: Int32?
     /** Is user administrator */
     public var administrator: Bool?
+    public var authorizedClients: AuthorizedClients?
+    /** Ex: https://lh6.googleusercontent.com/-BHr4hyUWqZU/AAAAAAAAAAI/AAAAAAAIG28/2Lv0en738II/photo.jpg?sz&#x3D;50 */
+    public var avatar: String?
+    /** Ex: https://lh6.googleusercontent.com/-BHr4hyUWqZU/AAAAAAAAAAI/AAAAAAAIG28/2Lv0en738II/photo.jpg?sz&#x3D;50 */
+    public var avatarImage: String?
+    /** Ex: a:1:{s:13:\&quot;administrator\&quot;;b:1;} */
+    public var capabilities: String?
+    /** Ex: quantimodo */
+    public var clientId: String?
+    /** Ex: 118444693184829555362 */
+    public var clientUserId: String?
+    /** Ex: 1 */
+    public var combineNotifications: Bool?
+    /** When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format */
+    public var createdAt: String?
+    /** User display name */
+    public var displayName: String?
+    /** Earliest time user should get notifications. Ex: 05:00:00 */
+    public var earliestReminderTime: String?
+    /** User email */
+    public var email: String?
+    /** Ex: Mike */
+    public var firstName: String?
+    /** Ex: false */
+    public var getPreviewBuilds: Bool?
+    /** Ex: false */
+    public var hasAndroidApp: Bool?
+    /** Ex: false */
+    public var hasChromeExtension: Bool?
+    /** Ex: false */
+    public var hasIosApp: Bool?
+    /** User id */
+    public var id: Int32?
+    /** Ex: 2009 */
+    public var lastFour: String?
+    /** Ex: Sinn */
+    public var lastName: String?
+    /** Ex: 1 */
+    public var lastSmsTrackingReminderNotificationId: String?
+    /** Latest time user should get notifications. Ex: 23:00:00 */
+    public var latestReminderTime: String?
+    /** User login name */
+    public var loginName: String?
+    /** Ex: PASSWORD */
+    public var password: String?
+    /** Ex: 618-391-0002 */
+    public var phoneNumber: String?
+    /** Ex: 1234 */
+    public var phoneVerificationCode: String?
+    /** Ex: 1 */
+    public var pushNotificationsEnabled: Bool?
+    /** Ex: 6e99b113d85586de1f92468433f2df1e666647cb */
+    public var refreshToken: String?
+    /** Ex: [\&quot;admin\&quot;] */
+    public var roles: String?
+    /** Ex: 1 */
+    public var sendPredictorEmails: Bool?
+    /** Ex: 1 */
+    public var sendReminderNotificationEmails: Bool?
+    /** Share all studies, charts, and measurement data with all other users */
+    public var shareAllData: Bool?
+    /** Ex: false */
+    public var smsNotificationsEnabled: Bool?
+    /** Ex: 1 */
+    public var stripeActive: Bool?
+    /** Ex: cus_A8CEmcvl8jwLhV */
+    public var stripeId: String?
+    /** Ex: monthly7 */
+    public var stripePlan: String?
+    /** Ex: sub_ANTx3nOE7nzjQf */
+    public var stripeSubscription: String?
+    /** UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var subscriptionEndsAt: String?
+    /** Ex: google */
+    public var subscriptionProvider: String?
+    /** Ex: 300 */
+    public var timeZoneOffset: Int32?
+    /** Ex: 1 */
+    public var trackLocation: Bool?
+    /** When the record in the database was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format */
+    public var updatedAt: String?
+    /** Ex: 2013-12-03 15:25:13 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var userRegistered: String?
+    /** Ex: https://plus.google.com/+MikeSinn */
+    public var userUrl: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id?.encodeToJSON()
-        nillableDictionary["wpId"] = self.wpId?.encodeToJSON()
-        nillableDictionary["displayName"] = self.displayName
-        nillableDictionary["loginName"] = self.loginName
-        nillableDictionary["email"] = self.email
-        nillableDictionary["token"] = self.token
+        nillableDictionary["accessToken"] = self.accessToken
+        nillableDictionary["accessTokenExpires"] = self.accessTokenExpires
+        nillableDictionary["accessTokenExpiresAtMilliseconds"] = self.accessTokenExpiresAtMilliseconds?.encodeToJSON()
         nillableDictionary["administrator"] = self.administrator
+        nillableDictionary["authorizedClients"] = self.authorizedClients?.encodeToJSON()
+        nillableDictionary["avatar"] = self.avatar
+        nillableDictionary["avatarImage"] = self.avatarImage
+        nillableDictionary["capabilities"] = self.capabilities
+        nillableDictionary["clientId"] = self.clientId
+        nillableDictionary["clientUserId"] = self.clientUserId
+        nillableDictionary["combineNotifications"] = self.combineNotifications
+        nillableDictionary["createdAt"] = self.createdAt
+        nillableDictionary["displayName"] = self.displayName
+        nillableDictionary["earliestReminderTime"] = self.earliestReminderTime
+        nillableDictionary["email"] = self.email
+        nillableDictionary["firstName"] = self.firstName
+        nillableDictionary["getPreviewBuilds"] = self.getPreviewBuilds
+        nillableDictionary["hasAndroidApp"] = self.hasAndroidApp
+        nillableDictionary["hasChromeExtension"] = self.hasChromeExtension
+        nillableDictionary["hasIosApp"] = self.hasIosApp
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["lastFour"] = self.lastFour
+        nillableDictionary["lastName"] = self.lastName
+        nillableDictionary["lastSmsTrackingReminderNotificationId"] = self.lastSmsTrackingReminderNotificationId
+        nillableDictionary["latestReminderTime"] = self.latestReminderTime
+        nillableDictionary["loginName"] = self.loginName
+        nillableDictionary["password"] = self.password
+        nillableDictionary["phoneNumber"] = self.phoneNumber
+        nillableDictionary["phoneVerificationCode"] = self.phoneVerificationCode
+        nillableDictionary["pushNotificationsEnabled"] = self.pushNotificationsEnabled
+        nillableDictionary["refreshToken"] = self.refreshToken
+        nillableDictionary["roles"] = self.roles
+        nillableDictionary["sendPredictorEmails"] = self.sendPredictorEmails
+        nillableDictionary["sendReminderNotificationEmails"] = self.sendReminderNotificationEmails
+        nillableDictionary["shareAllData"] = self.shareAllData
+        nillableDictionary["smsNotificationsEnabled"] = self.smsNotificationsEnabled
+        nillableDictionary["stripeActive"] = self.stripeActive
+        nillableDictionary["stripeId"] = self.stripeId
+        nillableDictionary["stripePlan"] = self.stripePlan
+        nillableDictionary["stripeSubscription"] = self.stripeSubscription
+        nillableDictionary["subscriptionEndsAt"] = self.subscriptionEndsAt
+        nillableDictionary["subscriptionProvider"] = self.subscriptionProvider
+        nillableDictionary["timeZoneOffset"] = self.timeZoneOffset?.encodeToJSON()
+        nillableDictionary["trackLocation"] = self.trackLocation
+        nillableDictionary["updatedAt"] = self.updatedAt
+        nillableDictionary["userRegistered"] = self.userRegistered
+        nillableDictionary["userUrl"] = self.userUrl
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

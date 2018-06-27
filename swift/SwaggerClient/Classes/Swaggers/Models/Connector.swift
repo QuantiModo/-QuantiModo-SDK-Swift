@@ -9,39 +9,116 @@ import Foundation
 
 
 public class Connector: JSONEncodable {
-    /** Connector ID number */
-    public var id: Int32?
-    /** Connector lowercase system name */
-    public var name: String?
+    /** Ex: false */
+    public var affiliate: Bool?
+    /** Background color HEX code that matches the icon */
+    public var backgroundColor: String?
+    public var buttons: [Button]?
+    /** Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do */
+    public var clientId: String?
+    /** True if the authenticated user has this connector enabled */
+    public var connected: Bool?
+    /** Ex: Your token is expired. Please re-connect */
+    public var connectError: String?
+    /** URL and parameters used when connecting to a service */
+    public var connectInstructions: ConnectInstructions?
+    /** Ex: 225078261031461 */
+    public var connectorClientId: String?
+    /** Ex: 8 */
+    public var connectorId: Int32?
+    /** Ex: CONNECTED */
+    public var connectStatus: String?
+    /** Ex: 2000-01-01 00:00:00 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var createdAt: String?
+    /** Ex: Social Interactions */
+    public var defaultVariableCategoryName: String?
     /** Connector pretty display name */
     public var displayName: String?
-    /** URL to the image of the connector logo */
-    public var image: String?
+    /** Ex: 1 */
+    public var enabled: Int32?
     /** URL to a site where one can get this device or application */
     public var getItUrl: String?
-    /** True if the authenticated user has this connector enabled */
-    public var connected: String?
-    /** URL and parameters used when connecting to a service */
-    public var connectInstructions: String?
+    /** Connector ID number */
+    public var id: Int32?
+    /** URL to the image of the connector logo */
+    public var image: String?
+    /** Ex: &lt;a href&#x3D;\&quot;http://www.facebook.com\&quot;&gt;&lt;img id&#x3D;\&quot;facebook_image\&quot; title&#x3D;\&quot;Facebook\&quot; src&#x3D;\&quot;https://i.imgur.com/GhwqK4f.png\&quot; alt&#x3D;\&quot;Facebook\&quot;&gt;&lt;/a&gt; */
+    public var imageHtml: String?
+    /** Ex: 2017-07-31 10:10:34 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var lastSuccessfulUpdatedAt: String?
     /** Epoch timestamp of last sync */
     public var lastUpdate: Int32?
+    /** Ex: &lt;a href&#x3D;\&quot;http://www.facebook.com\&quot;&gt;Facebook&lt;/a&gt; */
+    public var linkedDisplayNameHtml: String?
+    /** Ex: Facebook is a social networking website where users may create a personal profile, add other users as friends, and exchange messages. */
+    public var longDescription: String?
+    /** Ex: Got 412 new measurements on 2017-07-31 10:10:34 */
+    public var message: String?
+    /** Mobile connect method: webview, cordova, google, spreadsheet, or ip */
+    public var mobileConnectMethod: String?
+    /** Connector lowercase system name */
+    public var name: String?
+    /** Platforms (chrome, android, ios, web) that you can connect on. */
+    public var platforms: [String]?
+    /** True if connection requires upgrade */
+    public var premium: Bool?
+    /** Required connector scopes */
+    public var scopes: [String]?
+    /** Ex: Tracks social interaction. QuantiModo requires permission to access your Facebook \&quot;user likes\&quot; and \&quot;user posts\&quot;. */
+    public var shortDescription: String?
+    /** True if the user must upload a spreadsheet.  Post the uploaded spreadsheet with your clientId and user accessToken to https://app.quantimo.do/api/v2/spreadsheetUpload */
+    public var spreadsheetUpload: Bool?
     /** Number of measurements obtained during latest update */
     public var totalMeasurementsInLastUpdate: Int32?
+    /** Ex: 2017-07-31 10:10:34 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var updatedAt: String?
+    /** Ex: 2017-07-18 05:16:31 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var updateRequestedAt: String?
+    /** Ex: UPDATED */
+    public var updateStatus: String?
+    /** Ex: 230 */
+    public var userId: Int32?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id?.encodeToJSON()
-        nillableDictionary["name"] = self.name
-        nillableDictionary["displayName"] = self.displayName
-        nillableDictionary["image"] = self.image
-        nillableDictionary["getItUrl"] = self.getItUrl
+        nillableDictionary["affiliate"] = self.affiliate
+        nillableDictionary["backgroundColor"] = self.backgroundColor
+        nillableDictionary["buttons"] = self.buttons?.encodeToJSON()
+        nillableDictionary["clientId"] = self.clientId
         nillableDictionary["connected"] = self.connected
-        nillableDictionary["connectInstructions"] = self.connectInstructions
+        nillableDictionary["connectError"] = self.connectError
+        nillableDictionary["connectInstructions"] = self.connectInstructions?.encodeToJSON()
+        nillableDictionary["connectorClientId"] = self.connectorClientId
+        nillableDictionary["connectorId"] = self.connectorId?.encodeToJSON()
+        nillableDictionary["connectStatus"] = self.connectStatus
+        nillableDictionary["createdAt"] = self.createdAt
+        nillableDictionary["defaultVariableCategoryName"] = self.defaultVariableCategoryName
+        nillableDictionary["displayName"] = self.displayName
+        nillableDictionary["enabled"] = self.enabled?.encodeToJSON()
+        nillableDictionary["getItUrl"] = self.getItUrl
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["image"] = self.image
+        nillableDictionary["imageHtml"] = self.imageHtml
+        nillableDictionary["lastSuccessfulUpdatedAt"] = self.lastSuccessfulUpdatedAt
         nillableDictionary["lastUpdate"] = self.lastUpdate?.encodeToJSON()
+        nillableDictionary["linkedDisplayNameHtml"] = self.linkedDisplayNameHtml
+        nillableDictionary["longDescription"] = self.longDescription
+        nillableDictionary["message"] = self.message
+        nillableDictionary["mobileConnectMethod"] = self.mobileConnectMethod
+        nillableDictionary["name"] = self.name
+        nillableDictionary["platforms"] = self.platforms?.encodeToJSON()
+        nillableDictionary["premium"] = self.premium
+        nillableDictionary["scopes"] = self.scopes?.encodeToJSON()
+        nillableDictionary["shortDescription"] = self.shortDescription
+        nillableDictionary["spreadsheetUpload"] = self.spreadsheetUpload
         nillableDictionary["totalMeasurementsInLastUpdate"] = self.totalMeasurementsInLastUpdate?.encodeToJSON()
+        nillableDictionary["updatedAt"] = self.updatedAt
+        nillableDictionary["updateRequestedAt"] = self.updateRequestedAt
+        nillableDictionary["updateStatus"] = self.updateStatus
+        nillableDictionary["userId"] = self.userId?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

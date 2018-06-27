@@ -13,78 +13,239 @@ public class TrackingReminder: JSONEncodable {
         case Mean = "MEAN"
         case Sum = "SUM"
     }
-    /** id */
-    public var id: Int32?
-    /** clientId */
+    public var actionArray: [TrackingReminderNotificationAction]?
+    public var availableUnits: [Unit]?
+    /** Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do */
     public var clientId: String?
-    /** ID of User */
-    public var userId: Int32?
-    /** Id for the variable to be tracked */
-    public var variableId: Int32?
+    /** The way multiple measurements are aggregated over time */
+    public var combinationOperation: CombinationOperation?
+    /** Ex: 2016-05-18 02:24:08 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var createdAt: String?
+    /** Ex: Trader Joe&#39;s Bedtime Tea */
+    public var displayName: String?
+    /** Ex: /5 */
+    public var unitAbbreviatedName: String?
+    /** Ex: 5 */
+    public var unitCategoryId: Int32?
+    /** Ex: Rating */
+    public var unitCategoryName: String?
+    /** Ex: 10 */
+    public var unitId: Int32?
+    /** Ex: 1 to 5 Rating */
+    public var unitName: String?
     /** Default value to use for the measurement when tracking */
     public var defaultValue: Float?
-    /** Earliest time of day at which reminders should appear in UTC HH:MM:SS format */
-    public var reminderStartTime: String?
-    /** Latest time of day at which reminders should appear in UTC HH:MM:SS format */
-    public var reminderEndTime: String?
-    /** String identifier for the sound to accompany the reminder */
-    public var reminderSound: String?
-    /** Number of seconds between one reminder and the next */
-    public var reminderFrequency: Int32?
-    /** True if the reminders should appear as a popup notification */
-    public var popUp: Bool?
-    /** True if the reminders should be delivered via SMS */
-    public var sms: Bool?
     /** True if the reminders should be delivered via email */
     public var email: Bool?
+    /** Ex: reminderStartTimeLocal is less than $user-&gt;earliestReminderTime or greater than  $user-&gt;latestReminderTime */
+    public var errorMessage: String?
+    /** Ex: 0 */
+    public var fillingValue: Int32?
+    /** Ex: 02:45:20 in UTC timezone */
+    public var firstDailyReminderTime: String?
+    /** Ex: Daily */
+    public var frequencyTextDescription: String?
+    /** Ex: Daily at 09:45 PM */
+    public var frequencyTextDescriptionWithTime: String?
+    /** id */
+    public var id: Int32?
+    /** Ex: saddestFaceIsFive */
+    public var inputType: String?
+    /** Ex: I am an instruction! */
+    public var instructions: String?
+    /** Ex: ion-sad-outline */
+    public var ionIcon: String?
+    /** UTC ISO 8601 YYYY-MM-DDThh:mm:ss timestamp for the last time a measurement was received for this user and variable */
+    public var lastTracked: String?
+    /** Ex: 2 */
+    public var lastValue: Double?
+    /** UTC ISO 8601 YYYY-MM-DDThh:mm:ss  timestamp for the reminder time of the latest tracking reminder notification that has been pre-emptively generated in the database */
+    public var latestTrackingReminderNotificationReminderTime: String?
+    public var localDailyReminderNotificationTimes: [String]?
+    public var localDailyReminderNotificationTimesForAllReminders: [String]?
+    /** Ex: 1 */
+    public var manualTracking: Bool?
+    /** Ex: 5 */
+    public var maximumAllowedValue: Int32?
+    /** Ex: 1 */
+    public var minimumAllowedValue: Int32?
+    /** Ex: 1501555520 */
+    public var nextReminderTimeEpochSeconds: Int32?
     /** True if the reminders should appear in the notification bar */
     public var notificationBar: Bool?
-    /** UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  timestamp for the reminder time of the latest tracking reminder notification that has been pre-emptively generated in the database */
-    public var latestTrackingReminderNotificationReminderTime: NSDate?
-    /** UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  timestamp for the last time a measurement was received for this user and variable */
-    public var lastTracked: NSDate?
+    /** Ex: 445 */
+    public var numberOfRawMeasurements: Int32?
+    /** Ex: 1 */
+    public var numberOfUniqueValues: Int32?
+    /** Indicates whether or not the variable is usually an outcome of interest such as a symptom or emotion */
+    public var outcome: Bool?
+    /** Ex: img/variable_categories/symptoms.png */
+    public var pngPath: String?
+    /** Ex: https://quantimodo.quantimo.do/ionic/Modo/www/img/variable_categories/symptoms.png */
+    public var pngUrl: String?
+    /** Link to associated product for purchase */
+    public var productUrl: String?
+    /** True if the reminders should appear as a popup notification */
+    public var popUp: Bool?
+    /** Ex: How is your overall mood? */
+    public var question: String?
+    /** Latest time of day at which reminders should appear in UTC HH:MM:SS format */
+    public var reminderEndTime: String?
+    /** Number of seconds between one reminder and the next */
+    public var reminderFrequency: Int32?
+    /** String identifier for the sound to accompany the reminder */
+    public var reminderSound: String?
+    /** Ex: 1469760320 */
+    public var reminderStartEpochSeconds: Int32?
+    /** Earliest time of day at which reminders should appear in UTC HH:MM:SS format */
+    public var reminderStartTime: String?
+    /** Ex: 21:45:20 */
+    public var reminderStartTimeLocal: String?
+    /** Ex: 09:45 PM */
+    public var reminderStartTimeLocalHumanFormatted: String?
+    /** Ex: true */
+    public var repeating: Bool?
+    /** Ex: 01:00:00 */
+    public var secondDailyReminderTime: String?
+    /** Ex: 1 */
+    public var secondToLastValue: Double?
+    /** True if the reminders should be delivered via SMS */
+    public var sms: Bool?
     /** Earliest date on which the user should be reminded to track in YYYY-MM-DD format */
     public var startTrackingDate: String?
     /** Latest date on which the user should be reminded to track in YYYY-MM-DD format */
     public var stopTrackingDate: String?
-    /** When the record in the database was last updated. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. */
-    public var updatedAt: NSDate?
-    /** Name of the variable to be used when sending measurements */
-    public var variableName: String?
+    /** Ex: https://quantimodo.quantimo.do/ionic/Modo/www/img/variable_categories/symptoms.svg */
+    public var svgUrl: String?
+    /** Ex: 20:00:00 */
+    public var thirdDailyReminderTime: String?
+    /** Ex: 3 */
+    public var thirdToLastValue: Double?
+    /** Ex: 11841 */
+    public var trackingReminderId: Int32?
+    /** Ex: Not Found */
+    public var trackingReminderImageUrl: String?
+    /** UPC or other barcode scan result */
+    public var upc: String?
+    /** When the record in the database was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. */
+    public var updatedAt: String?
+    /** ID of User */
+    public var userId: Int32?
+    /** Ex: /5 */
+    public var userVariableUnitAbbreviatedName: String?
+    /** Ex: 5 */
+    public var userVariableUnitCategoryId: Int32?
+    /** Ex: Rating */
+    public var userVariableUnitCategoryName: String?
+    /** Ex: 10 */
+    public var userVariableUnitId: Int32?
+    /** Ex: 1 to 5 Rating */
+    public var userVariableUnitName: String?
+    /** Ex: 10 */
+    public var userVariableVariableCategoryId: Int32?
+    /** Ex: Symptoms */
+    public var userVariableVariableCategoryName: String?
+    /** Ex: negative */
+    public var valence: String?
+    /** Ex: Rate daily */
+    public var valueAndFrequencyTextDescription: String?
+    /** Ex: Rate daily at 09:45 PM */
+    public var valueAndFrequencyTextDescriptionWithTime: String?
+    /** Ex: 10 */
+    public var variableCategoryId: Int32?
+    /** Ex: https://maxcdn.icons8.com/Color/PNG/96/Messaging/sad-96.png */
+    public var variableCategoryImageUrl: String?
     /** Name of the variable category to be used when sending measurements */
     public var variableCategoryName: String?
-    /** Abbreviated name of the unit to be used when sending measurements */
-    public var unitAbbreviatedName: String?
-    /** The way multiple measurements are aggregated over time */
-    public var combinationOperation: CombinationOperation?
+    /** Ex: negative */
+    public var variableDescription: String?
+    /** Id for the variable to be tracked */
+    public var variableId: Int32?
+    /** Name of the variable to be used when sending measurements */
+    public var variableName: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["actionArray"] = self.actionArray?.encodeToJSON()
+        nillableDictionary["availableUnits"] = self.availableUnits?.encodeToJSON()
         nillableDictionary["clientId"] = self.clientId
-        nillableDictionary["userId"] = self.userId?.encodeToJSON()
-        nillableDictionary["variableId"] = self.variableId?.encodeToJSON()
+        nillableDictionary["combinationOperation"] = self.combinationOperation?.rawValue
+        nillableDictionary["createdAt"] = self.createdAt
+        nillableDictionary["displayName"] = self.displayName
+        nillableDictionary["unitAbbreviatedName"] = self.unitAbbreviatedName
+        nillableDictionary["unitCategoryId"] = self.unitCategoryId?.encodeToJSON()
+        nillableDictionary["unitCategoryName"] = self.unitCategoryName
+        nillableDictionary["unitId"] = self.unitId?.encodeToJSON()
+        nillableDictionary["unitName"] = self.unitName
         nillableDictionary["defaultValue"] = self.defaultValue
-        nillableDictionary["reminderStartTime"] = self.reminderStartTime
-        nillableDictionary["reminderEndTime"] = self.reminderEndTime
-        nillableDictionary["reminderSound"] = self.reminderSound
-        nillableDictionary["reminderFrequency"] = self.reminderFrequency?.encodeToJSON()
-        nillableDictionary["popUp"] = self.popUp
-        nillableDictionary["sms"] = self.sms
         nillableDictionary["email"] = self.email
+        nillableDictionary["errorMessage"] = self.errorMessage
+        nillableDictionary["fillingValue"] = self.fillingValue?.encodeToJSON()
+        nillableDictionary["firstDailyReminderTime"] = self.firstDailyReminderTime
+        nillableDictionary["frequencyTextDescription"] = self.frequencyTextDescription
+        nillableDictionary["frequencyTextDescriptionWithTime"] = self.frequencyTextDescriptionWithTime
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["inputType"] = self.inputType
+        nillableDictionary["instructions"] = self.instructions
+        nillableDictionary["ionIcon"] = self.ionIcon
+        nillableDictionary["lastTracked"] = self.lastTracked
+        nillableDictionary["lastValue"] = self.lastValue
+        nillableDictionary["latestTrackingReminderNotificationReminderTime"] = self.latestTrackingReminderNotificationReminderTime
+        nillableDictionary["localDailyReminderNotificationTimes"] = self.localDailyReminderNotificationTimes?.encodeToJSON()
+        nillableDictionary["localDailyReminderNotificationTimesForAllReminders"] = self.localDailyReminderNotificationTimesForAllReminders?.encodeToJSON()
+        nillableDictionary["manualTracking"] = self.manualTracking
+        nillableDictionary["maximumAllowedValue"] = self.maximumAllowedValue?.encodeToJSON()
+        nillableDictionary["minimumAllowedValue"] = self.minimumAllowedValue?.encodeToJSON()
+        nillableDictionary["nextReminderTimeEpochSeconds"] = self.nextReminderTimeEpochSeconds?.encodeToJSON()
         nillableDictionary["notificationBar"] = self.notificationBar
-        nillableDictionary["latestTrackingReminderNotificationReminderTime"] = self.latestTrackingReminderNotificationReminderTime?.encodeToJSON()
-        nillableDictionary["lastTracked"] = self.lastTracked?.encodeToJSON()
+        nillableDictionary["numberOfRawMeasurements"] = self.numberOfRawMeasurements?.encodeToJSON()
+        nillableDictionary["numberOfUniqueValues"] = self.numberOfUniqueValues?.encodeToJSON()
+        nillableDictionary["outcome"] = self.outcome
+        nillableDictionary["pngPath"] = self.pngPath
+        nillableDictionary["pngUrl"] = self.pngUrl
+        nillableDictionary["productUrl"] = self.productUrl
+        nillableDictionary["popUp"] = self.popUp
+        nillableDictionary["question"] = self.question
+        nillableDictionary["reminderEndTime"] = self.reminderEndTime
+        nillableDictionary["reminderFrequency"] = self.reminderFrequency?.encodeToJSON()
+        nillableDictionary["reminderSound"] = self.reminderSound
+        nillableDictionary["reminderStartEpochSeconds"] = self.reminderStartEpochSeconds?.encodeToJSON()
+        nillableDictionary["reminderStartTime"] = self.reminderStartTime
+        nillableDictionary["reminderStartTimeLocal"] = self.reminderStartTimeLocal
+        nillableDictionary["reminderStartTimeLocalHumanFormatted"] = self.reminderStartTimeLocalHumanFormatted
+        nillableDictionary["repeating"] = self.repeating
+        nillableDictionary["secondDailyReminderTime"] = self.secondDailyReminderTime
+        nillableDictionary["secondToLastValue"] = self.secondToLastValue
+        nillableDictionary["sms"] = self.sms
         nillableDictionary["startTrackingDate"] = self.startTrackingDate
         nillableDictionary["stopTrackingDate"] = self.stopTrackingDate
-        nillableDictionary["updatedAt"] = self.updatedAt?.encodeToJSON()
-        nillableDictionary["variableName"] = self.variableName
+        nillableDictionary["svgUrl"] = self.svgUrl
+        nillableDictionary["thirdDailyReminderTime"] = self.thirdDailyReminderTime
+        nillableDictionary["thirdToLastValue"] = self.thirdToLastValue
+        nillableDictionary["trackingReminderId"] = self.trackingReminderId?.encodeToJSON()
+        nillableDictionary["trackingReminderImageUrl"] = self.trackingReminderImageUrl
+        nillableDictionary["upc"] = self.upc
+        nillableDictionary["updatedAt"] = self.updatedAt
+        nillableDictionary["userId"] = self.userId?.encodeToJSON()
+        nillableDictionary["userVariableUnitAbbreviatedName"] = self.userVariableUnitAbbreviatedName
+        nillableDictionary["userVariableUnitCategoryId"] = self.userVariableUnitCategoryId?.encodeToJSON()
+        nillableDictionary["userVariableUnitCategoryName"] = self.userVariableUnitCategoryName
+        nillableDictionary["userVariableUnitId"] = self.userVariableUnitId?.encodeToJSON()
+        nillableDictionary["userVariableUnitName"] = self.userVariableUnitName
+        nillableDictionary["userVariableVariableCategoryId"] = self.userVariableVariableCategoryId?.encodeToJSON()
+        nillableDictionary["userVariableVariableCategoryName"] = self.userVariableVariableCategoryName
+        nillableDictionary["valence"] = self.valence
+        nillableDictionary["valueAndFrequencyTextDescription"] = self.valueAndFrequencyTextDescription
+        nillableDictionary["valueAndFrequencyTextDescriptionWithTime"] = self.valueAndFrequencyTextDescriptionWithTime
+        nillableDictionary["variableCategoryId"] = self.variableCategoryId?.encodeToJSON()
+        nillableDictionary["variableCategoryImageUrl"] = self.variableCategoryImageUrl
         nillableDictionary["variableCategoryName"] = self.variableCategoryName
-        nillableDictionary["unitAbbreviatedName"] = self.unitAbbreviatedName
-        nillableDictionary["combinationOperation"] = self.combinationOperation?.rawValue
+        nillableDictionary["variableDescription"] = self.variableDescription
+        nillableDictionary["variableId"] = self.variableId?.encodeToJSON()
+        nillableDictionary["variableName"] = self.variableName
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -11,191 +11,13 @@ import Alamofire
 
 public class MeasurementsAPI: APIBase {
     /**
-     Get measurement sources
-     
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1MeasurementSourcesGet(completion: ((data: MeasurementSource?, error: ErrorType?) -> Void)) {
-        v1MeasurementSourcesGetWithRequestBuilder().execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Get measurement sources
-     - GET /v1/measurementSources
-     - Returns a list of all the apps from which measurement data is obtained.
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "name" : "aeiou"
-}}]
-
-     - returns: RequestBuilder<MeasurementSource> 
-     */
-    public class func v1MeasurementSourcesGetWithRequestBuilder() -> RequestBuilder<MeasurementSource> {
-        let path = "/v1/measurementSources"
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [:]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<MeasurementSource>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
-    }
-
-    /**
-     Add a data source
-     
-     - parameter body: (body) An array of names of data sources you want to add. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1MeasurementSourcesPost(body body: MeasurementSource, accessToken: String? = nil, userId: Int32? = nil, completion: ((error: ErrorType?) -> Void)) {
-        v1MeasurementSourcesPostWithRequestBuilder(body: body, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-
-    /**
-     Add a data source
-     - POST /v1/measurementSources
-     - Add a life-tracking app or device to the QuantiModo list of data sources.
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     
-     - parameter body: (body) An array of names of data sources you want to add. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func v1MeasurementSourcesPostWithRequestBuilder(body body: MeasurementSource, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<Void> {
-        let path = "/v1/measurementSources"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Get daily measurements for this user
-     
-     - parameter variableName: (query) Name of the variable you want measurements for 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter unitAbbreviatedName: (query) The unit your want the measurements in (optional)
-     - parameter startTime: (query) The lower limit of measurements returned (UTC Iso8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot; format) (optional)
-     - parameter endTime: (query) The upper limit of measurements returned (UTC Iso8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot; format) (optional)
-     - parameter groupingWidth: (query) The time (in seconds) over which measurements are grouped together (optional)
-     - parameter groupingTimezone: (query) The time (in seconds) over which measurements are grouped together (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1MeasurementsDailyGet(variableName variableName: String, accessToken: String? = nil, userId: Int32? = nil, unitAbbreviatedName: String? = nil, startTime: String? = nil, endTime: String? = nil, groupingWidth: Int32? = nil, groupingTimezone: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: Measurement?, error: ErrorType?) -> Void)) {
-        v1MeasurementsDailyGetWithRequestBuilder(variableName: variableName, accessToken: accessToken, userId: userId, unitAbbreviatedName: unitAbbreviatedName, startTime: startTime, endTime: endTime, groupingWidth: groupingWidth, groupingTimezone: groupingTimezone, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Get daily measurements for this user
-     - GET /v1/measurements/daily
-     - Measurements are any value that can be recorded like daily steps, a mood rating, or apples eaten. Supported filter parameters:<ul><li><b>value</b> - Value of measurement</li><li><b>updatedAt</b> - The time that this measurement was created or last updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li></ul>
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "note" : "aeiou",
-  "variableName" : "aeiou",
-  "humanTime" : {
-    "date" : "aeiou",
-    "timezone" : "aeiou",
-    "timezone_type" : ""
-  },
-  "originalValue" : "",
-  "startTimeEpoch" : "",
-  "originalunitAbbreviatedName" : "aeiou",
-  "sourceName" : "aeiou",
-  "startTimeString" : "aeiou",
-  "value" : 1.3579000000000001069366817318950779736042022705078125,
-  "unitAbbreviatedName" : "aeiou"
-}}]
-     
-     - parameter variableName: (query) Name of the variable you want measurements for 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter unitAbbreviatedName: (query) The unit your want the measurements in (optional)
-     - parameter startTime: (query) The lower limit of measurements returned (UTC Iso8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot; format) (optional)
-     - parameter endTime: (query) The upper limit of measurements returned (UTC Iso8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot; format) (optional)
-     - parameter groupingWidth: (query) The time (in seconds) over which measurements are grouped together (optional)
-     - parameter groupingTimezone: (query) The time (in seconds) over which measurements are grouped together (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
-
-     - returns: RequestBuilder<Measurement> 
-     */
-    public class func v1MeasurementsDailyGetWithRequestBuilder(variableName variableName: String, accessToken: String? = nil, userId: Int32? = nil, unitAbbreviatedName: String? = nil, startTime: String? = nil, endTime: String? = nil, groupingWidth: Int32? = nil, groupingTimezone: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<Measurement> {
-        let path = "/v1/measurements/daily"
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON(),
-            "variableName": variableName,
-            "unitAbbreviatedName": unitAbbreviatedName,
-            "startTime": startTime,
-            "endTime": endTime,
-            "groupingWidth": groupingWidth?.encodeToJSON(),
-            "groupingTimezone": groupingTimezone,
-            "limit": limit?.encodeToJSON(),
-            "offset": offset?.encodeToJSON(),
-            "sort": sort?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Measurement>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
      Delete a measurement
      
      - parameter body: (body) The startTime and variableId of the measurement to be deleted. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1MeasurementsDeletePost(body body: MeasurementDelete, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
-        v1MeasurementsDeletePostWithRequestBuilder(body: body).execute { (response, error) -> Void in
+    public class func deleteMeasurement(body body: MeasurementDelete, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        deleteMeasurementWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -203,7 +25,7 @@ public class MeasurementsAPI: APIBase {
 
     /**
      Delete a measurement
-     - POST /v1/measurements/delete
+     - DELETE /v3/measurements/delete
      - Delete a previously submitted measurement
      - API Key:
        - type: apiKey access_token (QUERY)
@@ -212,17 +34,16 @@ public class MeasurementsAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      - examples: [{contentType=application/json, example={
-  "success" : true,
-  "message" : "aeiou",
-  "status" : ""
+  "summary" : "summary",
+  "description" : "description"
 }}]
      
      - parameter body: (body) The startTime and variableId of the measurement to be deleted. 
 
      - returns: RequestBuilder<CommonResponse> 
      */
-    public class func v1MeasurementsDeletePostWithRequestBuilder(body body: MeasurementDelete) -> RequestBuilder<CommonResponse> {
-        let path = "/v1/measurements/delete"
+    public class func deleteMeasurementWithRequestBuilder(body body: MeasurementDelete) -> RequestBuilder<CommonResponse> {
+        let path = "/v3/measurements/delete"
         let URLString = SwaggerClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
  
@@ -230,33 +51,140 @@ public class MeasurementsAPI: APIBase {
  
         let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     * enum for parameter variableCategoryName
+     */
+    public enum VariableCategoryName_getMeasurements: String { 
+        case Activity = "Activity"
+        case Books = "Books"
+        case CausesOfIllness = "Causes of Illness"
+        case CognitivePerformance = "Cognitive Performance"
+        case Conditions = "Conditions"
+        case Emotions = "Emotions"
+        case Environment = "Environment"
+        case Foods = "Foods"
+        case Location = "Location"
+        case Miscellaneous = "Miscellaneous"
+        case MoviesAndTv = "Movies and TV"
+        case Music = "Music"
+        case Nutrients = "Nutrients"
+        case Payments = "Payments"
+        case PhysicalActivity = "Physical Activity"
+        case Physique = "Physique"
+        case Sleep = "Sleep"
+        case SocialInteractions = "Social Interactions"
+        case Software = "Software"
+        case Symptoms = "Symptoms"
+        case Treatments = "Treatments"
+        case VitalSigns = "Vital Signs"
+        case Work = "Work"
+    }
+
+    /**
+     * enum for parameter unitName
+     */
+    public enum UnitName_getMeasurements: String { 
+        case %RecommendedDailyAllowance = "% Recommended Daily Allowance"
+        case Numberminus4To4Rating = "-4 to 4 Rating"
+        case Number0To1Rating = "0 to 1 Rating"
+        case Number0To5Rating = "0 to 5 Rating"
+        case Number1To10Rating = "1 to 10 Rating"
+        case Number1To5Rating = "1 to 5 Rating"
+        case Applications = "Applications"
+        case BeatsPerMinute = "Beats per Minute"
+        case Calories = "Calories"
+        case Capsules = "Capsules"
+        case Centimeters = "Centimeters"
+        case Count = "Count"
+        case DegreesCelsius = "Degrees Celsius"
+        case DegreesEast = "Degrees East"
+        case DegreesFahrenheit = "Degrees Fahrenheit"
+        case DegreesNorth = "Degrees North"
+        case Dollars = "Dollars"
+        case Drops = "Drops"
+        case Event = "Event"
+        case Feet = "Feet"
+        case Grams = "Grams"
+        case Hours = "Hours"
+        case Inches = "Inches"
+        case Index = "Index"
+        case Kilocalories = "Kilocalories"
+        case Kilograms = "Kilograms"
+        case Kilometers = "Kilometers"
+        case Liters = "Liters"
+        case Meters = "Meters"
+        case Micrograms = "Micrograms"
+        case MicrogramsPerDecilitre = "Micrograms per decilitre"
+        case Miles = "Miles"
+        case Milligrams = "Milligrams"
+        case Milliliters = "Milliliters"
+        case Millimeters = "Millimeters"
+        case MillimetersMerc = "Millimeters Merc"
+        case Milliseconds = "Milliseconds"
+        case Minutes = "Minutes"
+        case Pascal = "Pascal"
+        case Percent = "Percent"
+        case Pieces = "Pieces"
+        case Pills = "Pills"
+        case Pounds = "Pounds"
+        case Puffs = "Puffs"
+        case Seconds = "Seconds"
+        case Serving = "Serving"
+        case Sprays = "Sprays"
+        case Tablets = "Tablets"
+        case Torr = "Torr"
+        case Units = "Units"
+        case YesNo = "Yes/No"
+        case PerMinute = "per Minute"
+        case Doses = "Doses"
+        case Quarts = "Quarts"
+        case Ounces = "Ounces"
+        case InternationalUnits = "International Units"
+        case MetersPerSecond = "Meters per Second"
+    }
+
+    /**
+     * enum for parameter platform
+     */
+    public enum Platform_getMeasurements: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
     }
 
     /**
      Get measurements for this user
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter id: (query) Measurement id (optional)
      - parameter variableName: (query) Name of the variable you want measurements for (optional)
-     - parameter variableCategoryName: (query) Name of the variable category you want measurements for (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter userId: (query) User&#39;s id (optional)
      - parameter sourceName: (query) ID of the source you want measurements for (supports exact name match only) (optional)
+     - parameter connectorName: (query) Ex: facebook (optional)
      - parameter value: (query) Value of measurement (optional)
-     - parameter unitAbbreviatedName: (query) The unit you want the measurements returned in (optional)
-     - parameter earliestMeasurementTime: (query) The lower limit of measurements returned in ISO 8601 format or epoch seconds (unixtime) (optional)
-     - parameter latestMeasurementTime: (query) The upper limit of measurements returned in ISO 8601 format or epoch seconds (unixtime) (optional)
-     - parameter createdAt: (query) The time the measurement record was first created in the format YYYY-MM-DDThh:mm:ss. Time zone should be UTC and not local. (optional)
-     - parameter updatedAt: (query) The time the measurement record was last changed in the format YYYY-MM-DDThh:mm:ss. Time zone should be UTC and not local. (optional)
+     - parameter unitName: (query) Ex: Milligrams (optional)
+     - parameter earliestMeasurementTime: (query) Excluded records with measurement times earlier than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter latestMeasurementTime: (query) Excluded records with measurement times later than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter id: (query) Measurement id (optional)
      - parameter groupingWidth: (query) The time (in seconds) over which measurements are grouped together (optional)
      - parameter groupingTimezone: (query) The time (in seconds) over which measurements are grouped together (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter doNotProcess: (query) Ex: true (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter doNotConvert: (query) Ex: 1 (optional)
+     - parameter minMaxFilter: (query) Ex: 1 (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1MeasurementsGet(accessToken accessToken: String? = nil, userId: Int32? = nil, id: Int32? = nil, variableName: String? = nil, variableCategoryName: String? = nil, sourceName: String? = nil, value: String? = nil, unitAbbreviatedName: String? = nil, earliestMeasurementTime: String? = nil, latestMeasurementTime: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, groupingWidth: Int32? = nil, groupingTimezone: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: Measurement?, error: ErrorType?) -> Void)) {
-        v1MeasurementsGetWithRequestBuilder(accessToken: accessToken, userId: userId, id: id, variableName: variableName, variableCategoryName: variableCategoryName, sourceName: sourceName, value: value, unitAbbreviatedName: unitAbbreviatedName, earliestMeasurementTime: earliestMeasurementTime, latestMeasurementTime: latestMeasurementTime, createdAt: createdAt, updatedAt: updatedAt, groupingWidth: groupingWidth, groupingTimezone: groupingTimezone, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+    public class func getMeasurements(variableName variableName: String? = nil, sort: String? = nil, limit: Int32? = nil, offset: Int32? = nil, variableCategoryName: VariableCategoryName_getMeasurements? = nil, updatedAt: String? = nil, userId: Double? = nil, sourceName: String? = nil, connectorName: String? = nil, value: String? = nil, unitName: UnitName_getMeasurements? = nil, earliestMeasurementTime: String? = nil, latestMeasurementTime: String? = nil, createdAt: String? = nil, id: Int32? = nil, groupingWidth: Int32? = nil, groupingTimezone: String? = nil, doNotProcess: Bool? = nil, clientId: String? = nil, doNotConvert: Bool? = nil, minMaxFilter: Bool? = nil, platform: Platform_getMeasurements? = nil, completion: ((data: [Measurement]?, error: ErrorType?) -> Void)) {
+        getMeasurementsWithRequestBuilder(variableName: variableName, sort: sort, limit: limit, offset: offset, variableCategoryName: variableCategoryName, updatedAt: updatedAt, userId: userId, sourceName: sourceName, connectorName: connectorName, value: value, unitName: unitName, earliestMeasurementTime: earliestMeasurementTime, latestMeasurementTime: latestMeasurementTime, createdAt: createdAt, id: id, groupingWidth: groupingWidth, groupingTimezone: groupingTimezone, doNotProcess: doNotProcess, clientId: clientId, doNotConvert: doNotConvert, minMaxFilter: minMaxFilter, platform: platform).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -264,270 +192,272 @@ public class MeasurementsAPI: APIBase {
 
     /**
      Get measurements for this user
-     - GET /v1/measurements
-     - Measurements are any value that can be recorded like daily steps, a mood rating, or apples eaten. Supported filter parameters:<ul><li><b>value</b> - Value of measurement</li><li><b>updatedAt</b> - The time that this measurement was created or last updated in the UTC format \"YYYY-MM-DDThh:mm:ss\"</li></ul>
+     - GET /v3/measurements
+     - Measurements are any value that can be recorded like daily steps, a mood rating, or apples eaten.
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
      - OAuth:
        - type: oauth2
        - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "note" : "aeiou",
-  "variableName" : "aeiou",
-  "humanTime" : {
-    "date" : "aeiou",
-    "timezone" : "aeiou",
-    "timezone_type" : ""
-  },
-  "originalValue" : "",
-  "startTimeEpoch" : "",
-  "originalunitAbbreviatedName" : "aeiou",
-  "sourceName" : "aeiou",
-  "startTimeString" : "aeiou",
-  "value" : 1.3579000000000001069366817318950779736042022705078125,
-  "unitAbbreviatedName" : "aeiou"
-}}]
+     - examples: [{contentType=application/json, example=[ {
+  "note" : "note",
+  "minimumAllowedValue" : 5,
+  "variableCategoryName" : "variableCategoryName",
+  "noteHtml" : "{}",
+  "connectorId" : 0,
+  "displayName" : "displayName",
+  "svgUrl" : "svgUrl",
+  "startTimeString" : "startTimeString",
+  "maximumAllowedValue" : 1,
+  "createdAt" : "createdAt",
+  "variableCategoryId" : 1,
+  "originalUnitId" : 5,
+  "unitId" : 3,
+  "inputType" : "inputType",
+  "pngUrl" : "pngUrl",
+  "startTimeEpoch" : 7,
+  "userVariableUnitCategoryId" : 2,
+  "id" : 6,
+  "unitCategoryId" : 9,
+  "displayValueAndUnitString" : "displayValueAndUnitString",
+  "value" : 1.2315135367772556,
+  "unitAbbreviatedName" : "unitAbbreviatedName",
+  "updatedAt" : "updatedAt",
+  "userVariableUnitName" : "userVariableUnitName",
+  "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+  "clientId" : "clientId",
+  "variableName" : "variableName",
+  "unitName" : "unitName",
+  "userVariableVariableCategoryId" : 7,
+  "ionIcon" : "ionIcon",
+  "originalValue" : 2,
+  "valence" : "valence",
+  "manualTracking" : true,
+  "iconIcon" : "iconIcon",
+  "variableId" : 1,
+  "pngPath" : "pngPath",
+  "url" : "url",
+  "noteObject" : "{}",
+  "variableDescription" : "variableDescription",
+  "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+  "unitCategoryName" : "unitCategoryName",
+  "userVariableUnitId" : 4,
+  "variableCategoryImageUrl" : "variableCategoryImageUrl",
+  "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+  "sourceName" : "sourceName",
+  "productUrl" : "productUrl",
+  "startDate" : "startDate"
+}, {
+  "note" : "note",
+  "minimumAllowedValue" : 5,
+  "variableCategoryName" : "variableCategoryName",
+  "noteHtml" : "{}",
+  "connectorId" : 0,
+  "displayName" : "displayName",
+  "svgUrl" : "svgUrl",
+  "startTimeString" : "startTimeString",
+  "maximumAllowedValue" : 1,
+  "createdAt" : "createdAt",
+  "variableCategoryId" : 1,
+  "originalUnitId" : 5,
+  "unitId" : 3,
+  "inputType" : "inputType",
+  "pngUrl" : "pngUrl",
+  "startTimeEpoch" : 7,
+  "userVariableUnitCategoryId" : 2,
+  "id" : 6,
+  "unitCategoryId" : 9,
+  "displayValueAndUnitString" : "displayValueAndUnitString",
+  "value" : 1.2315135367772556,
+  "unitAbbreviatedName" : "unitAbbreviatedName",
+  "updatedAt" : "updatedAt",
+  "userVariableUnitName" : "userVariableUnitName",
+  "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+  "clientId" : "clientId",
+  "variableName" : "variableName",
+  "unitName" : "unitName",
+  "userVariableVariableCategoryId" : 7,
+  "ionIcon" : "ionIcon",
+  "originalValue" : 2,
+  "valence" : "valence",
+  "manualTracking" : true,
+  "iconIcon" : "iconIcon",
+  "variableId" : 1,
+  "pngPath" : "pngPath",
+  "url" : "url",
+  "noteObject" : "{}",
+  "variableDescription" : "variableDescription",
+  "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+  "unitCategoryName" : "unitCategoryName",
+  "userVariableUnitId" : 4,
+  "variableCategoryImageUrl" : "variableCategoryImageUrl",
+  "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+  "sourceName" : "sourceName",
+  "productUrl" : "productUrl",
+  "startDate" : "startDate"
+} ]}]
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter id: (query) Measurement id (optional)
      - parameter variableName: (query) Name of the variable you want measurements for (optional)
-     - parameter variableCategoryName: (query) Name of the variable category you want measurements for (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter userId: (query) User&#39;s id (optional)
      - parameter sourceName: (query) ID of the source you want measurements for (supports exact name match only) (optional)
+     - parameter connectorName: (query) Ex: facebook (optional)
      - parameter value: (query) Value of measurement (optional)
-     - parameter unitAbbreviatedName: (query) The unit you want the measurements returned in (optional)
-     - parameter earliestMeasurementTime: (query) The lower limit of measurements returned in ISO 8601 format or epoch seconds (unixtime) (optional)
-     - parameter latestMeasurementTime: (query) The upper limit of measurements returned in ISO 8601 format or epoch seconds (unixtime) (optional)
-     - parameter createdAt: (query) The time the measurement record was first created in the format YYYY-MM-DDThh:mm:ss. Time zone should be UTC and not local. (optional)
-     - parameter updatedAt: (query) The time the measurement record was last changed in the format YYYY-MM-DDThh:mm:ss. Time zone should be UTC and not local. (optional)
+     - parameter unitName: (query) Ex: Milligrams (optional)
+     - parameter earliestMeasurementTime: (query) Excluded records with measurement times earlier than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter latestMeasurementTime: (query) Excluded records with measurement times later than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter id: (query) Measurement id (optional)
      - parameter groupingWidth: (query) The time (in seconds) over which measurements are grouped together (optional)
      - parameter groupingTimezone: (query) The time (in seconds) over which measurements are grouped together (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter doNotProcess: (query) Ex: true (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter doNotConvert: (query) Ex: 1 (optional)
+     - parameter minMaxFilter: (query) Ex: 1 (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
 
-     - returns: RequestBuilder<Measurement> 
+     - returns: RequestBuilder<[Measurement]> 
      */
-    public class func v1MeasurementsGetWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil, id: Int32? = nil, variableName: String? = nil, variableCategoryName: String? = nil, sourceName: String? = nil, value: String? = nil, unitAbbreviatedName: String? = nil, earliestMeasurementTime: String? = nil, latestMeasurementTime: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, groupingWidth: Int32? = nil, groupingTimezone: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<Measurement> {
-        let path = "/v1/measurements"
+    public class func getMeasurementsWithRequestBuilder(variableName variableName: String? = nil, sort: String? = nil, limit: Int32? = nil, offset: Int32? = nil, variableCategoryName: VariableCategoryName_getMeasurements? = nil, updatedAt: String? = nil, userId: Double? = nil, sourceName: String? = nil, connectorName: String? = nil, value: String? = nil, unitName: UnitName_getMeasurements? = nil, earliestMeasurementTime: String? = nil, latestMeasurementTime: String? = nil, createdAt: String? = nil, id: Int32? = nil, groupingWidth: Int32? = nil, groupingTimezone: String? = nil, doNotProcess: Bool? = nil, clientId: String? = nil, doNotConvert: Bool? = nil, minMaxFilter: Bool? = nil, platform: Platform_getMeasurements? = nil) -> RequestBuilder<[Measurement]> {
+        let path = "/v3/measurements"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON(),
-            "id": id?.encodeToJSON(),
             "variableName": variableName,
-            "variableCategoryName": variableCategoryName,
+            "sort": sort,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "variableCategoryName": variableCategoryName?.rawValue,
+            "updatedAt": updatedAt,
+            "userId": userId,
             "sourceName": sourceName,
+            "connectorName": connectorName,
             "value": value,
-            "unitAbbreviatedName": unitAbbreviatedName,
+            "unitName": unitName?.rawValue,
             "earliestMeasurementTime": earliestMeasurementTime,
             "latestMeasurementTime": latestMeasurementTime,
             "createdAt": createdAt,
-            "updatedAt": updatedAt,
+            "id": id?.encodeToJSON(),
             "groupingWidth": groupingWidth?.encodeToJSON(),
             "groupingTimezone": groupingTimezone,
+            "doNotProcess": doNotProcess,
+            "clientId": clientId,
+            "doNotConvert": doNotConvert,
+            "minMaxFilter": minMaxFilter,
+            "platform": platform?.rawValue
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<[Measurement]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Get pairs of measurements for correlational analysis
+     
+     - parameter causeVariableName: (query) Name of the hypothetical predictor variable.  Ex: Sleep Duration (optional)
+     - parameter effectVariableName: (query) Name of the hypothetical outcome variable.  Ex: Overall Mood (optional)
+     - parameter effectUnitName: (query) Name for the unit effect measurements to be returned in (optional)
+     - parameter userId: (query) User&#39;s id (optional)
+     - parameter causeUnitName: (query) Name for the unit cause measurements to be returned in (optional)
+     - parameter onsetDelay: (query) The amount of time in seconds that elapses after the predictor/stimulus event before the outcome as perceived by a self-tracker is known as the onset delay. For example, the onset delay between the time a person takes an aspirin (predictor/stimulus event) and the time a person perceives a change in their headache severity (outcome) is approximately 30 minutes. (optional)
+     - parameter durationOfAction: (query) The amount of time over which a predictor/stimulus event can exert an observable influence on an outcome variable value. For instance, aspirin (stimulus/predictor) typically decreases headache severity for approximately four hours (duration of action) following the onset delay. (optional)
+     - parameter earliestMeasurementTime: (query) Excluded records with measurement times earlier than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter latestMeasurementTime: (query) Excluded records with measurement times later than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func getPairs(causeVariableName causeVariableName: String? = nil, effectVariableName: String? = nil, effectUnitName: String? = nil, userId: Double? = nil, causeUnitName: String? = nil, onsetDelay: String? = nil, durationOfAction: String? = nil, earliestMeasurementTime: String? = nil, latestMeasurementTime: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, completion: ((data: [Pair]?, error: ErrorType?) -> Void)) {
+        getPairsWithRequestBuilder(causeVariableName: causeVariableName, effectVariableName: effectVariableName, effectUnitName: effectUnitName, userId: userId, causeUnitName: causeUnitName, onsetDelay: onsetDelay, durationOfAction: durationOfAction, earliestMeasurementTime: earliestMeasurementTime, latestMeasurementTime: latestMeasurementTime, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Get pairs of measurements for correlational analysis
+     - GET /v3/pairs
+     - Pairs cause measurements with effect measurements grouped over the duration of action after the onset delay.
+     - API Key:
+       - type: apiKey access_token (QUERY)
+       - name: access_token
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     - examples: [{contentType=application/json, example=[ {
+  "effectMeasurementValue" : 5.962133916683182,
+  "causeMeasurement" : 0.8008281904610115,
+  "causeVariableUnitAbbreviatedName" : "causeVariableUnitAbbreviatedName",
+  "eventAt" : "eventAt",
+  "startTimeString" : "startTimeString",
+  "effectMeasurement" : 1.4658129805029452,
+  "causeMeasurementValue" : 6.027456183070403,
+  "eventAtUnixTime" : 5,
+  "effectVariableUnitAbbreviatedName" : "effectVariableUnitAbbreviatedName",
+  "timestamp" : 2
+}, {
+  "effectMeasurementValue" : 5.962133916683182,
+  "causeMeasurement" : 0.8008281904610115,
+  "causeVariableUnitAbbreviatedName" : "causeVariableUnitAbbreviatedName",
+  "eventAt" : "eventAt",
+  "startTimeString" : "startTimeString",
+  "effectMeasurement" : 1.4658129805029452,
+  "causeMeasurementValue" : 6.027456183070403,
+  "eventAtUnixTime" : 5,
+  "effectVariableUnitAbbreviatedName" : "effectVariableUnitAbbreviatedName",
+  "timestamp" : 2
+} ]}]
+     
+     - parameter causeVariableName: (query) Name of the hypothetical predictor variable.  Ex: Sleep Duration (optional)
+     - parameter effectVariableName: (query) Name of the hypothetical outcome variable.  Ex: Overall Mood (optional)
+     - parameter effectUnitName: (query) Name for the unit effect measurements to be returned in (optional)
+     - parameter userId: (query) User&#39;s id (optional)
+     - parameter causeUnitName: (query) Name for the unit cause measurements to be returned in (optional)
+     - parameter onsetDelay: (query) The amount of time in seconds that elapses after the predictor/stimulus event before the outcome as perceived by a self-tracker is known as the onset delay. For example, the onset delay between the time a person takes an aspirin (predictor/stimulus event) and the time a person perceives a change in their headache severity (outcome) is approximately 30 minutes. (optional)
+     - parameter durationOfAction: (query) The amount of time over which a predictor/stimulus event can exert an observable influence on an outcome variable value. For instance, aspirin (stimulus/predictor) typically decreases headache severity for approximately four hours (duration of action) following the onset delay. (optional)
+     - parameter earliestMeasurementTime: (query) Excluded records with measurement times earlier than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter latestMeasurementTime: (query) Excluded records with measurement times later than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+
+     - returns: RequestBuilder<[Pair]> 
+     */
+    public class func getPairsWithRequestBuilder(causeVariableName causeVariableName: String? = nil, effectVariableName: String? = nil, effectUnitName: String? = nil, userId: Double? = nil, causeUnitName: String? = nil, onsetDelay: String? = nil, durationOfAction: String? = nil, earliestMeasurementTime: String? = nil, latestMeasurementTime: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil) -> RequestBuilder<[Pair]> {
+        let path = "/v3/pairs"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "causeVariableName": causeVariableName,
+            "effectVariableName": effectVariableName,
+            "effectUnitName": effectUnitName,
+            "userId": userId,
+            "causeUnitName": causeUnitName,
+            "onsetDelay": onsetDelay,
+            "durationOfAction": durationOfAction,
+            "earliestMeasurementTime": earliestMeasurementTime,
+            "latestMeasurementTime": latestMeasurementTime,
             "limit": limit?.encodeToJSON(),
             "offset": offset?.encodeToJSON(),
-            "sort": sort?.encodeToJSON()
+            "sort": sort
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<Measurement>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Post a new set or update existing measurements to the database
-     
-     - parameter body: (body) An array of measurements you want to insert. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1MeasurementsPost(body body: MeasurementSet, accessToken: String? = nil, userId: Int32? = nil, completion: ((error: ErrorType?) -> Void)) {
-        v1MeasurementsPostWithRequestBuilder(body: body, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-
-    /**
-     Post a new set or update existing measurements to the database
-     - POST /v1/measurements
-     - You can submit or update multiple measurements in a \"measurements\" sub-array.  If the variable these measurements correspond to does not already exist in the database, it will be automatically added.  The request body should look something like [{\"measurements\":[{\"startTime\":1439389320,\"value\":\"3\"}, {\"startTime\":1439389319,\"value\":\"2\"}],\"name\":\"Acne (out of 5)\",\"source\":\"QuantiModo\",\"category\":\"Symptoms\",\"combinationOperation\":\"MEAN\",\"unit\":\"/5\"}]
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     
-     - parameter body: (body) An array of measurements you want to insert. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func v1MeasurementsPostWithRequestBuilder(body body: MeasurementSet, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<Void> {
-        let path = "/v1/measurements"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Get measurements range for this user
-     
-     - parameter sources: (query) Enter source name to limit to specific source (varchar) (optional)
-     - parameter user: (query) If not specified, uses currently logged in user (bigint) (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1MeasurementsRangeGet(sources sources: String? = nil, user: Int32? = nil, completion: ((data: MeasurementRange?, error: ErrorType?) -> Void)) {
-        v1MeasurementsRangeGetWithRequestBuilder(sources: sources, user: user).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Get measurements range for this user
-     - GET /v1/measurementsRange
-     - Get Unix time-stamp (epoch time) of the user's first and last measurements taken.
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "upperLimit" : "",
-  "lowerLimit" : ""
-}}]
-     
-     - parameter sources: (query) Enter source name to limit to specific source (varchar) (optional)
-     - parameter user: (query) If not specified, uses currently logged in user (bigint) (optional)
-
-     - returns: RequestBuilder<MeasurementRange> 
-     */
-    public class func v1MeasurementsRangeGetWithRequestBuilder(sources sources: String? = nil, user: Int32? = nil) -> RequestBuilder<MeasurementRange> {
-        let path = "/v1/measurementsRange"
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "sources": sources,
-            "user": user?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<MeasurementRange>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Update a measurement
-     
-     - parameter body: (body) The id as well as the new startTime, note, and/or value of the measurement to be updated 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1MeasurementsUpdatePost(body body: MeasurementUpdate, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
-        v1MeasurementsUpdatePostWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Update a measurement
-     - POST /v1/measurements/update
-     - Delete a previously submitted measurement
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "success" : true,
-  "message" : "aeiou",
-  "status" : ""
-}}]
-     
-     - parameter body: (body) The id as well as the new startTime, note, and/or value of the measurement to be updated 
-
-     - returns: RequestBuilder<CommonResponse> 
-     */
-    public class func v1MeasurementsUpdatePostWithRequestBuilder(body body: MeasurementUpdate) -> RequestBuilder<CommonResponse> {
-        let path = "/v1/measurements/update"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
-    }
-
-    /**
-     Get Measurements CSV
-     
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v2MeasurementsCsvGet(accessToken accessToken: String? = nil, userId: Int32? = nil, completion: ((data: NSURL?, error: ErrorType?) -> Void)) {
-        v2MeasurementsCsvGetWithRequestBuilder(accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Get Measurements CSV
-     - GET /v2/measurements/csv
-     - Download a CSV containing all user measurements
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{output=none}]
-     
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<NSURL> 
-     */
-    public class func v2MeasurementsCsvGetWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<NSURL> {
-        let path = "/v2/measurements/csv"
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<NSURL>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<[Pair]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
@@ -535,12 +465,11 @@ public class MeasurementsAPI: APIBase {
     /**
      Post Request for Measurements CSV
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
      - parameter userId: (query) User&#39;s id (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v2MeasurementsRequestCsvPost(accessToken accessToken: String? = nil, userId: Int32? = nil, completion: ((data: Int32?, error: ErrorType?) -> Void)) {
-        v2MeasurementsRequestCsvPostWithRequestBuilder(accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
+    public class func measurementExportRequest(userId userId: Double? = nil, completion: ((data: Int32?, error: ErrorType?) -> Void)) {
+        measurementExportRequestWithRequestBuilder(userId: userId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -548,7 +477,7 @@ public class MeasurementsAPI: APIBase {
 
     /**
      Post Request for Measurements CSV
-     - POST /v2/measurements/request_csv
+     - POST /v2/measurements/exportRequest
      - Use this endpoint to schedule a CSV export containing all user measurements to be emailed to the user within 24 hours.
      - API Key:
        - type: apiKey access_token (QUERY)
@@ -556,20 +485,18 @@ public class MeasurementsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example=""}]
+     - examples: [{contentType=application/json, example=0}]
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
      - parameter userId: (query) User&#39;s id (optional)
 
      - returns: RequestBuilder<Int32> 
      */
-    public class func v2MeasurementsRequestCsvPostWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<Int32> {
-        let path = "/v2/measurements/request_csv"
+    public class func measurementExportRequestWithRequestBuilder(userId userId: Double? = nil) -> RequestBuilder<Int32> {
+        let path = "/v2/measurements/exportRequest"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON()
+            "userId": userId
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -582,101 +509,775 @@ public class MeasurementsAPI: APIBase {
     }
 
     /**
-     Post Request for Measurements PDF
+     Post a new set or update existing measurements to the database
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) An array of measurement sets containing measurement items you want to insert. 
      - parameter userId: (query) User&#39;s id (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v2MeasurementsRequestPdfPost(accessToken accessToken: String? = nil, userId: Int32? = nil, completion: ((data: Int32?, error: ErrorType?) -> Void)) {
-        v2MeasurementsRequestPdfPostWithRequestBuilder(accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
+    public class func postMeasurements(body body: [MeasurementSet], userId: Double? = nil, completion: ((data: PostMeasurementsResponse?, error: ErrorType?) -> Void)) {
+        postMeasurementsWithRequestBuilder(body: body, userId: userId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
 
     /**
-     Post Request for Measurements PDF
-     - POST /v2/measurements/request_pdf
-     - Use this endpoint to schedule a PDF export containing all user measurements to be emailed to the user within 24 hours.
+     Post a new set or update existing measurements to the database
+     - POST /v3/measurements/post
+     - You can submit or update multiple measurements in a \"measurements\" sub-array.  If the variable these measurements correspond to does not already exist in the database, it will be automatically added.
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
      - OAuth:
        - type: oauth2
        - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example=""}]
+     - examples: [{contentType=application/json, example={
+  "summary" : "summary",
+  "data" : {
+    "summary" : "summary",
+    "userVariables" : [ {
+      "lastValue" : 2.8841622,
+      "experimentEndTimeString" : "experimentEndTimeString",
+      "durationOfActionInHours" : 6,
+      "latestMeasurementTime" : 6,
+      "lastSource" : 9,
+      "chartsLinkStatic" : "chartsLinkStatic",
+      "lastOriginalValue" : 3,
+      "numberOfCorrelations" : 6,
+      "numberOfTrackingReminders" : 4,
+      "variableCategory" : {
+        "causeOnly" : true,
+        "minimumAllowedValue" : "minimumAllowedValue",
+        "variableCategoryName" : "variableCategoryName",
+        "svgUrl" : "svgUrl",
+        "moreInfo" : "moreInfo",
+        "maximumAllowedValue" : "maximumAllowedValue",
+        "public" : true,
+        "appType" : "appType",
+        "fillingValue" : 8,
+        "imageUrl" : "imageUrl",
+        "combinationOperation" : "combinationOperation",
+        "createdTime" : "createdTime",
+        "unitId" : 5,
+        "pngUrl" : "pngUrl",
+        "id" : 7,
+        "variableCategoryNameSingular" : "variableCategoryNameSingular",
+        "unitAbbreviatedName" : "unitAbbreviatedName",
+        "outcome" : true,
+        "updatedTime" : "updatedTime",
+        "helpText" : "helpText",
+        "durationOfAction" : 5,
+        "ionIcon" : "ionIcon",
+        "manualTracking" : true,
+        "measurementSynonymSingularLowercase" : "measurementSynonymSingularLowercase",
+        "pngPath" : "pngPath",
+        "svgPath" : "svgPath",
+        "name" : "name",
+        "onsetDelay" : 3,
+        "updated" : 3
+      },
+      "minimumRecordedValue" : 7.7403517,
+      "ingredientOfUserTagVariables" : [ null, null ],
+      "price" : 8.251625748923757,
+      "combinationOperation" : "combinationOperation",
+      "skewness" : 1.7325933,
+      "id" : 6,
+      "unitCategoryId" : 1,
+      "userVariableFillingValue" : 9.183123594773994,
+      "earliestSourceTime" : 4,
+      "userVariableUnitName" : "userVariableUnitName",
+      "updatedTime" : "updatedTime",
+      "wikipediaTitle" : "wikipediaTitle",
+      "availableUnits" : [ {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      }, {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      } ],
+      "latestUserMeasurementTime" : 6,
+      "chartsLinkFacebook" : "chartsLinkFacebook",
+      "userVariableVariableCategoryId" : 0,
+      "childCommonTagVariables" : [ null, null ],
+      "childUserTagVariables" : [ null, null ],
+      "upc" : "upc",
+      "parentCommonTagVariables" : [ null, null ],
+      "numberOfUserVariables" : 0,
+      "userTaggedVariables" : [ null, null ],
+      "variableId" : 0,
+      "lastSuccessfulUpdateTime" : "lastSuccessfulUpdateTime",
+      "unitCategoryName" : "unitCategoryName",
+      "maximumRecordedDailyValue" : 0.8851375,
+      "subtitle" : "subtitle",
+      "lastUnit" : "lastUnit",
+      "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+      "onsetDelay" : 7,
+      "chartsLinkDynamic" : "chartsLinkDynamic",
+      "status" : "status",
+      "causeOnly" : true,
+      "numberOfAggregateCorrelationsAsEffect" : 4,
+      "numberOfProcessedDailyMeasurements" : 4,
+      "displayName" : "displayName",
+      "latitude" : 3.3531933,
+      "fillingType" : "fillingType",
+      "joinedCommonTagVariables" : [ null, null ],
+      "kurtosis" : 9.018348,
+      "numberOfUserCorrelationsAsCause" : 0,
+      "earliestMeasurementTime" : 1,
+      "variableFillingValue" : 7.835035282970782,
+      "variableCategoryId" : 5,
+      "measurementsAtLastAnalysis" : 0,
+      "fillingValue" : 9.36931,
+      "latestFillingTime" : 6,
+      "unitId" : 1,
+      "lastUnitId" : 1,
+      "experimentStartTimeSeconds" : 9,
+      "experimentEndTimeSeconds" : 5,
+      "unitAbbreviatedName" : "unitAbbreviatedName",
+      "outcome" : true,
+      "numberOfUniqueValues" : 9,
+      "clientId" : "clientId",
+      "ingredientUserTagVariables" : [ null, null ],
+      "joinWith" : 8,
+      "errorMessage" : "errorMessage",
+      "userVariableMostCommonConnectorId" : 8,
+      "commonVariableMostCommonConnectorId" : 7,
+      "numberOfAggregateCorrelationsAsCause" : 3,
+      "iconIcon" : "iconIcon",
+      "userId" : 9,
+      "chartsLinkEmail" : "chartsLinkEmail",
+      "mostCommonOriginalUnitId" : 3,
+      "userTagVariables" : [ null, null ],
+      "secondToLastValue" : 2.9409642974827896,
+      "chartsLinkGoogle" : "chartsLinkGoogle",
+      "ingredientCommonTagVariables" : [ null, null ],
+      "parentUserTagVariables" : [ null, null ],
+      "userVariableUnitId" : 3,
+      "variableCategoryImageUrl" : "variableCategoryImageUrl",
+      "numberOfUniqueDailyValues" : 7.2605214,
+      "productUrl" : "productUrl",
+      "actionArray" : [ {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      }, {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      } ],
+      "charts" : {
+        "hourlyColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "lineChartWithSmoothing" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "monthlyColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "distributionColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "lineChartWithoutSmoothing" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "weekdayColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        }
+      },
+      "mostCommonUnitId" : 7,
+      "svgUrl" : "svgUrl",
+      "userVariableUpdatedAt" : "userVariableUpdatedAt",
+      "experimentStartTimeString" : "experimentStartTimeString",
+      "createdAt" : "createdAt",
+      "informationalUrl" : "informationalUrl",
+      "inputType" : "inputType",
+      "earliestFillingTime" : 7,
+      "commonTagVariables" : [ null, null ],
+      "longitude" : 3.0937452,
+      "updatedAt" : "updatedAt",
+      "commonVariableUpdatedAt" : "commonVariableUpdatedAt",
+      "unitName" : "unitName",
+      "onsetDelayInHours" : 5.507386964179881,
+      "durationOfAction" : 1,
+      "numberOfUserCorrelationsAsEffect" : 9,
+      "joinedVariables" : [ null, null ],
+      "ionIcon" : "ionIcon",
+      "valence" : "valence",
+      "manualTracking" : true,
+      "shareUserMeasurements" : true,
+      "chartsLinkTwitter" : "chartsLinkTwitter",
+      "ingredientOfCommonTagVariables" : [ null, null ],
+      "pngPath" : "pngPath",
+      "latestSourceTime" : 5,
+      "rawMeasurementsAtLastAnalysis" : 3,
+      "unit" : {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      },
+      "median" : 4.652396,
+      "name" : "name",
+      "updated" : 8,
+      "dataSource" : {
+        "longDescription" : "longDescription",
+        "image" : "image",
+        "linkedDisplayNameHtml" : "linkedDisplayNameHtml",
+        "imageHtml" : "imageHtml",
+        "displayName" : "displayName",
+        "connectorClientId" : "connectorClientId",
+        "shortDescription" : "shortDescription",
+        "enabled" : 2,
+        "defaultVariableCategoryName" : "defaultVariableCategoryName",
+        "getItUrl" : "getItUrl",
+        "name" : "name",
+        "id" : 4,
+        "affiliate" : true
+      },
+      "commonAlias" : "commonAlias",
+      "joinedUserTagVariables" : [ null, null ],
+      "experimentEndTime" : "experimentEndTime",
+      "minimumAllowedValue" : 8.969579,
+      "sources" : "sources",
+      "variableCategoryName" : "variableCategoryName",
+      "mostCommonConnectorId" : 3,
+      "description" : "description",
+      "experimentStartTime" : "experimentStartTime",
+      "userVariableValence" : "userVariableValence",
+      "maximumAllowedValue" : 7.143538,
+      "public" : 4,
+      "userVariableWikipediaTitle" : "userVariableWikipediaTitle",
+      "imageUrl" : "imageUrl",
+      "alias" : "alias",
+      "mostCommonValue" : 5.5332584,
+      "pngUrl" : "pngUrl",
+      "userVariableUnitCategoryId" : 1,
+      "numberOfChanges" : 0,
+      "maximumRecordedValue" : 7.058770351582356,
+      "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+      "variableName" : "variableName",
+      "lastProcessedDailyValue" : 6.965117697638846,
+      "thirdToLastValue" : 4.573936264232251,
+      "outcomeOfInterest" : 4,
+      "mostCommonUnit" : "mostCommonUnit",
+      "lastOriginalUnitId" : 6,
+      "thirdMostCommonValue" : 6.623518433804886,
+      "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+      "predictorOfInterest" : 6,
+      "variance" : 3.1497903714250555,
+      "mean" : 6.519181,
+      "numberOfRawMeasurements" : 1,
+      "secondMostCommonValue" : 0.43431398824148815,
+      "location" : "location",
+      "commonTaggedVariables" : [ null, null ],
+      "standardDeviation" : 8.28965939814297
+    }, {
+      "lastValue" : 2.8841622,
+      "experimentEndTimeString" : "experimentEndTimeString",
+      "durationOfActionInHours" : 6,
+      "latestMeasurementTime" : 6,
+      "lastSource" : 9,
+      "chartsLinkStatic" : "chartsLinkStatic",
+      "lastOriginalValue" : 3,
+      "numberOfCorrelations" : 6,
+      "numberOfTrackingReminders" : 4,
+      "variableCategory" : {
+        "causeOnly" : true,
+        "minimumAllowedValue" : "minimumAllowedValue",
+        "variableCategoryName" : "variableCategoryName",
+        "svgUrl" : "svgUrl",
+        "moreInfo" : "moreInfo",
+        "maximumAllowedValue" : "maximumAllowedValue",
+        "public" : true,
+        "appType" : "appType",
+        "fillingValue" : 8,
+        "imageUrl" : "imageUrl",
+        "combinationOperation" : "combinationOperation",
+        "createdTime" : "createdTime",
+        "unitId" : 5,
+        "pngUrl" : "pngUrl",
+        "id" : 7,
+        "variableCategoryNameSingular" : "variableCategoryNameSingular",
+        "unitAbbreviatedName" : "unitAbbreviatedName",
+        "outcome" : true,
+        "updatedTime" : "updatedTime",
+        "helpText" : "helpText",
+        "durationOfAction" : 5,
+        "ionIcon" : "ionIcon",
+        "manualTracking" : true,
+        "measurementSynonymSingularLowercase" : "measurementSynonymSingularLowercase",
+        "pngPath" : "pngPath",
+        "svgPath" : "svgPath",
+        "name" : "name",
+        "onsetDelay" : 3,
+        "updated" : 3
+      },
+      "minimumRecordedValue" : 7.7403517,
+      "ingredientOfUserTagVariables" : [ null, null ],
+      "price" : 8.251625748923757,
+      "combinationOperation" : "combinationOperation",
+      "skewness" : 1.7325933,
+      "id" : 6,
+      "unitCategoryId" : 1,
+      "userVariableFillingValue" : 9.183123594773994,
+      "earliestSourceTime" : 4,
+      "userVariableUnitName" : "userVariableUnitName",
+      "updatedTime" : "updatedTime",
+      "wikipediaTitle" : "wikipediaTitle",
+      "availableUnits" : [ {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      }, {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      } ],
+      "latestUserMeasurementTime" : 6,
+      "chartsLinkFacebook" : "chartsLinkFacebook",
+      "userVariableVariableCategoryId" : 0,
+      "childCommonTagVariables" : [ null, null ],
+      "childUserTagVariables" : [ null, null ],
+      "upc" : "upc",
+      "parentCommonTagVariables" : [ null, null ],
+      "numberOfUserVariables" : 0,
+      "userTaggedVariables" : [ null, null ],
+      "variableId" : 0,
+      "lastSuccessfulUpdateTime" : "lastSuccessfulUpdateTime",
+      "unitCategoryName" : "unitCategoryName",
+      "maximumRecordedDailyValue" : 0.8851375,
+      "subtitle" : "subtitle",
+      "lastUnit" : "lastUnit",
+      "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+      "onsetDelay" : 7,
+      "chartsLinkDynamic" : "chartsLinkDynamic",
+      "status" : "status",
+      "causeOnly" : true,
+      "numberOfAggregateCorrelationsAsEffect" : 4,
+      "numberOfProcessedDailyMeasurements" : 4,
+      "displayName" : "displayName",
+      "latitude" : 3.3531933,
+      "fillingType" : "fillingType",
+      "joinedCommonTagVariables" : [ null, null ],
+      "kurtosis" : 9.018348,
+      "numberOfUserCorrelationsAsCause" : 0,
+      "earliestMeasurementTime" : 1,
+      "variableFillingValue" : 7.835035282970782,
+      "variableCategoryId" : 5,
+      "measurementsAtLastAnalysis" : 0,
+      "fillingValue" : 9.36931,
+      "latestFillingTime" : 6,
+      "unitId" : 1,
+      "lastUnitId" : 1,
+      "experimentStartTimeSeconds" : 9,
+      "experimentEndTimeSeconds" : 5,
+      "unitAbbreviatedName" : "unitAbbreviatedName",
+      "outcome" : true,
+      "numberOfUniqueValues" : 9,
+      "clientId" : "clientId",
+      "ingredientUserTagVariables" : [ null, null ],
+      "joinWith" : 8,
+      "errorMessage" : "errorMessage",
+      "userVariableMostCommonConnectorId" : 8,
+      "commonVariableMostCommonConnectorId" : 7,
+      "numberOfAggregateCorrelationsAsCause" : 3,
+      "iconIcon" : "iconIcon",
+      "userId" : 9,
+      "chartsLinkEmail" : "chartsLinkEmail",
+      "mostCommonOriginalUnitId" : 3,
+      "userTagVariables" : [ null, null ],
+      "secondToLastValue" : 2.9409642974827896,
+      "chartsLinkGoogle" : "chartsLinkGoogle",
+      "ingredientCommonTagVariables" : [ null, null ],
+      "parentUserTagVariables" : [ null, null ],
+      "userVariableUnitId" : 3,
+      "variableCategoryImageUrl" : "variableCategoryImageUrl",
+      "numberOfUniqueDailyValues" : 7.2605214,
+      "productUrl" : "productUrl",
+      "actionArray" : [ {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      }, {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      } ],
+      "charts" : {
+        "hourlyColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "lineChartWithSmoothing" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "monthlyColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "distributionColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "lineChartWithoutSmoothing" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "weekdayColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        }
+      },
+      "mostCommonUnitId" : 7,
+      "svgUrl" : "svgUrl",
+      "userVariableUpdatedAt" : "userVariableUpdatedAt",
+      "experimentStartTimeString" : "experimentStartTimeString",
+      "createdAt" : "createdAt",
+      "informationalUrl" : "informationalUrl",
+      "inputType" : "inputType",
+      "earliestFillingTime" : 7,
+      "commonTagVariables" : [ null, null ],
+      "longitude" : 3.0937452,
+      "updatedAt" : "updatedAt",
+      "commonVariableUpdatedAt" : "commonVariableUpdatedAt",
+      "unitName" : "unitName",
+      "onsetDelayInHours" : 5.507386964179881,
+      "durationOfAction" : 1,
+      "numberOfUserCorrelationsAsEffect" : 9,
+      "joinedVariables" : [ null, null ],
+      "ionIcon" : "ionIcon",
+      "valence" : "valence",
+      "manualTracking" : true,
+      "shareUserMeasurements" : true,
+      "chartsLinkTwitter" : "chartsLinkTwitter",
+      "ingredientOfCommonTagVariables" : [ null, null ],
+      "pngPath" : "pngPath",
+      "latestSourceTime" : 5,
+      "rawMeasurementsAtLastAnalysis" : 3,
+      "unit" : {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      },
+      "median" : 4.652396,
+      "name" : "name",
+      "updated" : 8,
+      "dataSource" : {
+        "longDescription" : "longDescription",
+        "image" : "image",
+        "linkedDisplayNameHtml" : "linkedDisplayNameHtml",
+        "imageHtml" : "imageHtml",
+        "displayName" : "displayName",
+        "connectorClientId" : "connectorClientId",
+        "shortDescription" : "shortDescription",
+        "enabled" : 2,
+        "defaultVariableCategoryName" : "defaultVariableCategoryName",
+        "getItUrl" : "getItUrl",
+        "name" : "name",
+        "id" : 4,
+        "affiliate" : true
+      },
+      "commonAlias" : "commonAlias",
+      "joinedUserTagVariables" : [ null, null ],
+      "experimentEndTime" : "experimentEndTime",
+      "minimumAllowedValue" : 8.969579,
+      "sources" : "sources",
+      "variableCategoryName" : "variableCategoryName",
+      "mostCommonConnectorId" : 3,
+      "description" : "description",
+      "experimentStartTime" : "experimentStartTime",
+      "userVariableValence" : "userVariableValence",
+      "maximumAllowedValue" : 7.143538,
+      "public" : 4,
+      "userVariableWikipediaTitle" : "userVariableWikipediaTitle",
+      "imageUrl" : "imageUrl",
+      "alias" : "alias",
+      "mostCommonValue" : 5.5332584,
+      "pngUrl" : "pngUrl",
+      "userVariableUnitCategoryId" : 1,
+      "numberOfChanges" : 0,
+      "maximumRecordedValue" : 7.058770351582356,
+      "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+      "variableName" : "variableName",
+      "lastProcessedDailyValue" : 6.965117697638846,
+      "thirdToLastValue" : 4.573936264232251,
+      "outcomeOfInterest" : 4,
+      "mostCommonUnit" : "mostCommonUnit",
+      "lastOriginalUnitId" : 6,
+      "thirdMostCommonValue" : 6.623518433804886,
+      "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+      "predictorOfInterest" : 6,
+      "variance" : 3.1497903714250555,
+      "mean" : 6.519181,
+      "numberOfRawMeasurements" : 1,
+      "secondMostCommonValue" : 0.43431398824148815,
+      "location" : "location",
+      "commonTaggedVariables" : [ null, null ],
+      "standardDeviation" : 8.28965939814297
+    } ],
+    "description" : "description"
+  },
+  "success" : true,
+  "description" : "description",
+  "message" : "message",
+  "status" : 2
+}}]
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) An array of measurement sets containing measurement items you want to insert. 
      - parameter userId: (query) User&#39;s id (optional)
 
-     - returns: RequestBuilder<Int32> 
+     - returns: RequestBuilder<PostMeasurementsResponse> 
      */
-    public class func v2MeasurementsRequestPdfPostWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<Int32> {
-        let path = "/v2/measurements/request_pdf"
+    public class func postMeasurementsWithRequestBuilder(body body: [MeasurementSet], userId: Double? = nil) -> RequestBuilder<PostMeasurementsResponse> {
+        let path = "/v3/measurements/post"
         let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<Int32>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<PostMeasurementsResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
-     Post Request for Measurements XLS
+     Update a measurement
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
+     - parameter body: (body) The id as well as the new startTime, note, and/or value of the measurement to be updated 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v2MeasurementsRequestXlsPost(accessToken accessToken: String? = nil, userId: Int32? = nil, completion: ((data: Int32?, error: ErrorType?) -> Void)) {
-        v2MeasurementsRequestXlsPostWithRequestBuilder(accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
+    public class func updateMeasurement(body body: MeasurementUpdate, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        updateMeasurementWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
 
     /**
-     Post Request for Measurements XLS
-     - POST /v2/measurements/request_xls
-     - Use this endpoint to schedule a XLS export containing all user measurements to be emailed to the user within 24 hours.
+     Update a measurement
+     - POST /v3/measurements/update
+     - Update a previously submitted measurement
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
      - OAuth:
        - type: oauth2
        - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example=""}]
+     - examples: [{contentType=application/json, example={
+  "summary" : "summary",
+  "description" : "description"
+}}]
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
+     - parameter body: (body) The id as well as the new startTime, note, and/or value of the measurement to be updated 
 
-     - returns: RequestBuilder<Int32> 
+     - returns: RequestBuilder<CommonResponse> 
      */
-    public class func v2MeasurementsRequestXlsPostWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<Int32> {
-        let path = "/v2/measurements/request_xls"
+    public class func updateMeasurementWithRequestBuilder(body body: MeasurementUpdate) -> RequestBuilder<CommonResponse> {
+        let path = "/v3/measurements/update"
         let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<Int32>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

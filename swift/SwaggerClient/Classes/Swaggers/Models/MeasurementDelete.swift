@@ -9,18 +9,24 @@ import Foundation
 
 
 public class MeasurementDelete: JSONEncodable {
-    /** Variable id of the measurement to be deleted */
-    public var variableId: Int32?
     /** Start time of the measurement to be deleted */
     public var startTime: Int32?
+    /** Variable id of the measurement to be deleted */
+    public var variableId: Int32?
+    /** Name of the connector for which measurements should be deleted */
+    public var connectorName: String?
+    /** Your app&#39;s client id */
+    public var clientId: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["variableId"] = self.variableId?.encodeToJSON()
         nillableDictionary["startTime"] = self.startTime?.encodeToJSON()
+        nillableDictionary["variableId"] = self.variableId?.encodeToJSON()
+        nillableDictionary["connectorName"] = self.connectorName
+        nillableDictionary["clientId"] = self.clientId
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

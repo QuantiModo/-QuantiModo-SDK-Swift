@@ -11,29 +11,23 @@ import Alamofire
 
 public class RemindersAPI: APIBase {
     /**
-     Get specific pending tracking reminders
+     Delete Tracking Reminder
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) Id of reminder to be deleted 
      - parameter userId: (query) User&#39;s id (optional)
-     - parameter variableCategoryName: (query) Limit tracking reminder notifications to a specific variable category (optional)
-     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. (optional)
-     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional)
-     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order. (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1TrackingReminderNotificationsGet(accessToken accessToken: String? = nil, userId: Int32? = nil, variableCategoryName: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, completion: ((data: InlineResponse2002?, error: ErrorType?) -> Void)) {
-        v1TrackingReminderNotificationsGetWithRequestBuilder(accessToken: accessToken, userId: userId, variableCategoryName: variableCategoryName, createdAt: createdAt, updatedAt: updatedAt, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+    public class func deleteTrackingReminder(body body: TrackingReminderDelete, userId: Double? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        deleteTrackingReminderWithRequestBuilder(body: body, userId: userId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
 
     /**
-     Get specific pending tracking reminders
-     - GET /v1/trackingReminderNotifications
-     - Specfic pending reminder instances that still need to be tracked.  
+     Delete Tracking Reminder
+     - DELETE /v3/trackingReminders/delete
+     - Stop getting notifications to record data for a variable.  Previously recorded measurements will be preserved.
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
@@ -41,274 +35,499 @@ public class RemindersAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      - examples: [{contentType=application/json, example={
-  "data" : [ {
-    "clientId" : "aeiou",
-    "variableName" : "aeiou",
-    "variableCategoryName" : "aeiou",
-    "trackingReminderId" : 123,
-    "defaultValue" : 1.3579000000000001069366817318950779736042022705078125,
-    "notificationBar" : true,
-    "userId" : 123,
-    "variableId" : 123,
-    "pendingReminderTime" : "2000-01-23T04:56:07.000+00:00",
-    "reminderSound" : "aeiou",
-    "popUp" : true,
-    "sms" : true,
-    "combinationOperation" : "aeiou",
-    "id" : 123,
-    "email" : true,
-    "unitAbbreviatedName" : "aeiou",
-    "updatedAt" : "2000-01-23T04:56:07.000+00:00"
-  } ],
-  "success" : true
+  "summary" : "summary",
+  "description" : "description"
 }}]
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) Id of reminder to be deleted 
      - parameter userId: (query) User&#39;s id (optional)
-     - parameter variableCategoryName: (query) Limit tracking reminder notifications to a specific variable category (optional)
-     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. (optional)
-     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional)
-     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order. (optional)
 
-     - returns: RequestBuilder<InlineResponse2002> 
+     - returns: RequestBuilder<CommonResponse> 
      */
-    public class func v1TrackingReminderNotificationsGetWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil, variableCategoryName: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil) -> RequestBuilder<InlineResponse2002> {
-        let path = "/v1/trackingReminderNotifications"
+    public class func deleteTrackingReminderWithRequestBuilder(body body: TrackingReminderDelete, userId: Double? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v3/trackingReminders/delete"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     * enum for parameter variableCategoryName
+     */
+    public enum VariableCategoryName_getTrackingReminderNotifications: String { 
+        case Activity = "Activity"
+        case Books = "Books"
+        case CausesOfIllness = "Causes of Illness"
+        case CognitivePerformance = "Cognitive Performance"
+        case Conditions = "Conditions"
+        case Emotions = "Emotions"
+        case Environment = "Environment"
+        case Foods = "Foods"
+        case Location = "Location"
+        case Miscellaneous = "Miscellaneous"
+        case MoviesAndTv = "Movies and TV"
+        case Music = "Music"
+        case Nutrients = "Nutrients"
+        case Payments = "Payments"
+        case PhysicalActivity = "Physical Activity"
+        case Physique = "Physique"
+        case Sleep = "Sleep"
+        case SocialInteractions = "Social Interactions"
+        case Software = "Software"
+        case Symptoms = "Symptoms"
+        case Treatments = "Treatments"
+        case VitalSigns = "Vital Signs"
+        case Work = "Work"
+    }
+
+    /**
+     * enum for parameter platform
+     */
+    public enum Platform_getTrackingReminderNotifications: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
+    }
+
+    /**
+     Get specific tracking reminder notifications
+     
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter userId: (query) User&#39;s id (optional)
+     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter reminderTime: (query) Ex: (lt)2017-07-31 21:43:26 (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter onlyPast: (query) Ex: 1 (optional)
+     - parameter includeDeleted: (query) Include deleted variables (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func getTrackingReminderNotifications(sort sort: String? = nil, userId: Double? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, variableCategoryName: VariableCategoryName_getTrackingReminderNotifications? = nil, reminderTime: String? = nil, clientId: String? = nil, onlyPast: Bool? = nil, includeDeleted: Bool? = nil, platform: Platform_getTrackingReminderNotifications? = nil, completion: ((data: GetTrackingReminderNotificationsResponse?, error: ErrorType?) -> Void)) {
+        getTrackingReminderNotificationsWithRequestBuilder(sort: sort, userId: userId, createdAt: createdAt, updatedAt: updatedAt, limit: limit, offset: offset, variableCategoryName: variableCategoryName, reminderTime: reminderTime, clientId: clientId, onlyPast: onlyPast, includeDeleted: includeDeleted, platform: platform).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Get specific tracking reminder notifications
+     - GET /v3/trackingReminderNotifications
+     - Specific tracking reminder notification instances that still need to be tracked.
+     - API Key:
+       - type: apiKey access_token (QUERY)
+       - name: access_token
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     - examples: [{contentType=application/json, example={
+  "summary" : "summary",
+  "data" : [ {
+    "lastValue" : 7.061401241503109,
+    "defaultValue" : 5.962134,
+    "svgUrl" : "svgUrl",
+    "createdAt" : "createdAt",
+    "popUp" : true,
+    "combinationOperation" : "MEAN",
+    "inputType" : "inputType",
+    "id" : 2,
+    "unitCategoryId" : 6,
+    "updatedAt" : "updatedAt",
+    "userVariableUnitName" : "userVariableUnitName",
+    "availableUnits" : [ {
+      "minimumAllowedValue" : 3.616076749251911,
+      "advanced" : 6,
+      "manualTracking" : 2,
+      "categoryName" : "categoryName",
+      "maximumAllowedValue" : 7.061401241503109,
+      "minimumValue" : 2,
+      "unitCategory" : {
+        "name" : "name",
+        "id" : 4,
+        "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+      },
+      "name" : "name",
+      "id" : 5,
+      "category" : "Distance",
+      "abbreviatedName" : "abbreviatedName",
+      "conversionSteps" : [ {
+        "operation" : "ADD",
+        "value" : 5.962133916683182
+      }, {
+        "operation" : "ADD",
+        "value" : 5.962133916683182
+      } ],
+      "maximumValue" : 9,
+      "categoryId" : 1
+    }, {
+      "minimumAllowedValue" : 3.616076749251911,
+      "advanced" : 6,
+      "manualTracking" : 2,
+      "categoryName" : "categoryName",
+      "maximumAllowedValue" : 7.061401241503109,
+      "minimumValue" : 2,
+      "unitCategory" : {
+        "name" : "name",
+        "id" : 4,
+        "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+      },
+      "name" : "name",
+      "id" : 5,
+      "category" : "Distance",
+      "abbreviatedName" : "abbreviatedName",
+      "conversionSteps" : [ {
+        "operation" : "ADD",
+        "value" : 5.962133916683182
+      }, {
+        "operation" : "ADD",
+        "value" : 5.962133916683182
+      } ],
+      "maximumValue" : 9,
+      "categoryId" : 1
+    } ],
+    "trackingReminderImageUrl" : "trackingReminderImageUrl",
+    "unitName" : "unitName",
+    "trackingReminderNotificationId" : 5,
+    "trackingReminderId" : 4,
+    "userVariableVariableCategoryId" : 9,
+    "ionIcon" : "ionIcon",
+    "valence" : "valence",
+    "manualTracking" : true,
+    "trackingReminderNotificationTimeLocal" : "trackingReminderNotificationTimeLocal",
+    "notificationBar" : true,
+    "variableId" : 3,
+    "pngPath" : "pngPath",
+    "unitCategoryName" : "unitCategoryName",
+    "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+    "reminderStartTime" : "reminderStartTime",
+    "minimumAllowedValue" : 3,
+    "variableCategoryName" : "variableCategoryName",
+    "displayName" : "displayName",
+    "description" : "description",
+    "title" : "title",
+    "maximumAllowedValue" : 9,
+    "reminderSound" : "reminderSound",
+    "total" : 7.457744773683766,
+    "variableCategoryId" : 6,
+    "fillingValue" : 5,
+    "imageUrl" : "imageUrl",
+    "trackingReminderNotificationTimeEpoch" : 9,
+    "sms" : true,
+    "unitId" : 1,
+    "mostCommonValue" : 2.027123023002322,
+    "pngUrl" : "pngUrl",
+    "userVariableUnitCategoryId" : 6,
+    "trackAllActions" : [ {
+      "modifiedValue" : 1,
+      "action" : "action",
+      "callback" : "callback",
+      "title" : "title"
+    }, {
+      "modifiedValue" : 1,
+      "action" : "action",
+      "callback" : "callback",
+      "title" : "title"
+    } ],
+    "notifiedAt" : "notifiedAt",
+    "unitAbbreviatedName" : "unitAbbreviatedName",
+    "email" : true,
+    "outcome" : true,
+    "modifiedValue" : 0.8008281904610115,
+    "numberOfUniqueValues" : 4,
+    "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+    "trackingReminderNotificationTime" : "trackingReminderNotificationTime",
+    "clientId" : "clientId",
+    "variableName" : "variableName",
+    "question" : "question",
+    "variableImageUrl" : "variableImageUrl",
+    "thirdToLastValue" : 6.84685269835264,
+    "iconIcon" : "iconIcon",
+    "userId" : 9,
+    "reminderFrequency" : 7,
+    "thirdMostCommonValue" : 1.4894159098541704,
+    "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+    "secondToLastValue" : 1.0246457001441578,
+    "trackingReminderNotificationTimeLocalHumanString" : "trackingReminderNotificationTimeLocalHumanString",
+    "reminderEndTime" : "reminderEndTime",
+    "userVariableUnitId" : 8,
+    "secondMostCommonValue" : 1.2315135367772556,
+    "variableCategoryImageUrl" : "variableCategoryImageUrl",
+    "reminderTime" : "reminderTime",
+    "productUrl" : "productUrl",
+    "actionArray" : [ {
+      "modifiedValue" : 0,
+      "action" : "action",
+      "callback" : "callback",
+      "shortTitle" : "shortTitle",
+      "title" : "title",
+      "longTitle" : "longTitle"
+    }, {
+      "modifiedValue" : 0,
+      "action" : "action",
+      "callback" : "callback",
+      "shortTitle" : "shortTitle",
+      "title" : "title",
+      "longTitle" : "longTitle"
+    } ]
+  }, {
+    "lastValue" : 7.061401241503109,
+    "defaultValue" : 5.962134,
+    "svgUrl" : "svgUrl",
+    "createdAt" : "createdAt",
+    "popUp" : true,
+    "combinationOperation" : "MEAN",
+    "inputType" : "inputType",
+    "id" : 2,
+    "unitCategoryId" : 6,
+    "updatedAt" : "updatedAt",
+    "userVariableUnitName" : "userVariableUnitName",
+    "availableUnits" : [ {
+      "minimumAllowedValue" : 3.616076749251911,
+      "advanced" : 6,
+      "manualTracking" : 2,
+      "categoryName" : "categoryName",
+      "maximumAllowedValue" : 7.061401241503109,
+      "minimumValue" : 2,
+      "unitCategory" : {
+        "name" : "name",
+        "id" : 4,
+        "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+      },
+      "name" : "name",
+      "id" : 5,
+      "category" : "Distance",
+      "abbreviatedName" : "abbreviatedName",
+      "conversionSteps" : [ {
+        "operation" : "ADD",
+        "value" : 5.962133916683182
+      }, {
+        "operation" : "ADD",
+        "value" : 5.962133916683182
+      } ],
+      "maximumValue" : 9,
+      "categoryId" : 1
+    }, {
+      "minimumAllowedValue" : 3.616076749251911,
+      "advanced" : 6,
+      "manualTracking" : 2,
+      "categoryName" : "categoryName",
+      "maximumAllowedValue" : 7.061401241503109,
+      "minimumValue" : 2,
+      "unitCategory" : {
+        "name" : "name",
+        "id" : 4,
+        "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+      },
+      "name" : "name",
+      "id" : 5,
+      "category" : "Distance",
+      "abbreviatedName" : "abbreviatedName",
+      "conversionSteps" : [ {
+        "operation" : "ADD",
+        "value" : 5.962133916683182
+      }, {
+        "operation" : "ADD",
+        "value" : 5.962133916683182
+      } ],
+      "maximumValue" : 9,
+      "categoryId" : 1
+    } ],
+    "trackingReminderImageUrl" : "trackingReminderImageUrl",
+    "unitName" : "unitName",
+    "trackingReminderNotificationId" : 5,
+    "trackingReminderId" : 4,
+    "userVariableVariableCategoryId" : 9,
+    "ionIcon" : "ionIcon",
+    "valence" : "valence",
+    "manualTracking" : true,
+    "trackingReminderNotificationTimeLocal" : "trackingReminderNotificationTimeLocal",
+    "notificationBar" : true,
+    "variableId" : 3,
+    "pngPath" : "pngPath",
+    "unitCategoryName" : "unitCategoryName",
+    "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+    "reminderStartTime" : "reminderStartTime",
+    "minimumAllowedValue" : 3,
+    "variableCategoryName" : "variableCategoryName",
+    "displayName" : "displayName",
+    "description" : "description",
+    "title" : "title",
+    "maximumAllowedValue" : 9,
+    "reminderSound" : "reminderSound",
+    "total" : 7.457744773683766,
+    "variableCategoryId" : 6,
+    "fillingValue" : 5,
+    "imageUrl" : "imageUrl",
+    "trackingReminderNotificationTimeEpoch" : 9,
+    "sms" : true,
+    "unitId" : 1,
+    "mostCommonValue" : 2.027123023002322,
+    "pngUrl" : "pngUrl",
+    "userVariableUnitCategoryId" : 6,
+    "trackAllActions" : [ {
+      "modifiedValue" : 1,
+      "action" : "action",
+      "callback" : "callback",
+      "title" : "title"
+    }, {
+      "modifiedValue" : 1,
+      "action" : "action",
+      "callback" : "callback",
+      "title" : "title"
+    } ],
+    "notifiedAt" : "notifiedAt",
+    "unitAbbreviatedName" : "unitAbbreviatedName",
+    "email" : true,
+    "outcome" : true,
+    "modifiedValue" : 0.8008281904610115,
+    "numberOfUniqueValues" : 4,
+    "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+    "trackingReminderNotificationTime" : "trackingReminderNotificationTime",
+    "clientId" : "clientId",
+    "variableName" : "variableName",
+    "question" : "question",
+    "variableImageUrl" : "variableImageUrl",
+    "thirdToLastValue" : 6.84685269835264,
+    "iconIcon" : "iconIcon",
+    "userId" : 9,
+    "reminderFrequency" : 7,
+    "thirdMostCommonValue" : 1.4894159098541704,
+    "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+    "secondToLastValue" : 1.0246457001441578,
+    "trackingReminderNotificationTimeLocalHumanString" : "trackingReminderNotificationTimeLocalHumanString",
+    "reminderEndTime" : "reminderEndTime",
+    "userVariableUnitId" : 8,
+    "secondMostCommonValue" : 1.2315135367772556,
+    "variableCategoryImageUrl" : "variableCategoryImageUrl",
+    "reminderTime" : "reminderTime",
+    "productUrl" : "productUrl",
+    "actionArray" : [ {
+      "modifiedValue" : 0,
+      "action" : "action",
+      "callback" : "callback",
+      "shortTitle" : "shortTitle",
+      "title" : "title",
+      "longTitle" : "longTitle"
+    }, {
+      "modifiedValue" : 0,
+      "action" : "action",
+      "callback" : "callback",
+      "shortTitle" : "shortTitle",
+      "title" : "title",
+      "longTitle" : "longTitle"
+    } ]
+  } ],
+  "description" : "description"
+}}]
+     
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter userId: (query) User&#39;s id (optional)
+     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter reminderTime: (query) Ex: (lt)2017-07-31 21:43:26 (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter onlyPast: (query) Ex: 1 (optional)
+     - parameter includeDeleted: (query) Include deleted variables (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+
+     - returns: RequestBuilder<GetTrackingReminderNotificationsResponse> 
+     */
+    public class func getTrackingReminderNotificationsWithRequestBuilder(sort sort: String? = nil, userId: Double? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, variableCategoryName: VariableCategoryName_getTrackingReminderNotifications? = nil, reminderTime: String? = nil, clientId: String? = nil, onlyPast: Bool? = nil, includeDeleted: Bool? = nil, platform: Platform_getTrackingReminderNotifications? = nil) -> RequestBuilder<GetTrackingReminderNotificationsResponse> {
+        let path = "/v3/trackingReminderNotifications"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON(),
-            "variableCategoryName": variableCategoryName,
+            "sort": sort,
+            "userId": userId,
             "createdAt": createdAt,
             "updatedAt": updatedAt,
             "limit": limit?.encodeToJSON(),
             "offset": offset?.encodeToJSON(),
-            "sort": sort
+            "variableCategoryName": variableCategoryName?.rawValue,
+            "reminderTime": reminderTime,
+            "clientId": clientId,
+            "onlyPast": onlyPast,
+            "includeDeleted": includeDeleted,
+            "platform": platform?.rawValue
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<InlineResponse2002>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<GetTrackingReminderNotificationsResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
-     Skip a pending tracking reminder
-     
-     - parameter body: (body) Id of the pending reminder to be skipped or deleted 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter completion: completion handler to receive the data and the error objects
+     * enum for parameter variableCategoryName
      */
-    public class func v1TrackingReminderNotificationsSkipPost(body body: TrackingReminderNotificationSkip, accessToken: String? = nil, userId: Int32? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
-        v1TrackingReminderNotificationsSkipPostWithRequestBuilder(body: body, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Skip a pending tracking reminder
-     - POST /v1/trackingReminderNotifications/skip
-     - Deletes the pending tracking reminder
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "success" : true,
-  "message" : "aeiou",
-  "status" : ""
-}}]
-     
-     - parameter body: (body) Id of the pending reminder to be skipped or deleted 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<CommonResponse> 
-     */
-    public class func v1TrackingReminderNotificationsSkipPostWithRequestBuilder(body body: TrackingReminderNotificationSkip, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<CommonResponse> {
-        let path = "/v1/trackingReminderNotifications/skip"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    public enum VariableCategoryName_getTrackingReminders: String { 
+        case Activity = "Activity"
+        case Books = "Books"
+        case CausesOfIllness = "Causes of Illness"
+        case CognitivePerformance = "Cognitive Performance"
+        case Conditions = "Conditions"
+        case Emotions = "Emotions"
+        case Environment = "Environment"
+        case Foods = "Foods"
+        case Location = "Location"
+        case Miscellaneous = "Miscellaneous"
+        case MoviesAndTv = "Movies and TV"
+        case Music = "Music"
+        case Nutrients = "Nutrients"
+        case Payments = "Payments"
+        case PhysicalActivity = "Physical Activity"
+        case Physique = "Physique"
+        case Sleep = "Sleep"
+        case SocialInteractions = "Social Interactions"
+        case Software = "Software"
+        case Symptoms = "Symptoms"
+        case Treatments = "Treatments"
+        case VitalSigns = "Vital Signs"
+        case Work = "Work"
     }
 
     /**
-     Snooze a pending tracking reminder
-     
-     - parameter body: (body) Id of the pending reminder to be snoozed 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter completion: completion handler to receive the data and the error objects
+     * enum for parameter platform
      */
-    public class func v1TrackingReminderNotificationsSnoozePost(body body: TrackingReminderNotificationSnooze, accessToken: String? = nil, userId: Int32? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
-        v1TrackingReminderNotificationsSnoozePostWithRequestBuilder(body: body, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Snooze a pending tracking reminder
-     - POST /v1/trackingReminderNotifications/snooze
-     - Changes the reminder time to now plus one hour
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "success" : true,
-  "message" : "aeiou",
-  "status" : ""
-}}]
-     
-     - parameter body: (body) Id of the pending reminder to be snoozed 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<CommonResponse> 
-     */
-    public class func v1TrackingReminderNotificationsSnoozePostWithRequestBuilder(body body: TrackingReminderNotificationSnooze, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<CommonResponse> {
-        let path = "/v1/trackingReminderNotifications/snooze"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Track a pending tracking reminder
-     
-     - parameter body: (body) Id of the pending reminder to be tracked 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1TrackingReminderNotificationsTrackPost(body body: TrackingReminderNotificationTrack, accessToken: String? = nil, userId: Int32? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
-        v1TrackingReminderNotificationsTrackPostWithRequestBuilder(body: body, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Track a pending tracking reminder
-     - POST /v1/trackingReminderNotifications/track
-     - Adds the default measurement for the pending tracking reminder with the reminder time as the measurment start time
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "success" : true,
-  "message" : "aeiou",
-  "status" : ""
-}}]
-     
-     - parameter body: (body) Id of the pending reminder to be tracked 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<CommonResponse> 
-     */
-    public class func v1TrackingReminderNotificationsTrackPostWithRequestBuilder(body body: TrackingReminderNotificationTrack, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<CommonResponse> {
-        let path = "/v1/trackingReminderNotifications/track"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Delete tracking reminder
-     
-     - parameter body: (body) Id of reminder to be deleted 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1TrackingRemindersDeletePost(body body: TrackingReminderDelete, accessToken: String? = nil, userId: Int32? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
-        v1TrackingRemindersDeletePostWithRequestBuilder(body: body, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Delete tracking reminder
-     - POST /v1/trackingReminders/delete
-     - Delete previously created tracking reminder
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "success" : true,
-  "message" : "aeiou",
-  "status" : ""
-}}]
-     
-     - parameter body: (body) Id of reminder to be deleted 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<CommonResponse> 
-     */
-    public class func v1TrackingRemindersDeletePostWithRequestBuilder(body body: TrackingReminderDelete, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<CommonResponse> {
-        let path = "/v1/trackingReminders/delete"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    public enum Platform_getTrackingReminders: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
     }
 
     /**
      Get repeating tracking reminder settings
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
      - parameter userId: (query) User&#39;s id (optional)
-     - parameter variableCategoryName: (query) Limit tracking reminders to a specific variable category (optional)
-     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. (optional)
-     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional)
-     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order. (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter appVersion: (query) Ex: 2.1.1.0 (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1TrackingRemindersGet(accessToken accessToken: String? = nil, userId: Int32? = nil, variableCategoryName: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
-        v1TrackingRemindersGetWithRequestBuilder(accessToken: accessToken, userId: userId, variableCategoryName: variableCategoryName, createdAt: createdAt, updatedAt: updatedAt, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+    public class func getTrackingReminders(userId userId: Double? = nil, variableCategoryName: VariableCategoryName_getTrackingReminders? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, clientId: String? = nil, appVersion: String? = nil, platform: Platform_getTrackingReminders? = nil, completion: ((data: [TrackingReminder]?, error: ErrorType?) -> Void)) {
+        getTrackingRemindersWithRequestBuilder(userId: userId, variableCategoryName: variableCategoryName, createdAt: createdAt, updatedAt: updatedAt, limit: limit, offset: offset, sort: sort, clientId: clientId, appVersion: appVersion, platform: platform).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -316,7 +535,7 @@ public class RemindersAPI: APIBase {
 
     /**
      Get repeating tracking reminder settings
-     - GET /v1/trackingReminders
+     - GET /v3/trackingReminders
      - Users can be reminded to track certain variables at a specified frequency with a default value.
      - API Key:
        - type: apiKey access_token (QUERY)
@@ -324,79 +543,399 @@ public class RemindersAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "data" : [ {
-    "reminderStartTime" : "aeiou",
-    "startTrackingDate" : "aeiou",
-    "clientId" : "aeiou",
-    "variableName" : "aeiou",
-    "variableCategoryName" : "aeiou",
-    "defaultValue" : 1.3579000000000001069366817318950779736042022705078125,
-    "notificationBar" : true,
-    "userId" : 123,
-    "variableId" : 123,
-    "latestTrackingReminderNotificationReminderTime" : "2000-01-23T04:56:07.000+00:00",
-    "stopTrackingDate" : "aeiou",
-    "reminderFrequency" : 123,
-    "reminderSound" : "aeiou",
-    "popUp" : true,
-    "reminderEndTime" : "aeiou",
-    "sms" : true,
-    "combinationOperation" : "aeiou",
-    "lastTracked" : "2000-01-23T04:56:07.000+00:00",
-    "id" : 123,
-    "email" : true,
-    "unitAbbreviatedName" : "aeiou",
-    "updatedAt" : "2000-01-23T04:56:07.000+00:00"
+     - examples: [{contentType=application/json, example=[ {
+  "instructions" : "instructions",
+  "lastValue" : 2.3021358869347655,
+  "defaultValue" : 1.4658129,
+  "reminderStartTimeLocalHumanFormatted" : "reminderStartTimeLocalHumanFormatted",
+  "svgUrl" : "svgUrl",
+  "createdAt" : "createdAt",
+  "popUp" : true,
+  "frequencyTextDescription" : "frequencyTextDescription",
+  "repeating" : true,
+  "combinationOperation" : "MEAN",
+  "inputType" : "inputType",
+  "lastTracked" : "lastTracked",
+  "id" : 5,
+  "unitCategoryId" : 0,
+  "updatedAt" : "updatedAt",
+  "userVariableUnitName" : "userVariableUnitName",
+  "startTrackingDate" : "startTrackingDate",
+  "availableUnits" : [ {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  }, {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
   } ],
-  "success" : true
-}}]
+  "trackingReminderImageUrl" : "trackingReminderImageUrl",
+  "unitName" : "unitName",
+  "trackingReminderId" : 6,
+  "userVariableVariableCategoryId" : 5,
+  "ionIcon" : "ionIcon",
+  "upc" : "upc",
+  "valence" : "valence",
+  "manualTracking" : true,
+  "reminderStartTimeLocal" : "reminderStartTimeLocal",
+  "notificationBar" : true,
+  "variableId" : 9,
+  "latestTrackingReminderNotificationReminderTime" : "latestTrackingReminderNotificationReminderTime",
+  "pngPath" : "pngPath",
+  "variableDescription" : "variableDescription",
+  "unitCategoryName" : "unitCategoryName",
+  "valueAndFrequencyTextDescriptionWithTime" : "valueAndFrequencyTextDescriptionWithTime",
+  "valueAndFrequencyTextDescription" : "valueAndFrequencyTextDescription",
+  "thirdDailyReminderTime" : "thirdDailyReminderTime",
+  "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+  "nextReminderTimeEpochSeconds" : 3,
+  "reminderStartTime" : "reminderStartTime",
+  "firstDailyReminderTime" : "firstDailyReminderTime",
+  "minimumAllowedValue" : 9,
+  "variableCategoryName" : "variableCategoryName",
+  "displayName" : "displayName",
+  "maximumAllowedValue" : 7,
+  "stopTrackingDate" : "stopTrackingDate",
+  "reminderSound" : "reminderSound",
+  "variableCategoryId" : 9,
+  "fillingValue" : 5,
+  "sms" : true,
+  "unitId" : 6,
+  "pngUrl" : "pngUrl",
+  "userVariableUnitCategoryId" : 1,
+  "unitAbbreviatedName" : "unitAbbreviatedName",
+  "email" : true,
+  "outcome" : true,
+  "numberOfUniqueValues" : 4,
+  "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+  "clientId" : "clientId",
+  "variableName" : "variableName",
+  "frequencyTextDescriptionWithTime" : "frequencyTextDescriptionWithTime",
+  "question" : "question",
+  "secondDailyReminderTime" : "secondDailyReminderTime",
+  "thirdToLastValue" : 1.4894159098541704,
+  "errorMessage" : "errorMessage",
+  "userId" : 7,
+  "reminderStartEpochSeconds" : 1,
+  "reminderFrequency" : 7,
+  "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+  "secondToLastValue" : 1.0246457001441578,
+  "reminderEndTime" : "reminderEndTime",
+  "userVariableUnitId" : 4,
+  "numberOfRawMeasurements" : 2,
+  "localDailyReminderNotificationTimes" : [ "localDailyReminderNotificationTimes", "localDailyReminderNotificationTimes" ],
+  "variableCategoryImageUrl" : "variableCategoryImageUrl",
+  "localDailyReminderNotificationTimesForAllReminders" : [ "localDailyReminderNotificationTimesForAllReminders", "localDailyReminderNotificationTimesForAllReminders" ],
+  "productUrl" : "productUrl",
+  "actionArray" : [ {
+    "modifiedValue" : 0,
+    "action" : "action",
+    "callback" : "callback",
+    "shortTitle" : "shortTitle",
+    "title" : "title",
+    "longTitle" : "longTitle"
+  }, {
+    "modifiedValue" : 0,
+    "action" : "action",
+    "callback" : "callback",
+    "shortTitle" : "shortTitle",
+    "title" : "title",
+    "longTitle" : "longTitle"
+  } ]
+}, {
+  "instructions" : "instructions",
+  "lastValue" : 2.3021358869347655,
+  "defaultValue" : 1.4658129,
+  "reminderStartTimeLocalHumanFormatted" : "reminderStartTimeLocalHumanFormatted",
+  "svgUrl" : "svgUrl",
+  "createdAt" : "createdAt",
+  "popUp" : true,
+  "frequencyTextDescription" : "frequencyTextDescription",
+  "repeating" : true,
+  "combinationOperation" : "MEAN",
+  "inputType" : "inputType",
+  "lastTracked" : "lastTracked",
+  "id" : 5,
+  "unitCategoryId" : 0,
+  "updatedAt" : "updatedAt",
+  "userVariableUnitName" : "userVariableUnitName",
+  "startTrackingDate" : "startTrackingDate",
+  "availableUnits" : [ {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  }, {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  } ],
+  "trackingReminderImageUrl" : "trackingReminderImageUrl",
+  "unitName" : "unitName",
+  "trackingReminderId" : 6,
+  "userVariableVariableCategoryId" : 5,
+  "ionIcon" : "ionIcon",
+  "upc" : "upc",
+  "valence" : "valence",
+  "manualTracking" : true,
+  "reminderStartTimeLocal" : "reminderStartTimeLocal",
+  "notificationBar" : true,
+  "variableId" : 9,
+  "latestTrackingReminderNotificationReminderTime" : "latestTrackingReminderNotificationReminderTime",
+  "pngPath" : "pngPath",
+  "variableDescription" : "variableDescription",
+  "unitCategoryName" : "unitCategoryName",
+  "valueAndFrequencyTextDescriptionWithTime" : "valueAndFrequencyTextDescriptionWithTime",
+  "valueAndFrequencyTextDescription" : "valueAndFrequencyTextDescription",
+  "thirdDailyReminderTime" : "thirdDailyReminderTime",
+  "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+  "nextReminderTimeEpochSeconds" : 3,
+  "reminderStartTime" : "reminderStartTime",
+  "firstDailyReminderTime" : "firstDailyReminderTime",
+  "minimumAllowedValue" : 9,
+  "variableCategoryName" : "variableCategoryName",
+  "displayName" : "displayName",
+  "maximumAllowedValue" : 7,
+  "stopTrackingDate" : "stopTrackingDate",
+  "reminderSound" : "reminderSound",
+  "variableCategoryId" : 9,
+  "fillingValue" : 5,
+  "sms" : true,
+  "unitId" : 6,
+  "pngUrl" : "pngUrl",
+  "userVariableUnitCategoryId" : 1,
+  "unitAbbreviatedName" : "unitAbbreviatedName",
+  "email" : true,
+  "outcome" : true,
+  "numberOfUniqueValues" : 4,
+  "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+  "clientId" : "clientId",
+  "variableName" : "variableName",
+  "frequencyTextDescriptionWithTime" : "frequencyTextDescriptionWithTime",
+  "question" : "question",
+  "secondDailyReminderTime" : "secondDailyReminderTime",
+  "thirdToLastValue" : 1.4894159098541704,
+  "errorMessage" : "errorMessage",
+  "userId" : 7,
+  "reminderStartEpochSeconds" : 1,
+  "reminderFrequency" : 7,
+  "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+  "secondToLastValue" : 1.0246457001441578,
+  "reminderEndTime" : "reminderEndTime",
+  "userVariableUnitId" : 4,
+  "numberOfRawMeasurements" : 2,
+  "localDailyReminderNotificationTimes" : [ "localDailyReminderNotificationTimes", "localDailyReminderNotificationTimes" ],
+  "variableCategoryImageUrl" : "variableCategoryImageUrl",
+  "localDailyReminderNotificationTimesForAllReminders" : [ "localDailyReminderNotificationTimesForAllReminders", "localDailyReminderNotificationTimesForAllReminders" ],
+  "productUrl" : "productUrl",
+  "actionArray" : [ {
+    "modifiedValue" : 0,
+    "action" : "action",
+    "callback" : "callback",
+    "shortTitle" : "shortTitle",
+    "title" : "title",
+    "longTitle" : "longTitle"
+  }, {
+    "modifiedValue" : 0,
+    "action" : "action",
+    "callback" : "callback",
+    "shortTitle" : "shortTitle",
+    "title" : "title",
+    "longTitle" : "longTitle"
+  } ]
+} ]}]
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
      - parameter userId: (query) User&#39;s id (optional)
-     - parameter variableCategoryName: (query) Limit tracking reminders to a specific variable category (optional)
-     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. (optional)
-     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 \&quot;YYYY-MM-DDThh:mm:ss\&quot;  datetime format. Time zone should be UTC and not local. (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional)
-     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause. If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#39;-&#39;, it will sort in descending order. (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter appVersion: (query) Ex: 2.1.1.0 (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
 
-     - returns: RequestBuilder<InlineResponse200> 
+     - returns: RequestBuilder<[TrackingReminder]> 
      */
-    public class func v1TrackingRemindersGetWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil, variableCategoryName: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil) -> RequestBuilder<InlineResponse200> {
-        let path = "/v1/trackingReminders"
+    public class func getTrackingRemindersWithRequestBuilder(userId userId: Double? = nil, variableCategoryName: VariableCategoryName_getTrackingReminders? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, clientId: String? = nil, appVersion: String? = nil, platform: Platform_getTrackingReminders? = nil) -> RequestBuilder<[TrackingReminder]> {
+        let path = "/v3/trackingReminders"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON(),
-            "variableCategoryName": variableCategoryName,
+            "userId": userId,
+            "variableCategoryName": variableCategoryName?.rawValue,
             "createdAt": createdAt,
             "updatedAt": updatedAt,
             "limit": limit?.encodeToJSON(),
             "offset": offset?.encodeToJSON(),
-            "sort": sort
+            "sort": sort,
+            "clientId": clientId,
+            "appVersion": appVersion,
+            "platform": platform?.rawValue
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<InlineResponse200>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<[TrackingReminder]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
-     Store a Tracking Reminder
+     * enum for parameter platform
+     */
+    public enum Platform_postTrackingReminderNotifications: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
+    }
+
+    /**
+     Snooze, skip, or track a tracking reminder notification
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) Id of the tracking reminder notification to be snoozed 
      - parameter userId: (query) User&#39;s id (optional)
-     - parameter body: (body) TrackingReminder that should be stored (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1TrackingRemindersPost(accessToken accessToken: String? = nil, userId: Int32? = nil, body: TrackingReminder? = nil, completion: ((data: InlineResponse2001?, error: ErrorType?) -> Void)) {
-        v1TrackingRemindersPostWithRequestBuilder(accessToken: accessToken, userId: userId, body: body).execute { (response, error) -> Void in
+    public class func postTrackingReminderNotifications(body body: [TrackingReminderNotificationPost], userId: Double? = nil, clientId: String? = nil, platform: Platform_postTrackingReminderNotifications? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        postTrackingReminderNotificationsWithRequestBuilder(body: body, userId: userId, clientId: clientId, platform: platform).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Snooze, skip, or track a tracking reminder notification
+     - POST /v3/trackingReminderNotifications
+     - Snooze, skip, or track a tracking reminder notification
+     - API Key:
+       - type: apiKey access_token (QUERY)
+       - name: access_token
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     - examples: [{contentType=application/json, example={
+  "summary" : "summary",
+  "description" : "description"
+}}]
+     
+     - parameter body: (body) Id of the tracking reminder notification to be snoozed 
+     - parameter userId: (query) User&#39;s id (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func postTrackingReminderNotificationsWithRequestBuilder(body body: [TrackingReminderNotificationPost], userId: Double? = nil, clientId: String? = nil, platform: Platform_postTrackingReminderNotifications? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v3/trackingReminderNotifications"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Store a Tracking Reminder
+     
+     - parameter body: (body) TrackingReminder that should be stored 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func postTrackingReminders(body body: [TrackingReminder], completion: ((data: PostTrackingRemindersResponse?, error: ErrorType?) -> Void)) {
+        postTrackingRemindersWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -404,7 +943,7 @@ public class RemindersAPI: APIBase {
 
     /**
      Store a Tracking Reminder
-     - POST /v1/trackingReminders
+     - POST /v3/trackingReminders
      - This is to enable users to create reminders to track a variable with a default value at a specified frequency
      - API Key:
        - type: apiKey access_token (QUERY)
@@ -413,49 +952,1286 @@ public class RemindersAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      - examples: [{contentType=application/json, example={
+  "summary" : "summary",
   "data" : {
-    "reminderStartTime" : "aeiou",
-    "startTrackingDate" : "aeiou",
-    "clientId" : "aeiou",
-    "variableName" : "aeiou",
-    "variableCategoryName" : "aeiou",
-    "defaultValue" : 1.3579000000000001069366817318950779736042022705078125,
-    "notificationBar" : true,
-    "userId" : 123,
-    "variableId" : 123,
-    "latestTrackingReminderNotificationReminderTime" : "2000-01-23T04:56:07.000+00:00",
-    "stopTrackingDate" : "aeiou",
-    "reminderFrequency" : 123,
-    "reminderSound" : "aeiou",
-    "popUp" : true,
-    "reminderEndTime" : "aeiou",
-    "sms" : true,
-    "combinationOperation" : "aeiou",
-    "lastTracked" : "2000-01-23T04:56:07.000+00:00",
-    "id" : 123,
-    "email" : true,
-    "unitAbbreviatedName" : "aeiou",
-    "updatedAt" : "2000-01-23T04:56:07.000+00:00"
+    "trackingReminders" : [ {
+      "instructions" : "instructions",
+      "lastValue" : 2.3021358869347655,
+      "defaultValue" : 1.4658129,
+      "reminderStartTimeLocalHumanFormatted" : "reminderStartTimeLocalHumanFormatted",
+      "svgUrl" : "svgUrl",
+      "createdAt" : "createdAt",
+      "popUp" : true,
+      "frequencyTextDescription" : "frequencyTextDescription",
+      "repeating" : true,
+      "combinationOperation" : "MEAN",
+      "inputType" : "inputType",
+      "lastTracked" : "lastTracked",
+      "id" : 5,
+      "unitCategoryId" : 0,
+      "updatedAt" : "updatedAt",
+      "userVariableUnitName" : "userVariableUnitName",
+      "startTrackingDate" : "startTrackingDate",
+      "availableUnits" : [ {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      }, {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      } ],
+      "trackingReminderImageUrl" : "trackingReminderImageUrl",
+      "unitName" : "unitName",
+      "trackingReminderId" : 6,
+      "userVariableVariableCategoryId" : 5,
+      "ionIcon" : "ionIcon",
+      "upc" : "upc",
+      "valence" : "valence",
+      "manualTracking" : true,
+      "reminderStartTimeLocal" : "reminderStartTimeLocal",
+      "notificationBar" : true,
+      "variableId" : 9,
+      "latestTrackingReminderNotificationReminderTime" : "latestTrackingReminderNotificationReminderTime",
+      "pngPath" : "pngPath",
+      "variableDescription" : "variableDescription",
+      "unitCategoryName" : "unitCategoryName",
+      "valueAndFrequencyTextDescriptionWithTime" : "valueAndFrequencyTextDescriptionWithTime",
+      "valueAndFrequencyTextDescription" : "valueAndFrequencyTextDescription",
+      "thirdDailyReminderTime" : "thirdDailyReminderTime",
+      "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+      "nextReminderTimeEpochSeconds" : 3,
+      "reminderStartTime" : "reminderStartTime",
+      "firstDailyReminderTime" : "firstDailyReminderTime",
+      "minimumAllowedValue" : 9,
+      "variableCategoryName" : "variableCategoryName",
+      "displayName" : "displayName",
+      "maximumAllowedValue" : 7,
+      "stopTrackingDate" : "stopTrackingDate",
+      "reminderSound" : "reminderSound",
+      "variableCategoryId" : 9,
+      "fillingValue" : 5,
+      "sms" : true,
+      "unitId" : 6,
+      "pngUrl" : "pngUrl",
+      "userVariableUnitCategoryId" : 1,
+      "unitAbbreviatedName" : "unitAbbreviatedName",
+      "email" : true,
+      "outcome" : true,
+      "numberOfUniqueValues" : 4,
+      "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+      "clientId" : "clientId",
+      "variableName" : "variableName",
+      "frequencyTextDescriptionWithTime" : "frequencyTextDescriptionWithTime",
+      "question" : "question",
+      "secondDailyReminderTime" : "secondDailyReminderTime",
+      "thirdToLastValue" : 1.4894159098541704,
+      "errorMessage" : "errorMessage",
+      "userId" : 7,
+      "reminderStartEpochSeconds" : 1,
+      "reminderFrequency" : 7,
+      "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+      "secondToLastValue" : 1.0246457001441578,
+      "reminderEndTime" : "reminderEndTime",
+      "userVariableUnitId" : 4,
+      "numberOfRawMeasurements" : 2,
+      "localDailyReminderNotificationTimes" : [ "localDailyReminderNotificationTimes", "localDailyReminderNotificationTimes" ],
+      "variableCategoryImageUrl" : "variableCategoryImageUrl",
+      "localDailyReminderNotificationTimesForAllReminders" : [ "localDailyReminderNotificationTimesForAllReminders", "localDailyReminderNotificationTimesForAllReminders" ],
+      "productUrl" : "productUrl",
+      "actionArray" : [ {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      }, {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      } ]
+    }, {
+      "instructions" : "instructions",
+      "lastValue" : 2.3021358869347655,
+      "defaultValue" : 1.4658129,
+      "reminderStartTimeLocalHumanFormatted" : "reminderStartTimeLocalHumanFormatted",
+      "svgUrl" : "svgUrl",
+      "createdAt" : "createdAt",
+      "popUp" : true,
+      "frequencyTextDescription" : "frequencyTextDescription",
+      "repeating" : true,
+      "combinationOperation" : "MEAN",
+      "inputType" : "inputType",
+      "lastTracked" : "lastTracked",
+      "id" : 5,
+      "unitCategoryId" : 0,
+      "updatedAt" : "updatedAt",
+      "userVariableUnitName" : "userVariableUnitName",
+      "startTrackingDate" : "startTrackingDate",
+      "availableUnits" : [ {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      }, {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      } ],
+      "trackingReminderImageUrl" : "trackingReminderImageUrl",
+      "unitName" : "unitName",
+      "trackingReminderId" : 6,
+      "userVariableVariableCategoryId" : 5,
+      "ionIcon" : "ionIcon",
+      "upc" : "upc",
+      "valence" : "valence",
+      "manualTracking" : true,
+      "reminderStartTimeLocal" : "reminderStartTimeLocal",
+      "notificationBar" : true,
+      "variableId" : 9,
+      "latestTrackingReminderNotificationReminderTime" : "latestTrackingReminderNotificationReminderTime",
+      "pngPath" : "pngPath",
+      "variableDescription" : "variableDescription",
+      "unitCategoryName" : "unitCategoryName",
+      "valueAndFrequencyTextDescriptionWithTime" : "valueAndFrequencyTextDescriptionWithTime",
+      "valueAndFrequencyTextDescription" : "valueAndFrequencyTextDescription",
+      "thirdDailyReminderTime" : "thirdDailyReminderTime",
+      "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+      "nextReminderTimeEpochSeconds" : 3,
+      "reminderStartTime" : "reminderStartTime",
+      "firstDailyReminderTime" : "firstDailyReminderTime",
+      "minimumAllowedValue" : 9,
+      "variableCategoryName" : "variableCategoryName",
+      "displayName" : "displayName",
+      "maximumAllowedValue" : 7,
+      "stopTrackingDate" : "stopTrackingDate",
+      "reminderSound" : "reminderSound",
+      "variableCategoryId" : 9,
+      "fillingValue" : 5,
+      "sms" : true,
+      "unitId" : 6,
+      "pngUrl" : "pngUrl",
+      "userVariableUnitCategoryId" : 1,
+      "unitAbbreviatedName" : "unitAbbreviatedName",
+      "email" : true,
+      "outcome" : true,
+      "numberOfUniqueValues" : 4,
+      "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+      "clientId" : "clientId",
+      "variableName" : "variableName",
+      "frequencyTextDescriptionWithTime" : "frequencyTextDescriptionWithTime",
+      "question" : "question",
+      "secondDailyReminderTime" : "secondDailyReminderTime",
+      "thirdToLastValue" : 1.4894159098541704,
+      "errorMessage" : "errorMessage",
+      "userId" : 7,
+      "reminderStartEpochSeconds" : 1,
+      "reminderFrequency" : 7,
+      "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+      "secondToLastValue" : 1.0246457001441578,
+      "reminderEndTime" : "reminderEndTime",
+      "userVariableUnitId" : 4,
+      "numberOfRawMeasurements" : 2,
+      "localDailyReminderNotificationTimes" : [ "localDailyReminderNotificationTimes", "localDailyReminderNotificationTimes" ],
+      "variableCategoryImageUrl" : "variableCategoryImageUrl",
+      "localDailyReminderNotificationTimesForAllReminders" : [ "localDailyReminderNotificationTimesForAllReminders", "localDailyReminderNotificationTimesForAllReminders" ],
+      "productUrl" : "productUrl",
+      "actionArray" : [ {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      }, {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      } ]
+    } ],
+    "summary" : "summary",
+    "trackingReminderNotifications" : [ {
+      "lastValue" : 7.061401241503109,
+      "defaultValue" : 5.962134,
+      "svgUrl" : "svgUrl",
+      "createdAt" : "createdAt",
+      "popUp" : true,
+      "combinationOperation" : "MEAN",
+      "inputType" : "inputType",
+      "id" : 2,
+      "unitCategoryId" : 6,
+      "updatedAt" : "updatedAt",
+      "userVariableUnitName" : "userVariableUnitName",
+      "availableUnits" : [ {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      }, {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      } ],
+      "trackingReminderImageUrl" : "trackingReminderImageUrl",
+      "unitName" : "unitName",
+      "trackingReminderNotificationId" : 5,
+      "trackingReminderId" : 4,
+      "userVariableVariableCategoryId" : 9,
+      "ionIcon" : "ionIcon",
+      "valence" : "valence",
+      "manualTracking" : true,
+      "trackingReminderNotificationTimeLocal" : "trackingReminderNotificationTimeLocal",
+      "notificationBar" : true,
+      "variableId" : 3,
+      "pngPath" : "pngPath",
+      "unitCategoryName" : "unitCategoryName",
+      "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+      "reminderStartTime" : "reminderStartTime",
+      "minimumAllowedValue" : 3,
+      "variableCategoryName" : "variableCategoryName",
+      "displayName" : "displayName",
+      "description" : "description",
+      "title" : "title",
+      "maximumAllowedValue" : 9,
+      "reminderSound" : "reminderSound",
+      "total" : 7.457744773683766,
+      "variableCategoryId" : 6,
+      "fillingValue" : 5,
+      "imageUrl" : "imageUrl",
+      "trackingReminderNotificationTimeEpoch" : 9,
+      "sms" : true,
+      "unitId" : 1,
+      "mostCommonValue" : 2.027123023002322,
+      "pngUrl" : "pngUrl",
+      "userVariableUnitCategoryId" : 6,
+      "trackAllActions" : [ {
+        "modifiedValue" : 1,
+        "action" : "action",
+        "callback" : "callback",
+        "title" : "title"
+      }, {
+        "modifiedValue" : 1,
+        "action" : "action",
+        "callback" : "callback",
+        "title" : "title"
+      } ],
+      "notifiedAt" : "notifiedAt",
+      "unitAbbreviatedName" : "unitAbbreviatedName",
+      "email" : true,
+      "outcome" : true,
+      "modifiedValue" : 0.8008281904610115,
+      "numberOfUniqueValues" : 4,
+      "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+      "trackingReminderNotificationTime" : "trackingReminderNotificationTime",
+      "clientId" : "clientId",
+      "variableName" : "variableName",
+      "question" : "question",
+      "variableImageUrl" : "variableImageUrl",
+      "thirdToLastValue" : 6.84685269835264,
+      "iconIcon" : "iconIcon",
+      "userId" : 9,
+      "reminderFrequency" : 7,
+      "thirdMostCommonValue" : 1.4894159098541704,
+      "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+      "secondToLastValue" : 1.0246457001441578,
+      "trackingReminderNotificationTimeLocalHumanString" : "trackingReminderNotificationTimeLocalHumanString",
+      "reminderEndTime" : "reminderEndTime",
+      "userVariableUnitId" : 8,
+      "secondMostCommonValue" : 1.2315135367772556,
+      "variableCategoryImageUrl" : "variableCategoryImageUrl",
+      "reminderTime" : "reminderTime",
+      "productUrl" : "productUrl",
+      "actionArray" : [ {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      }, {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      } ]
+    }, {
+      "lastValue" : 7.061401241503109,
+      "defaultValue" : 5.962134,
+      "svgUrl" : "svgUrl",
+      "createdAt" : "createdAt",
+      "popUp" : true,
+      "combinationOperation" : "MEAN",
+      "inputType" : "inputType",
+      "id" : 2,
+      "unitCategoryId" : 6,
+      "updatedAt" : "updatedAt",
+      "userVariableUnitName" : "userVariableUnitName",
+      "availableUnits" : [ {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      }, {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      } ],
+      "trackingReminderImageUrl" : "trackingReminderImageUrl",
+      "unitName" : "unitName",
+      "trackingReminderNotificationId" : 5,
+      "trackingReminderId" : 4,
+      "userVariableVariableCategoryId" : 9,
+      "ionIcon" : "ionIcon",
+      "valence" : "valence",
+      "manualTracking" : true,
+      "trackingReminderNotificationTimeLocal" : "trackingReminderNotificationTimeLocal",
+      "notificationBar" : true,
+      "variableId" : 3,
+      "pngPath" : "pngPath",
+      "unitCategoryName" : "unitCategoryName",
+      "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+      "reminderStartTime" : "reminderStartTime",
+      "minimumAllowedValue" : 3,
+      "variableCategoryName" : "variableCategoryName",
+      "displayName" : "displayName",
+      "description" : "description",
+      "title" : "title",
+      "maximumAllowedValue" : 9,
+      "reminderSound" : "reminderSound",
+      "total" : 7.457744773683766,
+      "variableCategoryId" : 6,
+      "fillingValue" : 5,
+      "imageUrl" : "imageUrl",
+      "trackingReminderNotificationTimeEpoch" : 9,
+      "sms" : true,
+      "unitId" : 1,
+      "mostCommonValue" : 2.027123023002322,
+      "pngUrl" : "pngUrl",
+      "userVariableUnitCategoryId" : 6,
+      "trackAllActions" : [ {
+        "modifiedValue" : 1,
+        "action" : "action",
+        "callback" : "callback",
+        "title" : "title"
+      }, {
+        "modifiedValue" : 1,
+        "action" : "action",
+        "callback" : "callback",
+        "title" : "title"
+      } ],
+      "notifiedAt" : "notifiedAt",
+      "unitAbbreviatedName" : "unitAbbreviatedName",
+      "email" : true,
+      "outcome" : true,
+      "modifiedValue" : 0.8008281904610115,
+      "numberOfUniqueValues" : 4,
+      "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+      "trackingReminderNotificationTime" : "trackingReminderNotificationTime",
+      "clientId" : "clientId",
+      "variableName" : "variableName",
+      "question" : "question",
+      "variableImageUrl" : "variableImageUrl",
+      "thirdToLastValue" : 6.84685269835264,
+      "iconIcon" : "iconIcon",
+      "userId" : 9,
+      "reminderFrequency" : 7,
+      "thirdMostCommonValue" : 1.4894159098541704,
+      "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+      "secondToLastValue" : 1.0246457001441578,
+      "trackingReminderNotificationTimeLocalHumanString" : "trackingReminderNotificationTimeLocalHumanString",
+      "reminderEndTime" : "reminderEndTime",
+      "userVariableUnitId" : 8,
+      "secondMostCommonValue" : 1.2315135367772556,
+      "variableCategoryImageUrl" : "variableCategoryImageUrl",
+      "reminderTime" : "reminderTime",
+      "productUrl" : "productUrl",
+      "actionArray" : [ {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      }, {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      } ]
+    } ],
+    "userVariables" : [ {
+      "lastValue" : 2.8841622,
+      "experimentEndTimeString" : "experimentEndTimeString",
+      "durationOfActionInHours" : 6,
+      "latestMeasurementTime" : 6,
+      "lastSource" : 9,
+      "chartsLinkStatic" : "chartsLinkStatic",
+      "lastOriginalValue" : 3,
+      "numberOfCorrelations" : 6,
+      "numberOfTrackingReminders" : 4,
+      "variableCategory" : {
+        "causeOnly" : true,
+        "minimumAllowedValue" : "minimumAllowedValue",
+        "variableCategoryName" : "variableCategoryName",
+        "svgUrl" : "svgUrl",
+        "moreInfo" : "moreInfo",
+        "maximumAllowedValue" : "maximumAllowedValue",
+        "public" : true,
+        "appType" : "appType",
+        "fillingValue" : 8,
+        "imageUrl" : "imageUrl",
+        "combinationOperation" : "combinationOperation",
+        "createdTime" : "createdTime",
+        "unitId" : 5,
+        "pngUrl" : "pngUrl",
+        "id" : 7,
+        "variableCategoryNameSingular" : "variableCategoryNameSingular",
+        "unitAbbreviatedName" : "unitAbbreviatedName",
+        "outcome" : true,
+        "updatedTime" : "updatedTime",
+        "helpText" : "helpText",
+        "durationOfAction" : 5,
+        "ionIcon" : "ionIcon",
+        "manualTracking" : true,
+        "measurementSynonymSingularLowercase" : "measurementSynonymSingularLowercase",
+        "pngPath" : "pngPath",
+        "svgPath" : "svgPath",
+        "name" : "name",
+        "onsetDelay" : 3,
+        "updated" : 3
+      },
+      "minimumRecordedValue" : 7.7403517,
+      "ingredientOfUserTagVariables" : [ null, null ],
+      "price" : 8.251625748923757,
+      "combinationOperation" : "combinationOperation",
+      "skewness" : 1.7325933,
+      "id" : 6,
+      "unitCategoryId" : 1,
+      "userVariableFillingValue" : 9.183123594773994,
+      "earliestSourceTime" : 4,
+      "userVariableUnitName" : "userVariableUnitName",
+      "updatedTime" : "updatedTime",
+      "wikipediaTitle" : "wikipediaTitle",
+      "availableUnits" : [ {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      }, {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      } ],
+      "latestUserMeasurementTime" : 6,
+      "chartsLinkFacebook" : "chartsLinkFacebook",
+      "userVariableVariableCategoryId" : 0,
+      "childCommonTagVariables" : [ null, null ],
+      "childUserTagVariables" : [ null, null ],
+      "upc" : "upc",
+      "parentCommonTagVariables" : [ null, null ],
+      "numberOfUserVariables" : 0,
+      "userTaggedVariables" : [ null, null ],
+      "variableId" : 0,
+      "lastSuccessfulUpdateTime" : "lastSuccessfulUpdateTime",
+      "unitCategoryName" : "unitCategoryName",
+      "maximumRecordedDailyValue" : 0.8851375,
+      "subtitle" : "subtitle",
+      "lastUnit" : "lastUnit",
+      "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+      "onsetDelay" : 7,
+      "chartsLinkDynamic" : "chartsLinkDynamic",
+      "status" : "status",
+      "causeOnly" : true,
+      "numberOfAggregateCorrelationsAsEffect" : 4,
+      "numberOfProcessedDailyMeasurements" : 4,
+      "displayName" : "displayName",
+      "latitude" : 3.3531933,
+      "fillingType" : "fillingType",
+      "joinedCommonTagVariables" : [ null, null ],
+      "kurtosis" : 9.018348,
+      "numberOfUserCorrelationsAsCause" : 0,
+      "earliestMeasurementTime" : 1,
+      "variableFillingValue" : 7.835035282970782,
+      "variableCategoryId" : 5,
+      "measurementsAtLastAnalysis" : 0,
+      "fillingValue" : 9.36931,
+      "latestFillingTime" : 6,
+      "unitId" : 1,
+      "lastUnitId" : 1,
+      "experimentStartTimeSeconds" : 9,
+      "experimentEndTimeSeconds" : 5,
+      "unitAbbreviatedName" : "unitAbbreviatedName",
+      "outcome" : true,
+      "numberOfUniqueValues" : 9,
+      "clientId" : "clientId",
+      "ingredientUserTagVariables" : [ null, null ],
+      "joinWith" : 8,
+      "errorMessage" : "errorMessage",
+      "userVariableMostCommonConnectorId" : 8,
+      "commonVariableMostCommonConnectorId" : 7,
+      "numberOfAggregateCorrelationsAsCause" : 3,
+      "iconIcon" : "iconIcon",
+      "userId" : 9,
+      "chartsLinkEmail" : "chartsLinkEmail",
+      "mostCommonOriginalUnitId" : 3,
+      "userTagVariables" : [ null, null ],
+      "secondToLastValue" : 2.9409642974827896,
+      "chartsLinkGoogle" : "chartsLinkGoogle",
+      "ingredientCommonTagVariables" : [ null, null ],
+      "parentUserTagVariables" : [ null, null ],
+      "userVariableUnitId" : 3,
+      "variableCategoryImageUrl" : "variableCategoryImageUrl",
+      "numberOfUniqueDailyValues" : 7.2605214,
+      "productUrl" : "productUrl",
+      "actionArray" : [ {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      }, {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      } ],
+      "charts" : {
+        "hourlyColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "lineChartWithSmoothing" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "monthlyColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "distributionColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "lineChartWithoutSmoothing" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "weekdayColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        }
+      },
+      "mostCommonUnitId" : 7,
+      "svgUrl" : "svgUrl",
+      "userVariableUpdatedAt" : "userVariableUpdatedAt",
+      "experimentStartTimeString" : "experimentStartTimeString",
+      "createdAt" : "createdAt",
+      "informationalUrl" : "informationalUrl",
+      "inputType" : "inputType",
+      "earliestFillingTime" : 7,
+      "commonTagVariables" : [ null, null ],
+      "longitude" : 3.0937452,
+      "updatedAt" : "updatedAt",
+      "commonVariableUpdatedAt" : "commonVariableUpdatedAt",
+      "unitName" : "unitName",
+      "onsetDelayInHours" : 5.507386964179881,
+      "durationOfAction" : 1,
+      "numberOfUserCorrelationsAsEffect" : 9,
+      "joinedVariables" : [ null, null ],
+      "ionIcon" : "ionIcon",
+      "valence" : "valence",
+      "manualTracking" : true,
+      "shareUserMeasurements" : true,
+      "chartsLinkTwitter" : "chartsLinkTwitter",
+      "ingredientOfCommonTagVariables" : [ null, null ],
+      "pngPath" : "pngPath",
+      "latestSourceTime" : 5,
+      "rawMeasurementsAtLastAnalysis" : 3,
+      "unit" : {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      },
+      "median" : 4.652396,
+      "name" : "name",
+      "updated" : 8,
+      "dataSource" : {
+        "longDescription" : "longDescription",
+        "image" : "image",
+        "linkedDisplayNameHtml" : "linkedDisplayNameHtml",
+        "imageHtml" : "imageHtml",
+        "displayName" : "displayName",
+        "connectorClientId" : "connectorClientId",
+        "shortDescription" : "shortDescription",
+        "enabled" : 2,
+        "defaultVariableCategoryName" : "defaultVariableCategoryName",
+        "getItUrl" : "getItUrl",
+        "name" : "name",
+        "id" : 4,
+        "affiliate" : true
+      },
+      "commonAlias" : "commonAlias",
+      "joinedUserTagVariables" : [ null, null ],
+      "experimentEndTime" : "experimentEndTime",
+      "minimumAllowedValue" : 8.969579,
+      "sources" : "sources",
+      "variableCategoryName" : "variableCategoryName",
+      "mostCommonConnectorId" : 3,
+      "description" : "description",
+      "experimentStartTime" : "experimentStartTime",
+      "userVariableValence" : "userVariableValence",
+      "maximumAllowedValue" : 7.143538,
+      "public" : 4,
+      "userVariableWikipediaTitle" : "userVariableWikipediaTitle",
+      "imageUrl" : "imageUrl",
+      "alias" : "alias",
+      "mostCommonValue" : 5.5332584,
+      "pngUrl" : "pngUrl",
+      "userVariableUnitCategoryId" : 1,
+      "numberOfChanges" : 0,
+      "maximumRecordedValue" : 7.058770351582356,
+      "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+      "variableName" : "variableName",
+      "lastProcessedDailyValue" : 6.965117697638846,
+      "thirdToLastValue" : 4.573936264232251,
+      "outcomeOfInterest" : 4,
+      "mostCommonUnit" : "mostCommonUnit",
+      "lastOriginalUnitId" : 6,
+      "thirdMostCommonValue" : 6.623518433804886,
+      "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+      "predictorOfInterest" : 6,
+      "variance" : 3.1497903714250555,
+      "mean" : 6.519181,
+      "numberOfRawMeasurements" : 1,
+      "secondMostCommonValue" : 0.43431398824148815,
+      "location" : "location",
+      "commonTaggedVariables" : [ null, null ],
+      "standardDeviation" : 8.28965939814297
+    }, {
+      "lastValue" : 2.8841622,
+      "experimentEndTimeString" : "experimentEndTimeString",
+      "durationOfActionInHours" : 6,
+      "latestMeasurementTime" : 6,
+      "lastSource" : 9,
+      "chartsLinkStatic" : "chartsLinkStatic",
+      "lastOriginalValue" : 3,
+      "numberOfCorrelations" : 6,
+      "numberOfTrackingReminders" : 4,
+      "variableCategory" : {
+        "causeOnly" : true,
+        "minimumAllowedValue" : "minimumAllowedValue",
+        "variableCategoryName" : "variableCategoryName",
+        "svgUrl" : "svgUrl",
+        "moreInfo" : "moreInfo",
+        "maximumAllowedValue" : "maximumAllowedValue",
+        "public" : true,
+        "appType" : "appType",
+        "fillingValue" : 8,
+        "imageUrl" : "imageUrl",
+        "combinationOperation" : "combinationOperation",
+        "createdTime" : "createdTime",
+        "unitId" : 5,
+        "pngUrl" : "pngUrl",
+        "id" : 7,
+        "variableCategoryNameSingular" : "variableCategoryNameSingular",
+        "unitAbbreviatedName" : "unitAbbreviatedName",
+        "outcome" : true,
+        "updatedTime" : "updatedTime",
+        "helpText" : "helpText",
+        "durationOfAction" : 5,
+        "ionIcon" : "ionIcon",
+        "manualTracking" : true,
+        "measurementSynonymSingularLowercase" : "measurementSynonymSingularLowercase",
+        "pngPath" : "pngPath",
+        "svgPath" : "svgPath",
+        "name" : "name",
+        "onsetDelay" : 3,
+        "updated" : 3
+      },
+      "minimumRecordedValue" : 7.7403517,
+      "ingredientOfUserTagVariables" : [ null, null ],
+      "price" : 8.251625748923757,
+      "combinationOperation" : "combinationOperation",
+      "skewness" : 1.7325933,
+      "id" : 6,
+      "unitCategoryId" : 1,
+      "userVariableFillingValue" : 9.183123594773994,
+      "earliestSourceTime" : 4,
+      "userVariableUnitName" : "userVariableUnitName",
+      "updatedTime" : "updatedTime",
+      "wikipediaTitle" : "wikipediaTitle",
+      "availableUnits" : [ {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      }, {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      } ],
+      "latestUserMeasurementTime" : 6,
+      "chartsLinkFacebook" : "chartsLinkFacebook",
+      "userVariableVariableCategoryId" : 0,
+      "childCommonTagVariables" : [ null, null ],
+      "childUserTagVariables" : [ null, null ],
+      "upc" : "upc",
+      "parentCommonTagVariables" : [ null, null ],
+      "numberOfUserVariables" : 0,
+      "userTaggedVariables" : [ null, null ],
+      "variableId" : 0,
+      "lastSuccessfulUpdateTime" : "lastSuccessfulUpdateTime",
+      "unitCategoryName" : "unitCategoryName",
+      "maximumRecordedDailyValue" : 0.8851375,
+      "subtitle" : "subtitle",
+      "lastUnit" : "lastUnit",
+      "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+      "onsetDelay" : 7,
+      "chartsLinkDynamic" : "chartsLinkDynamic",
+      "status" : "status",
+      "causeOnly" : true,
+      "numberOfAggregateCorrelationsAsEffect" : 4,
+      "numberOfProcessedDailyMeasurements" : 4,
+      "displayName" : "displayName",
+      "latitude" : 3.3531933,
+      "fillingType" : "fillingType",
+      "joinedCommonTagVariables" : [ null, null ],
+      "kurtosis" : 9.018348,
+      "numberOfUserCorrelationsAsCause" : 0,
+      "earliestMeasurementTime" : 1,
+      "variableFillingValue" : 7.835035282970782,
+      "variableCategoryId" : 5,
+      "measurementsAtLastAnalysis" : 0,
+      "fillingValue" : 9.36931,
+      "latestFillingTime" : 6,
+      "unitId" : 1,
+      "lastUnitId" : 1,
+      "experimentStartTimeSeconds" : 9,
+      "experimentEndTimeSeconds" : 5,
+      "unitAbbreviatedName" : "unitAbbreviatedName",
+      "outcome" : true,
+      "numberOfUniqueValues" : 9,
+      "clientId" : "clientId",
+      "ingredientUserTagVariables" : [ null, null ],
+      "joinWith" : 8,
+      "errorMessage" : "errorMessage",
+      "userVariableMostCommonConnectorId" : 8,
+      "commonVariableMostCommonConnectorId" : 7,
+      "numberOfAggregateCorrelationsAsCause" : 3,
+      "iconIcon" : "iconIcon",
+      "userId" : 9,
+      "chartsLinkEmail" : "chartsLinkEmail",
+      "mostCommonOriginalUnitId" : 3,
+      "userTagVariables" : [ null, null ],
+      "secondToLastValue" : 2.9409642974827896,
+      "chartsLinkGoogle" : "chartsLinkGoogle",
+      "ingredientCommonTagVariables" : [ null, null ],
+      "parentUserTagVariables" : [ null, null ],
+      "userVariableUnitId" : 3,
+      "variableCategoryImageUrl" : "variableCategoryImageUrl",
+      "numberOfUniqueDailyValues" : 7.2605214,
+      "productUrl" : "productUrl",
+      "actionArray" : [ {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      }, {
+        "modifiedValue" : 0,
+        "action" : "action",
+        "callback" : "callback",
+        "shortTitle" : "shortTitle",
+        "title" : "title",
+        "longTitle" : "longTitle"
+      } ],
+      "charts" : {
+        "hourlyColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "lineChartWithSmoothing" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "monthlyColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "distributionColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "lineChartWithoutSmoothing" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        },
+        "weekdayColumnChart" : {
+          "chartId" : "chartId",
+          "chartTitle" : "chartTitle",
+          "svg" : "svg",
+          "svgUrl" : "svgUrl",
+          "explanation" : "explanation",
+          "highchartConfig" : "{}"
+        }
+      },
+      "mostCommonUnitId" : 7,
+      "svgUrl" : "svgUrl",
+      "userVariableUpdatedAt" : "userVariableUpdatedAt",
+      "experimentStartTimeString" : "experimentStartTimeString",
+      "createdAt" : "createdAt",
+      "informationalUrl" : "informationalUrl",
+      "inputType" : "inputType",
+      "earliestFillingTime" : 7,
+      "commonTagVariables" : [ null, null ],
+      "longitude" : 3.0937452,
+      "updatedAt" : "updatedAt",
+      "commonVariableUpdatedAt" : "commonVariableUpdatedAt",
+      "unitName" : "unitName",
+      "onsetDelayInHours" : 5.507386964179881,
+      "durationOfAction" : 1,
+      "numberOfUserCorrelationsAsEffect" : 9,
+      "joinedVariables" : [ null, null ],
+      "ionIcon" : "ionIcon",
+      "valence" : "valence",
+      "manualTracking" : true,
+      "shareUserMeasurements" : true,
+      "chartsLinkTwitter" : "chartsLinkTwitter",
+      "ingredientOfCommonTagVariables" : [ null, null ],
+      "pngPath" : "pngPath",
+      "latestSourceTime" : 5,
+      "rawMeasurementsAtLastAnalysis" : 3,
+      "unit" : {
+        "minimumAllowedValue" : 3.616076749251911,
+        "advanced" : 6,
+        "manualTracking" : 2,
+        "categoryName" : "categoryName",
+        "maximumAllowedValue" : 7.061401241503109,
+        "minimumValue" : 2,
+        "unitCategory" : {
+          "name" : "name",
+          "id" : 4,
+          "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+        },
+        "name" : "name",
+        "id" : 5,
+        "category" : "Distance",
+        "abbreviatedName" : "abbreviatedName",
+        "conversionSteps" : [ {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        }, {
+          "operation" : "ADD",
+          "value" : 5.962133916683182
+        } ],
+        "maximumValue" : 9,
+        "categoryId" : 1
+      },
+      "median" : 4.652396,
+      "name" : "name",
+      "updated" : 8,
+      "dataSource" : {
+        "longDescription" : "longDescription",
+        "image" : "image",
+        "linkedDisplayNameHtml" : "linkedDisplayNameHtml",
+        "imageHtml" : "imageHtml",
+        "displayName" : "displayName",
+        "connectorClientId" : "connectorClientId",
+        "shortDescription" : "shortDescription",
+        "enabled" : 2,
+        "defaultVariableCategoryName" : "defaultVariableCategoryName",
+        "getItUrl" : "getItUrl",
+        "name" : "name",
+        "id" : 4,
+        "affiliate" : true
+      },
+      "commonAlias" : "commonAlias",
+      "joinedUserTagVariables" : [ null, null ],
+      "experimentEndTime" : "experimentEndTime",
+      "minimumAllowedValue" : 8.969579,
+      "sources" : "sources",
+      "variableCategoryName" : "variableCategoryName",
+      "mostCommonConnectorId" : 3,
+      "description" : "description",
+      "experimentStartTime" : "experimentStartTime",
+      "userVariableValence" : "userVariableValence",
+      "maximumAllowedValue" : 7.143538,
+      "public" : 4,
+      "userVariableWikipediaTitle" : "userVariableWikipediaTitle",
+      "imageUrl" : "imageUrl",
+      "alias" : "alias",
+      "mostCommonValue" : 5.5332584,
+      "pngUrl" : "pngUrl",
+      "userVariableUnitCategoryId" : 1,
+      "numberOfChanges" : 0,
+      "maximumRecordedValue" : 7.058770351582356,
+      "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+      "variableName" : "variableName",
+      "lastProcessedDailyValue" : 6.965117697638846,
+      "thirdToLastValue" : 4.573936264232251,
+      "outcomeOfInterest" : 4,
+      "mostCommonUnit" : "mostCommonUnit",
+      "lastOriginalUnitId" : 6,
+      "thirdMostCommonValue" : 6.623518433804886,
+      "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+      "predictorOfInterest" : 6,
+      "variance" : 3.1497903714250555,
+      "mean" : 6.519181,
+      "numberOfRawMeasurements" : 1,
+      "secondMostCommonValue" : 0.43431398824148815,
+      "location" : "location",
+      "commonTaggedVariables" : [ null, null ],
+      "standardDeviation" : 8.28965939814297
+    } ],
+    "description" : "description"
   },
-  "success" : true
+  "success" : true,
+  "description" : "description",
+  "message" : "message",
+  "status" : 0
 }}]
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter body: (body) TrackingReminder that should be stored (optional)
+     - parameter body: (body) TrackingReminder that should be stored 
 
-     - returns: RequestBuilder<InlineResponse2001> 
+     - returns: RequestBuilder<PostTrackingRemindersResponse> 
      */
-    public class func v1TrackingRemindersPostWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil, body: TrackingReminder? = nil) -> RequestBuilder<InlineResponse2001> {
-        let path = "/v1/trackingReminders"
+    public class func postTrackingRemindersWithRequestBuilder(body body: [TrackingReminder]) -> RequestBuilder<PostTrackingRemindersResponse> {
+        let path = "/v3/trackingReminders"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<InlineResponse2001>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<PostTrackingRemindersResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

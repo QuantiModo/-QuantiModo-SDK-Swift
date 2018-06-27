@@ -9,15 +9,21 @@ import Foundation
 
 
 public class UnitCategory: JSONEncodable {
+    /** id */
+    public var id: Int32?
     /** Category name */
     public var name: String?
+    /** Base unit for in which measurements are to be converted to and stored */
+    public var standardUnitAbbreviatedName: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
+        nillableDictionary["standardUnitAbbreviatedName"] = self.standardUnitAbbreviatedName
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

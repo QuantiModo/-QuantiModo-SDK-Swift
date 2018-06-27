@@ -11,34 +11,23 @@ import Alamofire
 
 public class VariablesAPI: APIBase {
     /**
-     Get public variables
+     Delete user tag or ingredient
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter id: (query) Common variable id (optional)
-     - parameter category: (query) Filter data by category (optional)
-     - parameter name: (query) Original name of the variable (supports exact name match only) (optional)
-     - parameter updatedAt: (query) Filter by the last time any of the properties of the variable were changed. Uses UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
-     - parameter source: (query) The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here (optional)
-     - parameter latestMeasurementTime: (query) Filter variables based on the last time a measurement for them was created or updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
-     - parameter numberOfRawMeasurements: (query) Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity. (optional)
-     - parameter lastSource: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only) (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter taggedVariableId: (query) Id of the tagged variable (i.e. Lollipop) you would like to get variables it can be tagged with (i.e. Sugar).  Converted measurements of the tagged variable are included in analysis of the tag variable (i.e. ingredient). (optional)
+     - parameter tagVariableId: (query) Id of the tag variable (i.e. Sugar) you would like to get variables it can be tagged to (i.e. Lollipop).  Converted measurements of the tagged variable are included in analysis of the tag variable (i.e. ingredient). (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1PublicVariablesGet(accessToken accessToken: String? = nil, userId: Int32? = nil, id: Int32? = nil, category: String? = nil, name: String? = nil, updatedAt: String? = nil, source: String? = nil, latestMeasurementTime: String? = nil, numberOfRawMeasurements: String? = nil, lastSource: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: Variable?, error: ErrorType?) -> Void)) {
-        v1PublicVariablesGetWithRequestBuilder(accessToken: accessToken, userId: userId, id: id, category: category, name: name, updatedAt: updatedAt, source: source, latestMeasurementTime: latestMeasurementTime, numberOfRawMeasurements: numberOfRawMeasurements, lastSource: lastSource, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+    public class func deleteUserTag(taggedVariableId taggedVariableId: Int32? = nil, tagVariableId: Int32? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        deleteUserTagWithRequestBuilder(taggedVariableId: taggedVariableId, tagVariableId: tagVariableId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
 
     /**
-     Get public variables
-     - GET /v1/public/variables
-     - This endpoint retrieves an array of all public variables. Public variables are things like foods, medications, symptoms, conditions, and anything not unique to a particular user. For instance, a telephone number or name would not be a public variable.
+     Delete user tag or ingredient
+     - DELETE /v3/userTags/delete
+     - Delete previously created user tags or ingredients.
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
@@ -46,187 +35,31 @@ public class VariablesAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      - examples: [{contentType=application/json, example={
-  "parent" : "",
-  "causeOnly" : "",
-  "lastValue" : "",
-  "sources" : "aeiou",
-  "minimumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "latestMeasurementTime" : "",
-  "abbreviatedUnitId" : "",
-  "lastSource" : "",
-  "numberOfCorrelations" : "",
-  "maximumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "earliestMeasurementTime" : "",
-  "fillingValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "imageUrl" : "aeiou",
-  "combinationOperation" : "aeiou",
-  "mostCommonValue" : "",
-  "id" : "",
-  "unitAbbreviatedName" : "aeiou",
-  "outcome" : "",
-  "subVariables" : [ "" ],
-  "joinWith" : "aeiou",
-  "durationOfAction" : "",
-  "joinedVariables" : [ "" ],
-  "ionIcon" : "aeiou",
-  "mostCommonUnit" : "aeiou",
-  "rawMeasurementsAtLastAnalysis" : "",
-  "numberOfRawMeasurements" : "",
-  "name" : "aeiou",
-  "lastUnit" : "aeiou",
-  "category" : "aeiou",
-  "onsetDelay" : "",
-  "updated" : ""
+  "summary" : "summary",
+  "description" : "description"
 }}]
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter id: (query) Common variable id (optional)
-     - parameter category: (query) Filter data by category (optional)
-     - parameter name: (query) Original name of the variable (supports exact name match only) (optional)
-     - parameter updatedAt: (query) Filter by the last time any of the properties of the variable were changed. Uses UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
-     - parameter source: (query) The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here (optional)
-     - parameter latestMeasurementTime: (query) Filter variables based on the last time a measurement for them was created or updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
-     - parameter numberOfRawMeasurements: (query) Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity. (optional)
-     - parameter lastSource: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only) (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter taggedVariableId: (query) Id of the tagged variable (i.e. Lollipop) you would like to get variables it can be tagged with (i.e. Sugar).  Converted measurements of the tagged variable are included in analysis of the tag variable (i.e. ingredient). (optional)
+     - parameter tagVariableId: (query) Id of the tag variable (i.e. Sugar) you would like to get variables it can be tagged to (i.e. Lollipop).  Converted measurements of the tagged variable are included in analysis of the tag variable (i.e. ingredient). (optional)
 
-     - returns: RequestBuilder<Variable> 
+     - returns: RequestBuilder<CommonResponse> 
      */
-    public class func v1PublicVariablesGetWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil, id: Int32? = nil, category: String? = nil, name: String? = nil, updatedAt: String? = nil, source: String? = nil, latestMeasurementTime: String? = nil, numberOfRawMeasurements: String? = nil, lastSource: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<Variable> {
-        let path = "/v1/public/variables"
+    public class func deleteUserTagWithRequestBuilder(taggedVariableId taggedVariableId: Int32? = nil, tagVariableId: Int32? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v3/userTags/delete"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON(),
-            "id": id?.encodeToJSON(),
-            "category": category,
-            "name": name,
-            "updatedAt": updatedAt,
-            "source": source,
-            "latestMeasurementTime": latestMeasurementTime,
-            "numberOfRawMeasurements": numberOfRawMeasurements,
-            "lastSource": lastSource,
-            "limit": limit?.encodeToJSON(),
-            "offset": offset?.encodeToJSON(),
-            "sort": sort?.encodeToJSON()
+            "taggedVariableId": taggedVariableId?.encodeToJSON(),
+            "tagVariableId": tagVariableId?.encodeToJSON()
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Get top 5 PUBLIC variables with the most correlations
-     
-     - parameter search: (path) Search query can be some fraction of a variable name. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter variableCategoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work. (optional)
-     - parameter source: (query) Specify a data source name to only return variables from a specific data source. (optional)
-     - parameter effectOrCause: (query) Indicate if you only want variables that have user correlations. Possible values are effect and cause. (optional)
-     - parameter publicEffectOrCause: (query) Indicate if you only want variables that have aggregated correlations.  Possible values are effect and cause. (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1PublicVariablesSearchSearchGet(search search: String, accessToken: String? = nil, userId: Int32? = nil, variableCategoryName: String? = nil, source: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: Variable?, error: ErrorType?) -> Void)) {
-        v1PublicVariablesSearchSearchGetWithRequestBuilder(search: search, accessToken: accessToken, userId: userId, variableCategoryName: variableCategoryName, source: source, effectOrCause: effectOrCause, publicEffectOrCause: publicEffectOrCause, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Get top 5 PUBLIC variables with the most correlations
-     - GET /v1/public/variables/search/{search}
-     - Get top 5 PUBLIC variables with the most correlations containing the entered search characters. For example, search for 'mood' as an effect. Since 'Overall Mood' has a lot of correlations with other variables, it should be in the autocomplete list.Supported filter parameters:<ul><li><b>category</b> - Category of Variable</li></ul>
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "parent" : "",
-  "causeOnly" : "",
-  "lastValue" : "",
-  "sources" : "aeiou",
-  "minimumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "latestMeasurementTime" : "",
-  "abbreviatedUnitId" : "",
-  "lastSource" : "",
-  "numberOfCorrelations" : "",
-  "maximumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "earliestMeasurementTime" : "",
-  "fillingValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "imageUrl" : "aeiou",
-  "combinationOperation" : "aeiou",
-  "mostCommonValue" : "",
-  "id" : "",
-  "unitAbbreviatedName" : "aeiou",
-  "outcome" : "",
-  "subVariables" : [ "" ],
-  "joinWith" : "aeiou",
-  "durationOfAction" : "",
-  "joinedVariables" : [ "" ],
-  "ionIcon" : "aeiou",
-  "mostCommonUnit" : "aeiou",
-  "rawMeasurementsAtLastAnalysis" : "",
-  "numberOfRawMeasurements" : "",
-  "name" : "aeiou",
-  "lastUnit" : "aeiou",
-  "category" : "aeiou",
-  "onsetDelay" : "",
-  "updated" : ""
-}}]
-     
-     - parameter search: (path) Search query can be some fraction of a variable name. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter variableCategoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work. (optional)
-     - parameter source: (query) Specify a data source name to only return variables from a specific data source. (optional)
-     - parameter effectOrCause: (query) Indicate if you only want variables that have user correlations. Possible values are effect and cause. (optional)
-     - parameter publicEffectOrCause: (query) Indicate if you only want variables that have aggregated correlations.  Possible values are effect and cause. (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
-
-     - returns: RequestBuilder<Variable> 
-     */
-    public class func v1PublicVariablesSearchSearchGetWithRequestBuilder(search search: String, accessToken: String? = nil, userId: Int32? = nil, variableCategoryName: String? = nil, source: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<Variable> {
-        var path = "/v1/public/variables/search/{search}"
-        path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON(),
-            "variableCategoryName": variableCategoryName,
-            "source": source,
-            "effectOrCause": effectOrCause,
-            "publicEffectOrCause": publicEffectOrCause,
-            "limit": limit?.encodeToJSON(),
-            "offset": offset?.encodeToJSON(),
-            "sort": sort?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
@@ -235,8 +68,8 @@ public class VariablesAPI: APIBase {
      - parameter variableId: (body) Id of the variable whose measurements should be deleted 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1UserVariablesDeletePost(variableId variableId: UserVariableDelete, completion: ((error: ErrorType?) -> Void)) {
-        v1UserVariablesDeletePostWithRequestBuilder(variableId: variableId).execute { (response, error) -> Void in
+    public class func deleteUserVariable(variableId variableId: UserVariableDelete, completion: ((error: ErrorType?) -> Void)) {
+        deleteUserVariableWithRequestBuilder(variableId: variableId).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -244,7 +77,7 @@ public class VariablesAPI: APIBase {
 
     /**
      Delete All Measurements For Variable
-     - POST /v1/userVariables/delete
+     - DELETE /v3/userVariables/delete
      - Users can delete all of their measurements for a variable
      - API Key:
        - type: apiKey access_token (QUERY)
@@ -257,8 +90,8 @@ public class VariablesAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    public class func v1UserVariablesDeletePostWithRequestBuilder(variableId variableId: UserVariableDelete) -> RequestBuilder<Void> {
-        let path = "/v1/userVariables/delete"
+    public class func deleteUserVariableWithRequestBuilder(variableId variableId: UserVariableDelete) -> RequestBuilder<Void> {
+        let path = "/v3/userVariables/delete"
         let URLString = SwaggerClientAPI.basePath + path
         let parameters = variableId.encodeToJSON() as? [String:AnyObject]
  
@@ -266,87 +99,7 @@ public class VariablesAPI: APIBase {
  
         let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
-    }
-
-    /**
-     Update User Settings for a Variable
-     
-     - parameter userVariables: (body) Variable user settings data 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1UserVariablesPost(userVariables userVariables: UserVariables, completion: ((error: ErrorType?) -> Void)) {
-        v1UserVariablesPostWithRequestBuilder(userVariables: userVariables).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-
-    /**
-     Update User Settings for a Variable
-     - POST /v1/userVariables
-     - Users can change the parameters used in analysis of that variable such as the expected duration of action for a variable to have an effect, the estimated delay before the onset of action. In order to filter out erroneous data, they are able to set the maximum and minimum reasonable daily values for a variable.
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     
-     - parameter userVariables: (body) Variable user settings data 
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func v1UserVariablesPostWithRequestBuilder(userVariables userVariables: UserVariables) -> RequestBuilder<Void> {
-        let path = "/v1/userVariables"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = userVariables.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
-    }
-
-    /**
-     Reset user settings for a variable to defaults
-     
-     - parameter variableId: (body) Id of the variable that should be reset 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1UserVariablesResetPost(variableId variableId: UserVariableDelete, completion: ((error: ErrorType?) -> Void)) {
-        v1UserVariablesResetPostWithRequestBuilder(variableId: variableId).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-
-    /**
-     Reset user settings for a variable to defaults
-     - POST /v1/userVariables/reset
-     - Reset user settings for a variable to defaults
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     
-     - parameter variableId: (body) Id of the variable that should be reset 
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func v1UserVariablesResetPostWithRequestBuilder(variableId variableId: UserVariableDelete) -> RequestBuilder<Void> {
-        let path = "/v1/userVariables/reset"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = variableId.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -354,8 +107,8 @@ public class VariablesAPI: APIBase {
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1VariableCategoriesGet(completion: ((data: [VariableCategory]?, error: ErrorType?) -> Void)) {
-        v1VariableCategoriesGetWithRequestBuilder().execute { (response, error) -> Void in
+    public class func getVariableCategories(completion: ((data: [VariableCategory]?, error: ErrorType?) -> Void)) {
+        getVariableCategoriesWithRequestBuilder().execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -363,7 +116,7 @@ public class VariablesAPI: APIBase {
 
     /**
      Variable categories
-     - GET /v1/variableCategories
+     - GET /v3/variableCategories
      - The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work.
      - API Key:
        - type: apiKey access_token (QUERY)
@@ -372,13 +125,71 @@ public class VariablesAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      - examples: [{contentType=application/json, example=[ {
-  "name" : "aeiou"
+  "causeOnly" : true,
+  "minimumAllowedValue" : "minimumAllowedValue",
+  "variableCategoryName" : "variableCategoryName",
+  "svgUrl" : "svgUrl",
+  "moreInfo" : "moreInfo",
+  "maximumAllowedValue" : "maximumAllowedValue",
+  "public" : true,
+  "appType" : "appType",
+  "fillingValue" : 8,
+  "imageUrl" : "imageUrl",
+  "combinationOperation" : "combinationOperation",
+  "createdTime" : "createdTime",
+  "unitId" : 5,
+  "pngUrl" : "pngUrl",
+  "id" : 7,
+  "variableCategoryNameSingular" : "variableCategoryNameSingular",
+  "unitAbbreviatedName" : "unitAbbreviatedName",
+  "outcome" : true,
+  "updatedTime" : "updatedTime",
+  "helpText" : "helpText",
+  "durationOfAction" : 5,
+  "ionIcon" : "ionIcon",
+  "manualTracking" : true,
+  "measurementSynonymSingularLowercase" : "measurementSynonymSingularLowercase",
+  "pngPath" : "pngPath",
+  "svgPath" : "svgPath",
+  "name" : "name",
+  "onsetDelay" : 3,
+  "updated" : 3
+}, {
+  "causeOnly" : true,
+  "minimumAllowedValue" : "minimumAllowedValue",
+  "variableCategoryName" : "variableCategoryName",
+  "svgUrl" : "svgUrl",
+  "moreInfo" : "moreInfo",
+  "maximumAllowedValue" : "maximumAllowedValue",
+  "public" : true,
+  "appType" : "appType",
+  "fillingValue" : 8,
+  "imageUrl" : "imageUrl",
+  "combinationOperation" : "combinationOperation",
+  "createdTime" : "createdTime",
+  "unitId" : 5,
+  "pngUrl" : "pngUrl",
+  "id" : 7,
+  "variableCategoryNameSingular" : "variableCategoryNameSingular",
+  "unitAbbreviatedName" : "unitAbbreviatedName",
+  "outcome" : true,
+  "updatedTime" : "updatedTime",
+  "helpText" : "helpText",
+  "durationOfAction" : 5,
+  "ionIcon" : "ionIcon",
+  "manualTracking" : true,
+  "measurementSynonymSingularLowercase" : "measurementSynonymSingularLowercase",
+  "pngPath" : "pngPath",
+  "svgPath" : "svgPath",
+  "name" : "name",
+  "onsetDelay" : 3,
+  "updated" : 3
 } ]}]
 
      - returns: RequestBuilder<[VariableCategory]> 
      */
-    public class func v1VariableCategoriesGetWithRequestBuilder() -> RequestBuilder<[VariableCategory]> {
-        let path = "/v1/variableCategories"
+    public class func getVariableCategoriesWithRequestBuilder() -> RequestBuilder<[VariableCategory]> {
+        let path = "/v3/variableCategories"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [:]
@@ -393,190 +204,98 @@ public class VariablesAPI: APIBase {
     }
 
     /**
-     Get variables with user's settings
+     * enum for parameter variableCategoryName
+     */
+    public enum VariableCategoryName_getVariables: String { 
+        case Activity = "Activity"
+        case Books = "Books"
+        case CausesOfIllness = "Causes of Illness"
+        case CognitivePerformance = "Cognitive Performance"
+        case Conditions = "Conditions"
+        case Emotions = "Emotions"
+        case Environment = "Environment"
+        case Foods = "Foods"
+        case Location = "Location"
+        case Miscellaneous = "Miscellaneous"
+        case MoviesAndTv = "Movies and TV"
+        case Music = "Music"
+        case Nutrients = "Nutrients"
+        case Payments = "Payments"
+        case PhysicalActivity = "Physical Activity"
+        case Physique = "Physique"
+        case Sleep = "Sleep"
+        case SocialInteractions = "Social Interactions"
+        case Software = "Software"
+        case Symptoms = "Symptoms"
+        case Treatments = "Treatments"
+        case VitalSigns = "Vital Signs"
+        case Work = "Work"
+    }
+
+    /**
+     * enum for parameter platform
+     */
+    public enum Platform_getVariables: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
+    }
+
+    /**
+     Get variables along with related user-specific analysis settings and statistics
      
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter id: (query) Common variable id (optional)
-     - parameter category: (query) Filter data by category (optional)
-     - parameter name: (query) Original name of the variable (supports exact name match only) (optional)
-     - parameter updatedAt: (query) Filter by the last time any of the properties of the variable were changed. Uses UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
-     - parameter source: (query) The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here (optional)
-     - parameter latestMeasurementTime: (query) Filter variables based on the last time a measurement for them was created or updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
+     - parameter includeCharts: (query) Highcharts configs that can be used if you have highcharts.js included on the page.  This only works if the id or name query parameter is also provided. (optional)
      - parameter numberOfRawMeasurements: (query) Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity. (optional)
-     - parameter lastSource: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only) (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
+     - parameter userId: (query) User&#39;s id (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter name: (query) Name of the variable. To get results matching a substring, add % as a wildcard as the first and/or last character of a query string parameter. In order to get variables that contain &#x60;Mood&#x60;, the following query should be used: ?variableName&#x3D;%Mood% (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter sourceName: (query) ID of the source you want measurements for (supports exact name match only) (optional)
+     - parameter earliestMeasurementTime: (query) Excluded records with measurement times earlier than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter latestMeasurementTime: (query) Excluded records with measurement times later than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter id: (query) Common variable id (optional)
+     - parameter lastSourceName: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter includePublic: (query) Include variables the user has no measurements for (optional)
+     - parameter manualTracking: (query) Only include variables tracked manually by the user (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter upc: (query) UPC or other barcode scan result (optional)
+     - parameter effectOrCause: (query) Provided variable is the effect or cause (optional)
+     - parameter publicEffectOrCause: (query) Ex:  (optional)
+     - parameter exactMatch: (query) Require exact match (optional)
+     - parameter variableCategoryId: (query) Ex: 13 (optional)
+     - parameter includePrivate: (query) Include user-specific variables in results (optional)
+     - parameter searchPhrase: (query) Ex: %Body Fat% (optional)
+     - parameter synonyms: (query) Ex: %McDonalds hotcake% (optional)
+     - parameter taggedVariableId: (query) Id of the tagged variable (i.e. Lollipop) you would like to get variables it can be tagged with (i.e. Sugar).  Converted measurements of the tagged variable are included in analysis of the tag variable (i.e. ingredient). (optional)
+     - parameter tagVariableId: (query) Id of the tag variable (i.e. Sugar) you would like to get variables it can be tagged to (i.e. Lollipop).  Converted measurements of the tagged variable are included in analysis of the tag variable (i.e. ingredient). (optional)
+     - parameter joinVariableId: (query) Id of the variable you would like to get variables that can be joined to.  This is used to merge duplicate variables.   If joinVariableId is specified, this returns only variables eligible to be joined to the variable specified by the joinVariableId. (optional)
+     - parameter parentUserTagVariableId: (query) Id of the parent category variable (i.e. Fruit) you would like to get eligible child sub-type variables (i.e. Apple) for.  Child variable measurements will be included in analysis of the parent variable.  For instance, a child sub-type of the parent category Fruit could be Apple.  When Apple is tagged with the parent category Fruit, Apple measurements will be included when Fruit is analyzed. (optional)
+     - parameter childUserTagVariableId: (query) Id of the child sub-type variable (i.e. Apple) you would like to get eligible parent variables (i.e. Fruit) for.  Child variable measurements will be included in analysis of the parent variable.  For instance, a child sub-type of the parent category Fruit could be Apple. When Apple is tagged with the parent category Fruit, Apple measurements will be included when Fruit is analyzed. (optional)
+     - parameter ingredientUserTagVariableId: (query) Id of the ingredient variable (i.e. Fructose)  you would like to get eligible ingredientOf variables (i.e. Apple) for.  IngredientOf variable measurements will be included in analysis of the ingredient variable.  For instance, a ingredientOf of variable Fruit could be Apple. (optional)
+     - parameter ingredientOfUserTagVariableId: (query) Id of the ingredientOf variable (i.e. Apple) you would like to get eligible ingredient variables (i.e. Fructose) for.  IngredientOf variable measurements will be included in analysis of the ingredient variable.  For instance, a ingredientOf of variable Fruit could be Apple. (optional)
+     - parameter commonOnly: (query) Return only public and aggregated common variable data instead of user-specific variables (optional)
+     - parameter userOnly: (query) Return only user-specific variables and data, excluding common aggregated variable data (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+     - parameter includeTags: (query) Return parent, child, duplicate, and ingredient variables (optional)
+     - parameter recalculate: (query) Recalculate instead of using cached analysis (optional)
+     - parameter variableId: (query) Ex: 13 (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1VariablesGet(accessToken accessToken: String? = nil, userId: Int32? = nil, id: Int32? = nil, category: String? = nil, name: String? = nil, updatedAt: String? = nil, source: String? = nil, latestMeasurementTime: String? = nil, numberOfRawMeasurements: String? = nil, lastSource: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil, completion: ((data: Variable?, error: ErrorType?) -> Void)) {
-        v1VariablesGetWithRequestBuilder(accessToken: accessToken, userId: userId, id: id, category: category, name: name, updatedAt: updatedAt, source: source, latestMeasurementTime: latestMeasurementTime, numberOfRawMeasurements: numberOfRawMeasurements, lastSource: lastSource, limit: limit, offset: offset, sort: sort).execute { (response, error) -> Void in
+    public class func getVariables(includeCharts includeCharts: Bool? = nil, numberOfRawMeasurements: String? = nil, userId: Double? = nil, variableCategoryName: VariableCategoryName_getVariables? = nil, name: String? = nil, updatedAt: String? = nil, sourceName: String? = nil, earliestMeasurementTime: String? = nil, latestMeasurementTime: String? = nil, id: Int32? = nil, lastSourceName: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, includePublic: Bool? = nil, manualTracking: Bool? = nil, clientId: String? = nil, upc: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, exactMatch: Bool? = nil, variableCategoryId: Int32? = nil, includePrivate: Bool? = nil, searchPhrase: String? = nil, synonyms: String? = nil, taggedVariableId: Int32? = nil, tagVariableId: Int32? = nil, joinVariableId: Int32? = nil, parentUserTagVariableId: Int32? = nil, childUserTagVariableId: Int32? = nil, ingredientUserTagVariableId: Int32? = nil, ingredientOfUserTagVariableId: Int32? = nil, commonOnly: Bool? = nil, userOnly: Bool? = nil, platform: Platform_getVariables? = nil, includeTags: Bool? = nil, recalculate: Bool? = nil, variableId: Int32? = nil, completion: ((data: [Variable]?, error: ErrorType?) -> Void)) {
+        getVariablesWithRequestBuilder(includeCharts: includeCharts, numberOfRawMeasurements: numberOfRawMeasurements, userId: userId, variableCategoryName: variableCategoryName, name: name, updatedAt: updatedAt, sourceName: sourceName, earliestMeasurementTime: earliestMeasurementTime, latestMeasurementTime: latestMeasurementTime, id: id, lastSourceName: lastSourceName, limit: limit, offset: offset, sort: sort, includePublic: includePublic, manualTracking: manualTracking, clientId: clientId, upc: upc, effectOrCause: effectOrCause, publicEffectOrCause: publicEffectOrCause, exactMatch: exactMatch, variableCategoryId: variableCategoryId, includePrivate: includePrivate, searchPhrase: searchPhrase, synonyms: synonyms, taggedVariableId: taggedVariableId, tagVariableId: tagVariableId, joinVariableId: joinVariableId, parentUserTagVariableId: parentUserTagVariableId, childUserTagVariableId: childUserTagVariableId, ingredientUserTagVariableId: ingredientUserTagVariableId, ingredientOfUserTagVariableId: ingredientOfUserTagVariableId, commonOnly: commonOnly, userOnly: userOnly, platform: platform, includeTags: includeTags, recalculate: recalculate, variableId: variableId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
 
     /**
-     Get variables with user's settings
-     - GET /v1/variables
-     - Get variables for which the user has measurements. If the user has specified variable settings, these are provided instead of the common variable defaults.
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     - examples: [{contentType=application/json, example={
-  "parent" : "",
-  "causeOnly" : "",
-  "lastValue" : "",
-  "sources" : "aeiou",
-  "minimumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "latestMeasurementTime" : "",
-  "abbreviatedUnitId" : "",
-  "lastSource" : "",
-  "numberOfCorrelations" : "",
-  "maximumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "earliestMeasurementTime" : "",
-  "fillingValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "imageUrl" : "aeiou",
-  "combinationOperation" : "aeiou",
-  "mostCommonValue" : "",
-  "id" : "",
-  "unitAbbreviatedName" : "aeiou",
-  "outcome" : "",
-  "subVariables" : [ "" ],
-  "joinWith" : "aeiou",
-  "durationOfAction" : "",
-  "joinedVariables" : [ "" ],
-  "ionIcon" : "aeiou",
-  "mostCommonUnit" : "aeiou",
-  "rawMeasurementsAtLastAnalysis" : "",
-  "numberOfRawMeasurements" : "",
-  "name" : "aeiou",
-  "lastUnit" : "aeiou",
-  "category" : "aeiou",
-  "onsetDelay" : "",
-  "updated" : ""
-}}]
-     
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter id: (query) Common variable id (optional)
-     - parameter category: (query) Filter data by category (optional)
-     - parameter name: (query) Original name of the variable (supports exact name match only) (optional)
-     - parameter updatedAt: (query) Filter by the last time any of the properties of the variable were changed. Uses UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
-     - parameter source: (query) The name of the data source that created the variable (supports exact name match only). So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here (optional)
-     - parameter latestMeasurementTime: (query) Filter variables based on the last time a measurement for them was created or updated in the UTC format \&quot;YYYY-MM-DDThh:mm:ss\&quot; (optional)
-     - parameter numberOfRawMeasurements: (query) Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity. (optional)
-     - parameter lastSource: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here. (supports exact name match only) (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter sort: (query) Sort by given field. If the field is prefixed with &#x60;-, it will sort in descending order. (optional)
-
-     - returns: RequestBuilder<Variable> 
-     */
-    public class func v1VariablesGetWithRequestBuilder(accessToken accessToken: String? = nil, userId: Int32? = nil, id: Int32? = nil, category: String? = nil, name: String? = nil, updatedAt: String? = nil, source: String? = nil, latestMeasurementTime: String? = nil, numberOfRawMeasurements: String? = nil, lastSource: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: Int32? = nil) -> RequestBuilder<Variable> {
-        let path = "/v1/variables"
-        let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON(),
-            "id": id?.encodeToJSON(),
-            "category": category,
-            "name": name,
-            "updatedAt": updatedAt,
-            "source": source,
-            "latestMeasurementTime": latestMeasurementTime,
-            "numberOfRawMeasurements": numberOfRawMeasurements,
-            "lastSource": lastSource,
-            "limit": limit?.encodeToJSON(),
-            "offset": offset?.encodeToJSON(),
-            "sort": sort?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Create Variables
-     
-     - parameter body: (body) Original name for the variable. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1VariablesPost(body body: VariablesNew, accessToken: String? = nil, userId: Int32? = nil, completion: ((error: ErrorType?) -> Void)) {
-        v1VariablesPostWithRequestBuilder(body: body, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-
-    /**
-     Create Variables
-     - POST /v1/variables
-     - Allows the client to create a new variable in the `variables` table.
-     - API Key:
-       - type: apiKey access_token (QUERY)
-       - name: access_token
-     - OAuth:
-       - type: oauth2
-       - name: quantimodo_oauth2
-     
-     - parameter body: (body) Original name for the variable. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func v1VariablesPostWithRequestBuilder(body body: VariablesNew, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<Void> {
-        let path = "/v1/variables"
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Get variables by search query
-     
-     - parameter search: (path) Search query which may be an entire variable name or a fragment of one. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-     - parameter variableCategoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work. (optional)
-     - parameter includePublic: (query) Set to true if you would like to include public variables when no user variables are found. (optional)
-     - parameter manualTracking: (query) Set to true if you would like to exlude variables like apps and website names. (optional)
-     - parameter source: (query) Specify a data source name to only return variables from a specific data source. (optional)
-     - parameter effectOrCause: (query) Indicate if you only want variables that have user correlations. Possible values are effect and cause. (optional)
-     - parameter publicEffectOrCause: (query) Indicate if you only want variables that have aggregated correlations.  Possible values are effect and cause. (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1VariablesSearchSearchGet(search search: String, accessToken: String? = nil, userId: Int32? = nil, variableCategoryName: String? = nil, includePublic: Bool? = nil, manualTracking: Bool? = nil, source: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, limit: Int32? = nil, offset: Int32? = nil, completion: ((data: [Variable]?, error: ErrorType?) -> Void)) {
-        v1VariablesSearchSearchGetWithRequestBuilder(search: search, accessToken: accessToken, userId: userId, variableCategoryName: variableCategoryName, includePublic: includePublic, manualTracking: manualTracking, source: source, effectOrCause: effectOrCause, publicEffectOrCause: publicEffectOrCause, limit: limit, offset: offset).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Get variables by search query
-     - GET /v1/variables/search/{search}
-     - Get variables containing the search characters for which the currently logged in user has measurements. Used to provide auto-complete function in variable search boxes.
+     Get variables along with related user-specific analysis settings and statistics
+     - GET /v3/variables
+     - Get variables. If the user has specified variable settings, these are provided instead of the common variable defaults.
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
@@ -584,69 +303,765 @@ public class VariablesAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      - examples: [{contentType=application/json, example=[ {
-  "parent" : "",
-  "causeOnly" : "",
-  "lastValue" : "",
-  "sources" : "aeiou",
-  "minimumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "latestMeasurementTime" : "",
-  "abbreviatedUnitId" : "",
-  "lastSource" : "",
-  "numberOfCorrelations" : "",
-  "maximumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "earliestMeasurementTime" : "",
-  "fillingValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "imageUrl" : "aeiou",
-  "combinationOperation" : "aeiou",
-  "mostCommonValue" : "",
-  "id" : "",
-  "unitAbbreviatedName" : "aeiou",
-  "outcome" : "",
-  "subVariables" : [ "" ],
-  "joinWith" : "aeiou",
-  "durationOfAction" : "",
-  "joinedVariables" : [ "" ],
-  "ionIcon" : "aeiou",
-  "mostCommonUnit" : "aeiou",
-  "rawMeasurementsAtLastAnalysis" : "",
-  "numberOfRawMeasurements" : "",
-  "name" : "aeiou",
-  "lastUnit" : "aeiou",
-  "category" : "aeiou",
-  "onsetDelay" : "",
-  "updated" : ""
+  "lastValue" : 2.8841622,
+  "experimentEndTimeString" : "experimentEndTimeString",
+  "durationOfActionInHours" : 6,
+  "latestMeasurementTime" : 6,
+  "lastSource" : 9,
+  "chartsLinkStatic" : "chartsLinkStatic",
+  "lastOriginalValue" : 3,
+  "numberOfCorrelations" : 6,
+  "numberOfTrackingReminders" : 4,
+  "variableCategory" : {
+    "causeOnly" : true,
+    "minimumAllowedValue" : "minimumAllowedValue",
+    "variableCategoryName" : "variableCategoryName",
+    "svgUrl" : "svgUrl",
+    "moreInfo" : "moreInfo",
+    "maximumAllowedValue" : "maximumAllowedValue",
+    "public" : true,
+    "appType" : "appType",
+    "fillingValue" : 8,
+    "imageUrl" : "imageUrl",
+    "combinationOperation" : "combinationOperation",
+    "createdTime" : "createdTime",
+    "unitId" : 5,
+    "pngUrl" : "pngUrl",
+    "id" : 7,
+    "variableCategoryNameSingular" : "variableCategoryNameSingular",
+    "unitAbbreviatedName" : "unitAbbreviatedName",
+    "outcome" : true,
+    "updatedTime" : "updatedTime",
+    "helpText" : "helpText",
+    "durationOfAction" : 5,
+    "ionIcon" : "ionIcon",
+    "manualTracking" : true,
+    "measurementSynonymSingularLowercase" : "measurementSynonymSingularLowercase",
+    "pngPath" : "pngPath",
+    "svgPath" : "svgPath",
+    "name" : "name",
+    "onsetDelay" : 3,
+    "updated" : 3
+  },
+  "minimumRecordedValue" : 7.7403517,
+  "ingredientOfUserTagVariables" : [ null, null ],
+  "price" : 8.251625748923757,
+  "combinationOperation" : "combinationOperation",
+  "skewness" : 1.7325933,
+  "id" : 6,
+  "unitCategoryId" : 1,
+  "userVariableFillingValue" : 9.183123594773994,
+  "earliestSourceTime" : 4,
+  "userVariableUnitName" : "userVariableUnitName",
+  "updatedTime" : "updatedTime",
+  "wikipediaTitle" : "wikipediaTitle",
+  "availableUnits" : [ {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  }, {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  } ],
+  "latestUserMeasurementTime" : 6,
+  "chartsLinkFacebook" : "chartsLinkFacebook",
+  "userVariableVariableCategoryId" : 0,
+  "childCommonTagVariables" : [ null, null ],
+  "childUserTagVariables" : [ null, null ],
+  "upc" : "upc",
+  "parentCommonTagVariables" : [ null, null ],
+  "numberOfUserVariables" : 0,
+  "userTaggedVariables" : [ null, null ],
+  "variableId" : 0,
+  "lastSuccessfulUpdateTime" : "lastSuccessfulUpdateTime",
+  "unitCategoryName" : "unitCategoryName",
+  "maximumRecordedDailyValue" : 0.8851375,
+  "subtitle" : "subtitle",
+  "lastUnit" : "lastUnit",
+  "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+  "onsetDelay" : 7,
+  "chartsLinkDynamic" : "chartsLinkDynamic",
+  "status" : "status",
+  "causeOnly" : true,
+  "numberOfAggregateCorrelationsAsEffect" : 4,
+  "numberOfProcessedDailyMeasurements" : 4,
+  "displayName" : "displayName",
+  "latitude" : 3.3531933,
+  "fillingType" : "fillingType",
+  "joinedCommonTagVariables" : [ null, null ],
+  "kurtosis" : 9.018348,
+  "numberOfUserCorrelationsAsCause" : 0,
+  "earliestMeasurementTime" : 1,
+  "variableFillingValue" : 7.835035282970782,
+  "variableCategoryId" : 5,
+  "measurementsAtLastAnalysis" : 0,
+  "fillingValue" : 9.36931,
+  "latestFillingTime" : 6,
+  "unitId" : 1,
+  "lastUnitId" : 1,
+  "experimentStartTimeSeconds" : 9,
+  "experimentEndTimeSeconds" : 5,
+  "unitAbbreviatedName" : "unitAbbreviatedName",
+  "outcome" : true,
+  "numberOfUniqueValues" : 9,
+  "clientId" : "clientId",
+  "ingredientUserTagVariables" : [ null, null ],
+  "joinWith" : 8,
+  "errorMessage" : "errorMessage",
+  "userVariableMostCommonConnectorId" : 8,
+  "commonVariableMostCommonConnectorId" : 7,
+  "numberOfAggregateCorrelationsAsCause" : 3,
+  "iconIcon" : "iconIcon",
+  "userId" : 9,
+  "chartsLinkEmail" : "chartsLinkEmail",
+  "mostCommonOriginalUnitId" : 3,
+  "userTagVariables" : [ null, null ],
+  "secondToLastValue" : 2.9409642974827896,
+  "chartsLinkGoogle" : "chartsLinkGoogle",
+  "ingredientCommonTagVariables" : [ null, null ],
+  "parentUserTagVariables" : [ null, null ],
+  "userVariableUnitId" : 3,
+  "variableCategoryImageUrl" : "variableCategoryImageUrl",
+  "numberOfUniqueDailyValues" : 7.2605214,
+  "productUrl" : "productUrl",
+  "actionArray" : [ {
+    "modifiedValue" : 0,
+    "action" : "action",
+    "callback" : "callback",
+    "shortTitle" : "shortTitle",
+    "title" : "title",
+    "longTitle" : "longTitle"
+  }, {
+    "modifiedValue" : 0,
+    "action" : "action",
+    "callback" : "callback",
+    "shortTitle" : "shortTitle",
+    "title" : "title",
+    "longTitle" : "longTitle"
+  } ],
+  "charts" : {
+    "hourlyColumnChart" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "lineChartWithSmoothing" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "monthlyColumnChart" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "distributionColumnChart" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "lineChartWithoutSmoothing" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "weekdayColumnChart" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    }
+  },
+  "mostCommonUnitId" : 7,
+  "svgUrl" : "svgUrl",
+  "userVariableUpdatedAt" : "userVariableUpdatedAt",
+  "experimentStartTimeString" : "experimentStartTimeString",
+  "createdAt" : "createdAt",
+  "informationalUrl" : "informationalUrl",
+  "inputType" : "inputType",
+  "earliestFillingTime" : 7,
+  "commonTagVariables" : [ null, null ],
+  "longitude" : 3.0937452,
+  "updatedAt" : "updatedAt",
+  "commonVariableUpdatedAt" : "commonVariableUpdatedAt",
+  "unitName" : "unitName",
+  "onsetDelayInHours" : 5.507386964179881,
+  "durationOfAction" : 1,
+  "numberOfUserCorrelationsAsEffect" : 9,
+  "joinedVariables" : [ null, null ],
+  "ionIcon" : "ionIcon",
+  "valence" : "valence",
+  "manualTracking" : true,
+  "shareUserMeasurements" : true,
+  "chartsLinkTwitter" : "chartsLinkTwitter",
+  "ingredientOfCommonTagVariables" : [ null, null ],
+  "pngPath" : "pngPath",
+  "latestSourceTime" : 5,
+  "rawMeasurementsAtLastAnalysis" : 3,
+  "unit" : {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  },
+  "median" : 4.652396,
+  "name" : "name",
+  "updated" : 8,
+  "dataSource" : {
+    "longDescription" : "longDescription",
+    "image" : "image",
+    "linkedDisplayNameHtml" : "linkedDisplayNameHtml",
+    "imageHtml" : "imageHtml",
+    "displayName" : "displayName",
+    "connectorClientId" : "connectorClientId",
+    "shortDescription" : "shortDescription",
+    "enabled" : 2,
+    "defaultVariableCategoryName" : "defaultVariableCategoryName",
+    "getItUrl" : "getItUrl",
+    "name" : "name",
+    "id" : 4,
+    "affiliate" : true
+  },
+  "commonAlias" : "commonAlias",
+  "joinedUserTagVariables" : [ null, null ],
+  "experimentEndTime" : "experimentEndTime",
+  "minimumAllowedValue" : 8.969579,
+  "sources" : "sources",
+  "variableCategoryName" : "variableCategoryName",
+  "mostCommonConnectorId" : 3,
+  "description" : "description",
+  "experimentStartTime" : "experimentStartTime",
+  "userVariableValence" : "userVariableValence",
+  "maximumAllowedValue" : 7.143538,
+  "public" : 4,
+  "userVariableWikipediaTitle" : "userVariableWikipediaTitle",
+  "imageUrl" : "imageUrl",
+  "alias" : "alias",
+  "mostCommonValue" : 5.5332584,
+  "pngUrl" : "pngUrl",
+  "userVariableUnitCategoryId" : 1,
+  "numberOfChanges" : 0,
+  "maximumRecordedValue" : 7.058770351582356,
+  "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+  "variableName" : "variableName",
+  "lastProcessedDailyValue" : 6.965117697638846,
+  "thirdToLastValue" : 4.573936264232251,
+  "outcomeOfInterest" : 4,
+  "mostCommonUnit" : "mostCommonUnit",
+  "lastOriginalUnitId" : 6,
+  "thirdMostCommonValue" : 6.623518433804886,
+  "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+  "predictorOfInterest" : 6,
+  "variance" : 3.1497903714250555,
+  "mean" : 6.519181,
+  "numberOfRawMeasurements" : 1,
+  "secondMostCommonValue" : 0.43431398824148815,
+  "location" : "location",
+  "commonTaggedVariables" : [ null, null ],
+  "standardDeviation" : 8.28965939814297
+}, {
+  "lastValue" : 2.8841622,
+  "experimentEndTimeString" : "experimentEndTimeString",
+  "durationOfActionInHours" : 6,
+  "latestMeasurementTime" : 6,
+  "lastSource" : 9,
+  "chartsLinkStatic" : "chartsLinkStatic",
+  "lastOriginalValue" : 3,
+  "numberOfCorrelations" : 6,
+  "numberOfTrackingReminders" : 4,
+  "variableCategory" : {
+    "causeOnly" : true,
+    "minimumAllowedValue" : "minimumAllowedValue",
+    "variableCategoryName" : "variableCategoryName",
+    "svgUrl" : "svgUrl",
+    "moreInfo" : "moreInfo",
+    "maximumAllowedValue" : "maximumAllowedValue",
+    "public" : true,
+    "appType" : "appType",
+    "fillingValue" : 8,
+    "imageUrl" : "imageUrl",
+    "combinationOperation" : "combinationOperation",
+    "createdTime" : "createdTime",
+    "unitId" : 5,
+    "pngUrl" : "pngUrl",
+    "id" : 7,
+    "variableCategoryNameSingular" : "variableCategoryNameSingular",
+    "unitAbbreviatedName" : "unitAbbreviatedName",
+    "outcome" : true,
+    "updatedTime" : "updatedTime",
+    "helpText" : "helpText",
+    "durationOfAction" : 5,
+    "ionIcon" : "ionIcon",
+    "manualTracking" : true,
+    "measurementSynonymSingularLowercase" : "measurementSynonymSingularLowercase",
+    "pngPath" : "pngPath",
+    "svgPath" : "svgPath",
+    "name" : "name",
+    "onsetDelay" : 3,
+    "updated" : 3
+  },
+  "minimumRecordedValue" : 7.7403517,
+  "ingredientOfUserTagVariables" : [ null, null ],
+  "price" : 8.251625748923757,
+  "combinationOperation" : "combinationOperation",
+  "skewness" : 1.7325933,
+  "id" : 6,
+  "unitCategoryId" : 1,
+  "userVariableFillingValue" : 9.183123594773994,
+  "earliestSourceTime" : 4,
+  "userVariableUnitName" : "userVariableUnitName",
+  "updatedTime" : "updatedTime",
+  "wikipediaTitle" : "wikipediaTitle",
+  "availableUnits" : [ {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  }, {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  } ],
+  "latestUserMeasurementTime" : 6,
+  "chartsLinkFacebook" : "chartsLinkFacebook",
+  "userVariableVariableCategoryId" : 0,
+  "childCommonTagVariables" : [ null, null ],
+  "childUserTagVariables" : [ null, null ],
+  "upc" : "upc",
+  "parentCommonTagVariables" : [ null, null ],
+  "numberOfUserVariables" : 0,
+  "userTaggedVariables" : [ null, null ],
+  "variableId" : 0,
+  "lastSuccessfulUpdateTime" : "lastSuccessfulUpdateTime",
+  "unitCategoryName" : "unitCategoryName",
+  "maximumRecordedDailyValue" : 0.8851375,
+  "subtitle" : "subtitle",
+  "lastUnit" : "lastUnit",
+  "userVariableVariableCategoryName" : "userVariableVariableCategoryName",
+  "onsetDelay" : 7,
+  "chartsLinkDynamic" : "chartsLinkDynamic",
+  "status" : "status",
+  "causeOnly" : true,
+  "numberOfAggregateCorrelationsAsEffect" : 4,
+  "numberOfProcessedDailyMeasurements" : 4,
+  "displayName" : "displayName",
+  "latitude" : 3.3531933,
+  "fillingType" : "fillingType",
+  "joinedCommonTagVariables" : [ null, null ],
+  "kurtosis" : 9.018348,
+  "numberOfUserCorrelationsAsCause" : 0,
+  "earliestMeasurementTime" : 1,
+  "variableFillingValue" : 7.835035282970782,
+  "variableCategoryId" : 5,
+  "measurementsAtLastAnalysis" : 0,
+  "fillingValue" : 9.36931,
+  "latestFillingTime" : 6,
+  "unitId" : 1,
+  "lastUnitId" : 1,
+  "experimentStartTimeSeconds" : 9,
+  "experimentEndTimeSeconds" : 5,
+  "unitAbbreviatedName" : "unitAbbreviatedName",
+  "outcome" : true,
+  "numberOfUniqueValues" : 9,
+  "clientId" : "clientId",
+  "ingredientUserTagVariables" : [ null, null ],
+  "joinWith" : 8,
+  "errorMessage" : "errorMessage",
+  "userVariableMostCommonConnectorId" : 8,
+  "commonVariableMostCommonConnectorId" : 7,
+  "numberOfAggregateCorrelationsAsCause" : 3,
+  "iconIcon" : "iconIcon",
+  "userId" : 9,
+  "chartsLinkEmail" : "chartsLinkEmail",
+  "mostCommonOriginalUnitId" : 3,
+  "userTagVariables" : [ null, null ],
+  "secondToLastValue" : 2.9409642974827896,
+  "chartsLinkGoogle" : "chartsLinkGoogle",
+  "ingredientCommonTagVariables" : [ null, null ],
+  "parentUserTagVariables" : [ null, null ],
+  "userVariableUnitId" : 3,
+  "variableCategoryImageUrl" : "variableCategoryImageUrl",
+  "numberOfUniqueDailyValues" : 7.2605214,
+  "productUrl" : "productUrl",
+  "actionArray" : [ {
+    "modifiedValue" : 0,
+    "action" : "action",
+    "callback" : "callback",
+    "shortTitle" : "shortTitle",
+    "title" : "title",
+    "longTitle" : "longTitle"
+  }, {
+    "modifiedValue" : 0,
+    "action" : "action",
+    "callback" : "callback",
+    "shortTitle" : "shortTitle",
+    "title" : "title",
+    "longTitle" : "longTitle"
+  } ],
+  "charts" : {
+    "hourlyColumnChart" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "lineChartWithSmoothing" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "monthlyColumnChart" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "distributionColumnChart" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "lineChartWithoutSmoothing" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    },
+    "weekdayColumnChart" : {
+      "chartId" : "chartId",
+      "chartTitle" : "chartTitle",
+      "svg" : "svg",
+      "svgUrl" : "svgUrl",
+      "explanation" : "explanation",
+      "highchartConfig" : "{}"
+    }
+  },
+  "mostCommonUnitId" : 7,
+  "svgUrl" : "svgUrl",
+  "userVariableUpdatedAt" : "userVariableUpdatedAt",
+  "experimentStartTimeString" : "experimentStartTimeString",
+  "createdAt" : "createdAt",
+  "informationalUrl" : "informationalUrl",
+  "inputType" : "inputType",
+  "earliestFillingTime" : 7,
+  "commonTagVariables" : [ null, null ],
+  "longitude" : 3.0937452,
+  "updatedAt" : "updatedAt",
+  "commonVariableUpdatedAt" : "commonVariableUpdatedAt",
+  "unitName" : "unitName",
+  "onsetDelayInHours" : 5.507386964179881,
+  "durationOfAction" : 1,
+  "numberOfUserCorrelationsAsEffect" : 9,
+  "joinedVariables" : [ null, null ],
+  "ionIcon" : "ionIcon",
+  "valence" : "valence",
+  "manualTracking" : true,
+  "shareUserMeasurements" : true,
+  "chartsLinkTwitter" : "chartsLinkTwitter",
+  "ingredientOfCommonTagVariables" : [ null, null ],
+  "pngPath" : "pngPath",
+  "latestSourceTime" : 5,
+  "rawMeasurementsAtLastAnalysis" : 3,
+  "unit" : {
+    "minimumAllowedValue" : 3.616076749251911,
+    "advanced" : 6,
+    "manualTracking" : 2,
+    "categoryName" : "categoryName",
+    "maximumAllowedValue" : 7.061401241503109,
+    "minimumValue" : 2,
+    "unitCategory" : {
+      "name" : "name",
+      "id" : 4,
+      "standardUnitAbbreviatedName" : "standardUnitAbbreviatedName"
+    },
+    "name" : "name",
+    "id" : 5,
+    "category" : "Distance",
+    "abbreviatedName" : "abbreviatedName",
+    "conversionSteps" : [ {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    }, {
+      "operation" : "ADD",
+      "value" : 5.962133916683182
+    } ],
+    "maximumValue" : 9,
+    "categoryId" : 1
+  },
+  "median" : 4.652396,
+  "name" : "name",
+  "updated" : 8,
+  "dataSource" : {
+    "longDescription" : "longDescription",
+    "image" : "image",
+    "linkedDisplayNameHtml" : "linkedDisplayNameHtml",
+    "imageHtml" : "imageHtml",
+    "displayName" : "displayName",
+    "connectorClientId" : "connectorClientId",
+    "shortDescription" : "shortDescription",
+    "enabled" : 2,
+    "defaultVariableCategoryName" : "defaultVariableCategoryName",
+    "getItUrl" : "getItUrl",
+    "name" : "name",
+    "id" : 4,
+    "affiliate" : true
+  },
+  "commonAlias" : "commonAlias",
+  "joinedUserTagVariables" : [ null, null ],
+  "experimentEndTime" : "experimentEndTime",
+  "minimumAllowedValue" : 8.969579,
+  "sources" : "sources",
+  "variableCategoryName" : "variableCategoryName",
+  "mostCommonConnectorId" : 3,
+  "description" : "description",
+  "experimentStartTime" : "experimentStartTime",
+  "userVariableValence" : "userVariableValence",
+  "maximumAllowedValue" : 7.143538,
+  "public" : 4,
+  "userVariableWikipediaTitle" : "userVariableWikipediaTitle",
+  "imageUrl" : "imageUrl",
+  "alias" : "alias",
+  "mostCommonValue" : 5.5332584,
+  "pngUrl" : "pngUrl",
+  "userVariableUnitCategoryId" : 1,
+  "numberOfChanges" : 0,
+  "maximumRecordedValue" : 7.058770351582356,
+  "userVariableUnitAbbreviatedName" : "userVariableUnitAbbreviatedName",
+  "variableName" : "variableName",
+  "lastProcessedDailyValue" : 6.965117697638846,
+  "thirdToLastValue" : 4.573936264232251,
+  "outcomeOfInterest" : 4,
+  "mostCommonUnit" : "mostCommonUnit",
+  "lastOriginalUnitId" : 6,
+  "thirdMostCommonValue" : 6.623518433804886,
+  "userVariableUnitCategoryName" : "userVariableUnitCategoryName",
+  "predictorOfInterest" : 6,
+  "variance" : 3.1497903714250555,
+  "mean" : 6.519181,
+  "numberOfRawMeasurements" : 1,
+  "secondMostCommonValue" : 0.43431398824148815,
+  "location" : "location",
+  "commonTaggedVariables" : [ null, null ],
+  "standardDeviation" : 8.28965939814297
 } ]}]
      
-     - parameter search: (path) Search query which may be an entire variable name or a fragment of one. 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter includeCharts: (query) Highcharts configs that can be used if you have highcharts.js included on the page.  This only works if the id or name query parameter is also provided. (optional)
+     - parameter numberOfRawMeasurements: (query) Filter variables by the total number of measurements that they have. This could be used of you want to filter or sort by popularity. (optional)
      - parameter userId: (query) User&#39;s id (optional)
-     - parameter variableCategoryName: (query) Filter variables by category name. The variable categories include Activity, Causes of Illness, Cognitive Performance, Conditions, Environment, Foods, Location, Miscellaneous, Mood, Nutrition, Physical Activity, Physique, Sleep, Social Interactions, Symptoms, Treatments, Vital Signs, and Work. (optional)
-     - parameter includePublic: (query) Set to true if you would like to include public variables when no user variables are found. (optional)
-     - parameter manualTracking: (query) Set to true if you would like to exlude variables like apps and website names. (optional)
-     - parameter source: (query) Specify a data source name to only return variables from a specific data source. (optional)
-     - parameter effectOrCause: (query) Indicate if you only want variables that have user correlations. Possible values are effect and cause. (optional)
-     - parameter publicEffectOrCause: (query) Indicate if you only want variables that have aggregated correlations.  Possible values are effect and cause. (optional)
-     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if you have 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. (optional)
-     - parameter offset: (query) Since the maximum limit is 200 records, to get more than that you&#39;ll have to make multiple API calls and page through the results. To retrieve all the data, you can iterate through data by using the &#x60;limit&#x60; and &#x60;offset&#x60; query parameters.  For example, if you want to retrieve data from 61-80 then you can use a query with the following parameters, &#x60;imit&#x3D;20&amp;offset&#x3D;60&#x60;. (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter name: (query) Name of the variable. To get results matching a substring, add % as a wildcard as the first and/or last character of a query string parameter. In order to get variables that contain &#x60;Mood&#x60;, the following query should be used: ?variableName&#x3D;%Mood% (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter sourceName: (query) ID of the source you want measurements for (supports exact name match only) (optional)
+     - parameter earliestMeasurementTime: (query) Excluded records with measurement times earlier than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter latestMeasurementTime: (query) Excluded records with measurement times later than this value. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format. Time zone should be UTC and not local. (optional)
+     - parameter id: (query) Common variable id (optional)
+     - parameter lastSourceName: (query) Limit variables to those which measurements were last submitted by a specific source. So if you have a client application and you only want variables that were last updated by your app, you can include the name of your app here (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter includePublic: (query) Include variables the user has no measurements for (optional)
+     - parameter manualTracking: (query) Only include variables tracked manually by the user (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter upc: (query) UPC or other barcode scan result (optional)
+     - parameter effectOrCause: (query) Provided variable is the effect or cause (optional)
+     - parameter publicEffectOrCause: (query) Ex:  (optional)
+     - parameter exactMatch: (query) Require exact match (optional)
+     - parameter variableCategoryId: (query) Ex: 13 (optional)
+     - parameter includePrivate: (query) Include user-specific variables in results (optional)
+     - parameter searchPhrase: (query) Ex: %Body Fat% (optional)
+     - parameter synonyms: (query) Ex: %McDonalds hotcake% (optional)
+     - parameter taggedVariableId: (query) Id of the tagged variable (i.e. Lollipop) you would like to get variables it can be tagged with (i.e. Sugar).  Converted measurements of the tagged variable are included in analysis of the tag variable (i.e. ingredient). (optional)
+     - parameter tagVariableId: (query) Id of the tag variable (i.e. Sugar) you would like to get variables it can be tagged to (i.e. Lollipop).  Converted measurements of the tagged variable are included in analysis of the tag variable (i.e. ingredient). (optional)
+     - parameter joinVariableId: (query) Id of the variable you would like to get variables that can be joined to.  This is used to merge duplicate variables.   If joinVariableId is specified, this returns only variables eligible to be joined to the variable specified by the joinVariableId. (optional)
+     - parameter parentUserTagVariableId: (query) Id of the parent category variable (i.e. Fruit) you would like to get eligible child sub-type variables (i.e. Apple) for.  Child variable measurements will be included in analysis of the parent variable.  For instance, a child sub-type of the parent category Fruit could be Apple.  When Apple is tagged with the parent category Fruit, Apple measurements will be included when Fruit is analyzed. (optional)
+     - parameter childUserTagVariableId: (query) Id of the child sub-type variable (i.e. Apple) you would like to get eligible parent variables (i.e. Fruit) for.  Child variable measurements will be included in analysis of the parent variable.  For instance, a child sub-type of the parent category Fruit could be Apple. When Apple is tagged with the parent category Fruit, Apple measurements will be included when Fruit is analyzed. (optional)
+     - parameter ingredientUserTagVariableId: (query) Id of the ingredient variable (i.e. Fructose)  you would like to get eligible ingredientOf variables (i.e. Apple) for.  IngredientOf variable measurements will be included in analysis of the ingredient variable.  For instance, a ingredientOf of variable Fruit could be Apple. (optional)
+     - parameter ingredientOfUserTagVariableId: (query) Id of the ingredientOf variable (i.e. Apple) you would like to get eligible ingredient variables (i.e. Fructose) for.  IngredientOf variable measurements will be included in analysis of the ingredient variable.  For instance, a ingredientOf of variable Fruit could be Apple. (optional)
+     - parameter commonOnly: (query) Return only public and aggregated common variable data instead of user-specific variables (optional)
+     - parameter userOnly: (query) Return only user-specific variables and data, excluding common aggregated variable data (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+     - parameter includeTags: (query) Return parent, child, duplicate, and ingredient variables (optional)
+     - parameter recalculate: (query) Recalculate instead of using cached analysis (optional)
+     - parameter variableId: (query) Ex: 13 (optional)
 
      - returns: RequestBuilder<[Variable]> 
      */
-    public class func v1VariablesSearchSearchGetWithRequestBuilder(search search: String, accessToken: String? = nil, userId: Int32? = nil, variableCategoryName: String? = nil, includePublic: Bool? = nil, manualTracking: Bool? = nil, source: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, limit: Int32? = nil, offset: Int32? = nil) -> RequestBuilder<[Variable]> {
-        var path = "/v1/variables/search/{search}"
-        path = path.stringByReplacingOccurrencesOfString("{search}", withString: "\(search)", options: .LiteralSearch, range: nil)
+    public class func getVariablesWithRequestBuilder(includeCharts includeCharts: Bool? = nil, numberOfRawMeasurements: String? = nil, userId: Double? = nil, variableCategoryName: VariableCategoryName_getVariables? = nil, name: String? = nil, updatedAt: String? = nil, sourceName: String? = nil, earliestMeasurementTime: String? = nil, latestMeasurementTime: String? = nil, id: Int32? = nil, lastSourceName: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, includePublic: Bool? = nil, manualTracking: Bool? = nil, clientId: String? = nil, upc: String? = nil, effectOrCause: String? = nil, publicEffectOrCause: String? = nil, exactMatch: Bool? = nil, variableCategoryId: Int32? = nil, includePrivate: Bool? = nil, searchPhrase: String? = nil, synonyms: String? = nil, taggedVariableId: Int32? = nil, tagVariableId: Int32? = nil, joinVariableId: Int32? = nil, parentUserTagVariableId: Int32? = nil, childUserTagVariableId: Int32? = nil, ingredientUserTagVariableId: Int32? = nil, ingredientOfUserTagVariableId: Int32? = nil, commonOnly: Bool? = nil, userOnly: Bool? = nil, platform: Platform_getVariables? = nil, includeTags: Bool? = nil, recalculate: Bool? = nil, variableId: Int32? = nil) -> RequestBuilder<[Variable]> {
+        let path = "/v3/variables"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON(),
-            "variableCategoryName": variableCategoryName,
+            "includeCharts": includeCharts,
+            "numberOfRawMeasurements": numberOfRawMeasurements,
+            "userId": userId,
+            "variableCategoryName": variableCategoryName?.rawValue,
+            "name": name,
+            "updatedAt": updatedAt,
+            "sourceName": sourceName,
+            "earliestMeasurementTime": earliestMeasurementTime,
+            "latestMeasurementTime": latestMeasurementTime,
+            "id": id?.encodeToJSON(),
+            "lastSourceName": lastSourceName,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "sort": sort,
             "includePublic": includePublic,
             "manualTracking": manualTracking,
-            "source": source,
+            "clientId": clientId,
+            "upc": upc,
             "effectOrCause": effectOrCause,
             "publicEffectOrCause": publicEffectOrCause,
-            "limit": limit?.encodeToJSON(),
-            "offset": offset?.encodeToJSON()
+            "exactMatch": exactMatch,
+            "variableCategoryId": variableCategoryId?.encodeToJSON(),
+            "includePrivate": includePrivate,
+            "searchPhrase": searchPhrase,
+            "synonyms": synonyms,
+            "taggedVariableId": taggedVariableId?.encodeToJSON(),
+            "tagVariableId": tagVariableId?.encodeToJSON(),
+            "joinVariableId": joinVariableId?.encodeToJSON(),
+            "parentUserTagVariableId": parentUserTagVariableId?.encodeToJSON(),
+            "childUserTagVariableId": childUserTagVariableId?.encodeToJSON(),
+            "ingredientUserTagVariableId": ingredientUserTagVariableId?.encodeToJSON(),
+            "ingredientOfUserTagVariableId": ingredientOfUserTagVariableId?.encodeToJSON(),
+            "commonOnly": commonOnly,
+            "userOnly": userOnly,
+            "platform": platform?.rawValue,
+            "includeTags": includeTags,
+            "recalculate": recalculate,
+            "variableId": variableId?.encodeToJSON()
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -659,24 +1074,23 @@ public class VariablesAPI: APIBase {
     }
 
     /**
-     Get info about a variable
+     Post or update user tags or ingredients
      
-     - parameter variableName: (path) Variable name 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) Contains the new user tag data 
      - parameter userId: (query) User&#39;s id (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1VariablesVariableNameGet(variableName variableName: String, accessToken: String? = nil, userId: Int32? = nil, completion: ((data: Variable?, error: ErrorType?) -> Void)) {
-        v1VariablesVariableNameGetWithRequestBuilder(variableName: variableName, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
+    public class func postUserTags(body body: UserTag, userId: Double? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        postUserTagsWithRequestBuilder(body: body, userId: userId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
 
     /**
-     Get info about a variable
-     - GET /v1/variables/{variableName}
-     - Get all of the settings and information about a variable by its name. If the logged in user has modified the settings for the variable, these will be provided instead of the default settings for that variable.
+     Post or update user tags or ingredients
+     - POST /v3/userTags
+     - This endpoint allows users to tag foods with their ingredients.  This information will then be used to infer the user intake of the different ingredients by just entering the foods. The inferred intake levels will then be used to determine the effects of different nutrients on the user during analysis.
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
@@ -684,62 +1098,168 @@ public class VariablesAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      - examples: [{contentType=application/json, example={
-  "parent" : "",
-  "causeOnly" : "",
-  "lastValue" : "",
-  "sources" : "aeiou",
-  "minimumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "latestMeasurementTime" : "",
-  "abbreviatedUnitId" : "",
-  "lastSource" : "",
-  "numberOfCorrelations" : "",
-  "maximumAllowedValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "earliestMeasurementTime" : "",
-  "fillingValue" : 1.3579000000000001069366817318950779736042022705078125,
-  "imageUrl" : "aeiou",
-  "combinationOperation" : "aeiou",
-  "mostCommonValue" : "",
-  "id" : "",
-  "unitAbbreviatedName" : "aeiou",
-  "outcome" : "",
-  "subVariables" : [ "" ],
-  "joinWith" : "aeiou",
-  "durationOfAction" : "",
-  "joinedVariables" : [ "" ],
-  "ionIcon" : "aeiou",
-  "mostCommonUnit" : "aeiou",
-  "rawMeasurementsAtLastAnalysis" : "",
-  "numberOfRawMeasurements" : "",
-  "name" : "aeiou",
-  "lastUnit" : "aeiou",
-  "category" : "aeiou",
-  "onsetDelay" : "",
-  "updated" : ""
+  "summary" : "summary",
+  "description" : "description"
 }}]
      
-     - parameter variableName: (path) Variable name 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
+     - parameter body: (body) Contains the new user tag data 
      - parameter userId: (query) User&#39;s id (optional)
 
-     - returns: RequestBuilder<Variable> 
+     - returns: RequestBuilder<CommonResponse> 
      */
-    public class func v1VariablesVariableNameGetWithRequestBuilder(variableName variableName: String, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<Variable> {
-        var path = "/v1/variables/{variableName}"
-        path = path.stringByReplacingOccurrencesOfString("{variableName}", withString: "\(variableName)", options: .LiteralSearch, range: nil)
+    public class func postUserTagsWithRequestBuilder(body body: UserTag, userId: Double? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v3/userTags"
         let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "access_token": accessToken,
-            "userId": userId?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<Variable>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     * enum for parameter variableCategoryName
+     */
+    public enum VariableCategoryName_postUserVariables: String { 
+        case Activity = "Activity"
+        case Books = "Books"
+        case CausesOfIllness = "Causes of Illness"
+        case CognitivePerformance = "Cognitive Performance"
+        case Conditions = "Conditions"
+        case Emotions = "Emotions"
+        case Environment = "Environment"
+        case Foods = "Foods"
+        case Location = "Location"
+        case Miscellaneous = "Miscellaneous"
+        case MoviesAndTv = "Movies and TV"
+        case Music = "Music"
+        case Nutrients = "Nutrients"
+        case Payments = "Payments"
+        case PhysicalActivity = "Physical Activity"
+        case Physique = "Physique"
+        case Sleep = "Sleep"
+        case SocialInteractions = "Social Interactions"
+        case Software = "Software"
+        case Symptoms = "Symptoms"
+        case Treatments = "Treatments"
+        case VitalSigns = "Vital Signs"
+        case Work = "Work"
+    }
+
+    /**
+     * enum for parameter platform
+     */
+    public enum Platform_postUserVariables: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
+    }
+
+    /**
+     Update User Settings for a Variable
+     
+     - parameter userVariables: (body) Variable user settings data 
+     - parameter includePrivate: (query) Include user-specific variables in results (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter includePublic: (query) Include variables the user has no measurements for (optional)
+     - parameter searchPhrase: (query) Ex: %Body Fat% (optional)
+     - parameter exactMatch: (query) Require exact match (optional)
+     - parameter manualTracking: (query) Only include variables tracked manually by the user (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter variableCategoryId: (query) Ex: 13 (optional)
+     - parameter synonyms: (query) Ex: %McDonalds hotcake% (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func postUserVariables(userVariables userVariables: [Variable], includePrivate: Bool? = nil, clientId: String? = nil, includePublic: Bool? = nil, searchPhrase: String? = nil, exactMatch: Bool? = nil, manualTracking: Bool? = nil, variableCategoryName: VariableCategoryName_postUserVariables? = nil, variableCategoryId: Int32? = nil, synonyms: String? = nil, platform: Platform_postUserVariables? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        postUserVariablesWithRequestBuilder(userVariables: userVariables, includePrivate: includePrivate, clientId: clientId, includePublic: includePublic, searchPhrase: searchPhrase, exactMatch: exactMatch, manualTracking: manualTracking, variableCategoryName: variableCategoryName, variableCategoryId: variableCategoryId, synonyms: synonyms, platform: platform).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Update User Settings for a Variable
+     - POST /v3/variables
+     - Users can change the parameters used in analysis of that variable such as the expected duration of action for a variable to have an effect, the estimated delay before the onset of action. In order to filter out erroneous data, they are able to set the maximum and minimum reasonable daily values for a variable.
+     - API Key:
+       - type: apiKey access_token (QUERY)
+       - name: access_token
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     - examples: [{contentType=application/json, example={
+  "summary" : "summary",
+  "description" : "description"
+}}]
+     
+     - parameter userVariables: (body) Variable user settings data 
+     - parameter includePrivate: (query) Include user-specific variables in results (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter includePublic: (query) Include variables the user has no measurements for (optional)
+     - parameter searchPhrase: (query) Ex: %Body Fat% (optional)
+     - parameter exactMatch: (query) Require exact match (optional)
+     - parameter manualTracking: (query) Only include variables tracked manually by the user (optional)
+     - parameter variableCategoryName: (query) Limit results to a specific variable category (optional)
+     - parameter variableCategoryId: (query) Ex: 13 (optional)
+     - parameter synonyms: (query) Ex: %McDonalds hotcake% (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func postUserVariablesWithRequestBuilder(userVariables userVariables: [Variable], includePrivate: Bool? = nil, clientId: String? = nil, includePublic: Bool? = nil, searchPhrase: String? = nil, exactMatch: Bool? = nil, manualTracking: Bool? = nil, variableCategoryName: VariableCategoryName_postUserVariables? = nil, variableCategoryId: Int32? = nil, synonyms: String? = nil, platform: Platform_postUserVariables? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v3/variables"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = userVariables.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Reset user settings for a variable to defaults
+     
+     - parameter variableId: (body) Id of the variable whose measurements should be deleted 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func resetUserVariableSettings(variableId variableId: UserVariableDelete, completion: ((error: ErrorType?) -> Void)) {
+        resetUserVariableSettingsWithRequestBuilder(variableId: variableId).execute { (response, error) -> Void in
+            completion(error: error);
+        }
+    }
+
+
+    /**
+     Reset user settings for a variable to defaults
+     - POST /v3/userVariables/reset
+     - Reset user settings for a variable to defaults
+     - API Key:
+       - type: apiKey access_token (QUERY)
+       - name: access_token
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     
+     - parameter variableId: (body) Id of the variable whose measurements should be deleted 
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func resetUserVariableSettingsWithRequestBuilder(variableId variableId: UserVariableDelete) -> RequestBuilder<Void> {
+        let path = "/v3/userVariables/reset"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = variableId.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

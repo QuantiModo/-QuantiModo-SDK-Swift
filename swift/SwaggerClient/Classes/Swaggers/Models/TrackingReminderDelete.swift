@@ -9,7 +9,7 @@ import Foundation
 
 
 public class TrackingReminderDelete: JSONEncodable {
-    /** Id of the PENDING reminder to be deleted */
+    /** Id of the TrackingReminder to be deleted */
     public var id: Int32?
 
     public init() {}

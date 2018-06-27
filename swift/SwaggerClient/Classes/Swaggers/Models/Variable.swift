@@ -9,109 +9,464 @@ import Foundation
 
 
 public class Variable: JSONEncodable {
-    public enum CombinationOperation: String { 
-        case Mean = "MEAN"
-        case Sum = "SUM"
-    }
-    /** Variable ID */
-    public var id: Int32?
-    /** User-defined variable display name. */
-    public var name: String?
-    /** Variable category like Mood, Sleep, Physical Activity, Treatment, Symptom, etc. */
-    public var category: String?
-    /** Abbreviated name of the default unit for the variable */
+    public var actionArray: [TrackingReminderNotificationAction]?
+    /** Alternative name */
+    public var alias: String?
+    public var availableUnits: [Unit]?
+    /** A value of 1 indicates that this variable is generally a cause in a causal relationship.  An example of a causeOnly variable would be a variable such as Cloud Cover which would generally not be influenced by the behaviour of the user */
+    public var causeOnly: Bool?
+    public var charts: VariableCharts?
+    /** Ex: https://local.quantimo.do/ionic/Modo/www/#/app/charts/Trader%20Joes%20Bedtime%20Tea%20%2F%20Sleepytime%20Tea%20%28any%20Brand%29?variableName&#x3D;Trader%20Joes%20Bedtime%20Tea%20%2F%20Sleepytime%20Tea%20%28any%20Brand%29&amp;userId&#x3D;230&amp;pngUrl&#x3D;https%3A%2F%2Fapp.quantimo.do%2Fionic%2FModo%2Fwww%2Fimg%2Fvariable_categories%2Ftreatments.png */
+    public var chartsLinkDynamic: String?
+    /** Ex: mailto:?subject&#x3D;Check%20out%20my%20Trader%20Joes%20Bedtime%20Tea%20%2F%20Sleepytime%20Tea%20%28any%20Brand%29%20data%21&amp;body&#x3D;See%20my%20Trader%20Joes%20Bedtime%20Tea%20%2F%20Sleepytime%20Tea%20%28any%20Brand%29%20history%20at%20https%3A%2F%2Flocal.quantimo.do%2Fapi%2Fv2%2Fcharts%3FvariableName%3DTrader%2520Joes%2520Bedtime%2520Tea%2520%252F%2520Sleepytime%2520Tea%2520%2528any%2520Brand%2529%26userId%3D230%26pngUrl%3Dhttps%253A%252F%252Fapp.quantimo.do%252Fionic%252FModo%252Fwww%252Fimg%252Fvariable_categories%252Ftreatments.png%0A%0AHave%20a%20great%20day! */
+    public var chartsLinkEmail: String?
+    /** Ex: https://www.facebook.com/sharer/sharer.php?u&#x3D;https%3A%2F%2Flocal.quantimo.do%2Fapi%2Fv2%2Fcharts%3FvariableName%3DTrader%2520Joes%2520Bedtime%2520Tea%2520%252F%2520Sleepytime%2520Tea%2520%2528any%2520Brand%2529%26userId%3D230%26pngUrl%3Dhttps%253A%252F%252Fapp.quantimo.do%252Fionic%252FModo%252Fwww%252Fimg%252Fvariable_categories%252Ftreatments.png */
+    public var chartsLinkFacebook: String?
+    /** Ex: https://plus.google.com/share?url&#x3D;https%3A%2F%2Flocal.quantimo.do%2Fapi%2Fv2%2Fcharts%3FvariableName%3DTrader%2520Joes%2520Bedtime%2520Tea%2520%252F%2520Sleepytime%2520Tea%2520%2528any%2520Brand%2529%26userId%3D230%26pngUrl%3Dhttps%253A%252F%252Fapp.quantimo.do%252Fionic%252FModo%252Fwww%252Fimg%252Fvariable_categories%252Ftreatments.png */
+    public var chartsLinkGoogle: String?
+    /** Ex: https://local.quantimo.do/api/v2/charts?variableName&#x3D;Trader%20Joes%20Bedtime%20Tea%20%2F%20Sleepytime%20Tea%20%28any%20Brand%29&amp;userId&#x3D;230&amp;pngUrl&#x3D;https%3A%2F%2Fapp.quantimo.do%2Fionic%2FModo%2Fwww%2Fimg%2Fvariable_categories%2Ftreatments.png */
+    public var chartsLinkStatic: String?
+    /** Ex: https://twitter.com/home?status&#x3D;Check%20out%20my%20Trader%20Joes%20Bedtime%20Tea%20%2F%20Sleepytime%20Tea%20%28any%20Brand%29%20data%21%20https%3A%2F%2Flocal.quantimo.do%2Fapi%2Fv2%2Fcharts%3FvariableName%3DTrader%2520Joes%2520Bedtime%2520Tea%2520%252F%2520Sleepytime%2520Tea%2520%2528any%2520Brand%2529%26userId%3D230%26pngUrl%3Dhttps%253A%252F%252Fapp.quantimo.do%252Fionic%252FModo%252Fwww%252Fimg%252Fvariable_categories%252Ftreatments.png%20%40quantimodo */
+    public var chartsLinkTwitter: String?
+    /** Commonly defined for all users. An example of a parent category variable would be Fruit when tagged with the child sub-type variables Apple.  Child variable (Apple) measurements will be included when the parent category (Fruit) is analyzed.  This allows us to see how Fruit consumption might be affecting without having to record both Fruit and Apple intake. */
+    public var childCommonTagVariables: [Variable]?
+    /** User-defined. An example of a parent category variable would be Fruit when tagged with the child sub-type variables Apple.  Child variable (Apple) measurements will be included when the parent category (Fruit) is analyzed.  This allows us to see how Fruit consumption might be affecting without having to record both Fruit and Apple intake. */
+    public var childUserTagVariables: [Variable]?
+    /** Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do */
+    public var clientId: String?
+    /** Ex: MEAN */
+    public var combinationOperation: String?
+    /** Ex: Anxiety / Nervousness */
+    public var commonAlias: String?
+    public var commonTaggedVariables: [Variable]?
+    public var commonTagVariables: [Variable]?
+    /** Ex: 51 */
+    public var commonVariableMostCommonConnectorId: Int32?
+    /** Ex: 2017-02-07 23:43:39 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var commonVariableUpdatedAt: String?
+    /** When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format */
+    public var createdAt: String?
+    /** Ex: count */
     public var unitAbbreviatedName: String?
-    /** Id of the default unit for the variable */
-    public var abbreviatedUnitId: Int32?
-    /** Comma-separated list of source names to limit variables to those sources */
-    public var sources: String?
-    /** The minimum allowed value for measurements. While you can record a value below this minimum, it will be excluded from the correlation analysis. */
-    public var minimumAllowedValue: Double?
-    /** The maximum allowed value for measurements. While you can record a value above this maximum, it will be excluded from the correlation analysis. */
-    public var maximumAllowedValue: Double?
-    /** Way to aggregate measurements over time. Options are \&quot;MEAN\&quot; or \&quot;SUM\&quot;. SUM should be used for things like minutes of exercise.  If you use MEAN for exercise, then a person might exercise more minutes in one day but add separate measurements that were smaller.  So when we are doing correlational analysis, we would think that the person exercised less that day even though they exercised more.  Conversely, we must use MEAN for things such as ratings which cannot be SUMMED. */
-    public var combinationOperation: CombinationOperation?
-    /** When it comes to analysis to determine the effects of this variable, knowing when it did not occur is as important as knowing when it did occur. For example, if you are tracking a medication, it is important to know when you did not take it, but you do not have to log zero values for all the days when you haven&#39;t taken it. Hence, you can specify a filling value (typically 0) to insert whenever data is missing. */
-    public var fillingValue: Double?
-    /** The Variable this Variable should be joined with. If the variable is joined with some other variable then it is not shown to user in the list of variables. */
-    public var joinWith: String?
-    /** Array of Variables that are joined with this Variable */
-    public var joinedVariables: [Variable]?
-    /** Id of the parent variable if this variable has any parent */
-    public var parent: Int32?
-    /** Array of Variables that are sub variables to this Variable */
-    public var subVariables: [Variable]?
-    /** The amount of time in seconds that elapses after the predictor/stimulus event before the outcome as perceived by a self-tracker is known as the “onset delay”. For example, the “onset delay” between the time a person takes an aspirin (predictor/stimulus event) and the time a person perceives a change in their headache severity (outcome) is approximately 30 minutes. */
-    public var onsetDelay: Int32?
-    /** The amount of time over which a predictor/stimulus event can exert an observable influence on an outcome variable’s value. For instance, aspirin (stimulus/predictor) typically decreases headache severity for approximately four hours (duration of action) following the onset delay. */
+    /** Ex: 6 */
+    public var unitCategoryId: Int32?
+    /** Ex: Miscellany */
+    public var unitCategoryName: String?
+    /** ID of unit to use for this variable */
+    public var unitId: Int32?
+    /** Ex: Count */
+    public var unitName: String?
+    /** Ex: negative */
+    public var description: String?
+    /** Ex: Trader Joe&#39;s Bedtime Tea */
+    public var displayName: String?
+    /** The amount of time over which a predictor/stimulus event can exert an observable influence on an outcome variable value. For instance, aspirin (stimulus/predictor) typically decreases headache severity for approximately four hours (duration of action) following the onset delay. */
     public var durationOfAction: Int32?
+    /** Ex: 168 */
+    public var durationOfActionInHours: Int32?
+    /** Earliest filling time */
+    public var earliestFillingTime: Int32?
     /** Earliest measurement time */
     public var earliestMeasurementTime: Int32?
-    /** Latest measurement time */
-    public var latestMeasurementTime: Int32?
-    /** When this variable or its settings were last updated */
-    public var updated: Int32?
-    /** A value of 1 indicates that this variable is generally a cause in a causal relationship.  An example of a causeOnly variable would be a variable such as Cloud Cover which would generally not be influenced by the behaviour of the user. */
-    public var causeOnly: Int32?
-    /** Number of correlations */
-    public var numberOfCorrelations: Int32?
-    /** Outcome variables (those with &#x60;outcome&#x60; &#x3D;&#x3D; 1) are variables for which a human would generally want to identify the influencing factors. These include symptoms of illness, physique, mood, cognitive performance, etc.  Generally correlation calculations are only performed on outcome variables. */
-    public var outcome: Int32?
-    /** The number of measurements that a given user had for this variable the last time a correlation calculation was performed. Generally correlation values are only updated once the current number of measurements for a variable is more than 10% greater than the rawMeasurementsAtLastAnalysis.  This avoids a computationally-demanding recalculation when there&#39;s not enough new data to make a significant difference in the correlation. */
-    public var rawMeasurementsAtLastAnalysis: Int32?
-    /** Number of measurements */
-    public var numberOfRawMeasurements: Int32?
-    /** Last unit */
-    public var lastUnit: String?
-    /** Last value */
-    public var lastValue: Int32?
-    /** Most common value */
-    public var mostCommonValue: Int32?
-    /** Most common unit */
-    public var mostCommonUnit: String?
-    /** Last source */
-    public var lastSource: Int32?
+    /** Earliest source time */
+    public var earliestSourceTime: Int32?
+    /** error_message */
+    public var errorMessage: String?
+    /** Latest measurement start_time to be used in analysis. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format */
+    public var experimentEndTime: String?
+    /** Ex: 1893477600 */
+    public var experimentEndTimeSeconds: Int32?
+    /** Ex: 2030-01-01 06:00:00 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var experimentEndTimeString: String?
+    /** Earliest measurement start_time to be used in analysis. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss  datetime format */
+    public var experimentStartTime: String?
+    /** Ex: 1269307902 */
+    public var experimentStartTimeSeconds: Int32?
+    /** Ex: 2010-03-23 01:31:42 UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var experimentStartTimeString: String?
+    /** 0 -&gt; No filling, 1 -&gt; Use filling-value */
+    public var fillingType: String?
+    /** When it comes to analysis to determine the effects of this variable, knowing when it did not occur is as important as knowing when it did occur. For example, if you are tracking a medication, it is important to know when you did not take it, but you do not have to log zero values for all the days when you haven&#39;t taken it. Hence, you can specify a filling value (typically 0) to insert whenever data is missing. */
+    public var fillingValue: Float?
+    /** Ex: ion-sad-outline */
+    public var iconIcon: String?
+    /** Ex: 95614 */
+    public var id: Int32?
     /**  */
     public var imageUrl: String?
+    /** Ex: https://google.com */
+    public var informationalUrl: String?
+    /** Commonly defined for all users. IngredientOf variable measurements will be included in analysis of the ingredient variable.  For instance, a ingredient of the variable Lollypop could be Sugar.  This way you only have to record Lollypop consumption and we can use this data to see how sugar might be affecting you. */
+    public var ingredientOfCommonTagVariables: [Variable]?
+    /** Commonly defined for all users. IngredientOf variable measurements will be included in analysis of the ingredient variable.  For instance, a ingredient of the variable Lollypop could be Sugar.  This way you only have to record Lollypop consumption and we can use this data to see how sugar might be affecting you. */
+    public var ingredientCommonTagVariables: [Variable]?
+    /** User-specific IngredientOf variable measurements will be included in analysis of the ingredient variable.  For instance, a ingredient of the variable Lollypop could be Sugar.  This way you only have to record Lollypop consumption and we can use this data to see how sugar might be affecting you. */
+    public var ingredientOfUserTagVariables: [Variable]?
+    /** User-specific IngredientOf variable measurements will be included in analysis of the ingredient variable.  For instance, a ingredient of the variable Lollypop could be Sugar.  This way you only have to record Lollypop consumption and we can use this data to see how sugar might be affecting you. */
+    public var ingredientUserTagVariables: [Variable]?
+    /** Ex: value */
+    public var inputType: String?
     /**  */
     public var ionIcon: String?
+    /** Commonly defined for all users.  Joining can be used used to merge duplicate variables. For instance, if two variables called Apples (Red Delicious) and Red Delicious Apples are joined, when one of them is analyzed, the measurements for the other will be included as well. */
+    public var joinedCommonTagVariables: [Variable]?
+    /** User-defined. Joining can be used used to merge duplicate variables. For instance, if two variables called Apples (Red Delicious) and Red Delicious Apples are joined, when one of them is analyzed, the measurements for the other will be included as well. */
+    public var joinedUserTagVariables: [Variable]?
+    /** The Variable this Variable should be joined with. If the variable is joined with some other variable then it is not shown to user in the list of variables */
+    public var joinWith: Int32?
+    /** Kurtosis */
+    public var kurtosis: Float?
+    /** ID of last original Unit */
+    public var lastOriginalUnitId: Int32?
+    /** Last original value which is stored */
+    public var lastOriginalValue: Int32?
+    /** Ex: 500 */
+    public var lastProcessedDailyValue: Double?
+    /** When this variable or its settings were last updated UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var lastSuccessfulUpdateTime: String?
+    /** ID of last Unit */
+    public var lastUnitId: Int32?
+    /** Last Value */
+    public var lastValue: Float?
+    /** Latest filling time */
+    public var latestFillingTime: Int32?
+    /** Latest measurement time */
+    public var latestMeasurementTime: Int32?
+    /** Latest source time */
+    public var latestSourceTime: Int32?
+    /** Ex: 1501383600 */
+    public var latestUserMeasurementTime: Int32?
+    /** Latitude */
+    public var latitude: Float?
+    /** Location */
+    public var location: String?
+    /** Longitude */
+    public var longitude: Float?
+    /** Ex: 1 */
+    public var manualTracking: Bool?
+    /** The maximum allowed value for measurements. While you can record a value above this maximum, it will be excluded from the correlation analysis. */
+    public var maximumAllowedValue: Float?
+    /** Maximum recorded daily value of this variable */
+    public var maximumRecordedDailyValue: Float?
+    /** Ex: 1 */
+    public var maximumRecordedValue: Double?
+    /** Mean */
+    public var mean: Float?
+    /** Number of measurements at last analysis */
+    public var measurementsAtLastAnalysis: Int32?
+    /** Median */
+    public var median: Float?
+    /** The minimum allowed value for measurements. While you can record a value below this minimum, it will be excluded from the correlation analysis. */
+    public var minimumAllowedValue: Float?
+    /** Minimum recorded value of this variable */
+    public var minimumRecordedValue: Float?
+    /** Ex: 51 */
+    public var mostCommonConnectorId: Int32?
+    /** Ex: 23 */
+    public var mostCommonOriginalUnitId: Int32?
+    /** Most common Unit ID */
+    public var mostCommonUnitId: Int32?
+    /** Most common value */
+    public var mostCommonValue: Float?
+    /** Ex: Trader Joes Bedtime Tea / Sleepytime Tea (any Brand) */
+    public var name: String?
+    /** Ex: 1 */
+    public var numberOfAggregateCorrelationsAsCause: Int32?
+    /** Ex: 310 */
+    public var numberOfAggregateCorrelationsAsEffect: Int32?
+    /** Number of changes */
+    public var numberOfChanges: Int32?
+    /** Number of correlations for this variable */
+    public var numberOfCorrelations: Int32?
+    /** Number of processed measurements */
+    public var numberOfProcessedDailyMeasurements: Int32?
+    /** Ex: 295 */
+    public var numberOfRawMeasurements: Int32?
+    /** Ex: 1 */
+    public var numberOfTrackingReminders: Int32?
+    /** Number of unique daily values */
+    public var numberOfUniqueDailyValues: Float?
+    /** Ex: 2 */
+    public var numberOfUniqueValues: Int32?
+    /** Ex: 115 */
+    public var numberOfUserCorrelationsAsCause: Int32?
+    /** Ex: 29014 */
+    public var numberOfUserCorrelationsAsEffect: Int32?
+    /** Ex: 2 */
+    public var numberOfUserVariables: Int32?
+    /** The amount of time in seconds that elapses after the predictor/stimulus event before the outcome as perceived by a self-tracker is known as the onset delay. For example, the onset delay between the time a person takes an aspirin (predictor/stimulus event) and the time a person perceives a change in their headache severity (outcome) is approximately 30 minutes. */
+    public var onsetDelay: Int32?
+    /** Ex: 0.5 */
+    public var onsetDelayInHours: Double?
+    /** Outcome variables (those with &#x60;outcome&#x60; &#x3D;&#x3D; 1) are variables for which a human would generally want to identify the influencing factors. These include symptoms of illness, physique, mood, cognitive performance, etc.  Generally correlation calculations are only performed on outcome variables */
+    public var outcome: Bool?
+    /** Ex: 1 */
+    public var outcomeOfInterest: Int32?
+    /** Commonly defined for all users.  An example of a parent category variable would be Fruit when tagged with the child sub-type variables Apple.  Child variable (Apple) measurements will be included when the parent category (Fruit) is analyzed.  This allows us to see how Fruit consumption might be affecting without having to record both Fruit and Apple intake. */
+    public var parentCommonTagVariables: [Variable]?
+    /** User-defined. An example of a parent category variable would be Fruit when tagged with the child sub-type variables Apple.  Child variable (Apple) measurements will be included when the parent category (Fruit) is analyzed.  This allows us to see how Fruit consumption might be affecting without having to record both Fruit and Apple intake. */
+    public var parentUserTagVariables: [Variable]?
+    /** Ex: img/variable_categories/treatments.png */
+    public var pngPath: String?
+    /** Ex: https://quantimodo.quantimo.do/ionic/Modo/www/img/variable_categories/treatments.png */
+    public var pngUrl: String?
+    /** Ex: 0 */
+    public var predictorOfInterest: Int32?
+    /** Ex: 95.4 */
+    public var price: Double?
+    /** Link to associated product for purchase */
+    public var productUrl: String?
+    /** Is variable public */
+    public var _public: Int32?
+    /** Ex: 131 */
+    public var rawMeasurementsAtLastAnalysis: Int32?
+    /** Ex: 1 */
+    public var secondMostCommonValue: Double?
+    /** Ex: 250 */
+    public var secondToLastValue: Double?
+    /** Ex: 1 */
+    public var shareUserMeasurements: Bool?
+    /** Skewness */
+    public var skewness: Float?
+    /** Comma-separated list of source names to limit variables to those sources */
+    public var sources: String?
+    /** Standard deviation Ex: 0.46483219855434 */
+    public var standardDeviation: Double?
+    /** status */
+    public var status: String?
+    /** Based on sort filter and can be shown beneath variable name on search list */
+    public var subtitle: String?
+    /** Ex: https://quantimodo.quantimo.do/ionic/Modo/www/img/variable_categories/treatments.svg */
+    public var svgUrl: String?
+    /** Ex: 6 */
+    public var thirdMostCommonValue: Double?
+    /** Ex: 250 */
+    public var thirdToLastValue: Double?
+    public var unit: Unit?
+    /** Universal product code or similar */
+    public var upc: String?
+    /** updated */
+    public var updated: Int32?
+    /** When the record in the database was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format */
+    public var updatedAt: String?
+    /** Ex: 2017-07-30 14:58:26 */
+    public var updatedTime: String?
+    /** User ID */
+    public var userId: Int32?
+    public var userTaggedVariables: [Variable]?
+    public var userTagVariables: [Variable]?
+    /** Ex: count */
+    public var userVariableUnitAbbreviatedName: String?
+    /** Ex: 6 */
+    public var userVariableUnitCategoryId: Int32?
+    /** Ex: Miscellany */
+    public var userVariableUnitCategoryName: String?
+    /** Ex: 23 */
+    public var userVariableUnitId: Int32?
+    /** Ex: Count */
+    public var userVariableUnitName: String?
+    /** Ex: -1 */
+    public var userVariableFillingValue: Double?
+    /** Ex: 51 */
+    public var userVariableMostCommonConnectorId: Int32?
+    /** Ex: 2017-07-30 14:58:26 */
+    public var userVariableUpdatedAt: String?
+    /** Ex: positive or negative */
+    public var userVariableValence: String?
+    /** Ex: 13 */
+    public var userVariableVariableCategoryId: Int32?
+    /** Ex: Treatments */
+    public var userVariableVariableCategoryName: String?
+    /** Ex:  */
+    public var userVariableWikipediaTitle: String?
+    public var variableCategory: VariableCategory?
+    public var dataSource: DataSource?
+    /** Array of Variables that are joined with this Variable */
+    public var joinedVariables: [Variable]?
+    /** Last source */
+    public var lastSource: Int32?
+    /** Last unit */
+    public var lastUnit: String?
+    /** Most common unit */
+    public var mostCommonUnit: String?
+    /** Ex: positive */
+    public var valence: String?
+    /** Ex: 6 */
+    public var variableCategoryId: Int32?
+    /** Ex: https://maxcdn.icons8.com/Color/PNG/96/Household/sleeping_in_bed-96.png */
+    public var variableCategoryImageUrl: String?
+    /** Variable category like Mood, Sleep, Physical Activity, Treatment, Symptom, etc. */
+    public var variableCategoryName: String?
+    /** Ex: -1 */
+    public var variableFillingValue: Double?
+    /** Ex: 96380 */
+    public var variableId: Int32?
+    /** Ex: Sleep Duration */
+    public var variableName: String?
+    /** Ex: 115947037.40816 */
+    public var variance: Double?
+    /** Ex:  */
+    public var wikipediaTitle: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id?.encodeToJSON()
-        nillableDictionary["name"] = self.name
-        nillableDictionary["category"] = self.category
+        nillableDictionary["actionArray"] = self.actionArray?.encodeToJSON()
+        nillableDictionary["alias"] = self.alias
+        nillableDictionary["availableUnits"] = self.availableUnits?.encodeToJSON()
+        nillableDictionary["causeOnly"] = self.causeOnly
+        nillableDictionary["charts"] = self.charts?.encodeToJSON()
+        nillableDictionary["chartsLinkDynamic"] = self.chartsLinkDynamic
+        nillableDictionary["chartsLinkEmail"] = self.chartsLinkEmail
+        nillableDictionary["chartsLinkFacebook"] = self.chartsLinkFacebook
+        nillableDictionary["chartsLinkGoogle"] = self.chartsLinkGoogle
+        nillableDictionary["chartsLinkStatic"] = self.chartsLinkStatic
+        nillableDictionary["chartsLinkTwitter"] = self.chartsLinkTwitter
+        nillableDictionary["childCommonTagVariables"] = self.childCommonTagVariables?.encodeToJSON()
+        nillableDictionary["childUserTagVariables"] = self.childUserTagVariables?.encodeToJSON()
+        nillableDictionary["clientId"] = self.clientId
+        nillableDictionary["combinationOperation"] = self.combinationOperation
+        nillableDictionary["commonAlias"] = self.commonAlias
+        nillableDictionary["commonTaggedVariables"] = self.commonTaggedVariables?.encodeToJSON()
+        nillableDictionary["commonTagVariables"] = self.commonTagVariables?.encodeToJSON()
+        nillableDictionary["commonVariableMostCommonConnectorId"] = self.commonVariableMostCommonConnectorId?.encodeToJSON()
+        nillableDictionary["commonVariableUpdatedAt"] = self.commonVariableUpdatedAt
+        nillableDictionary["createdAt"] = self.createdAt
         nillableDictionary["unitAbbreviatedName"] = self.unitAbbreviatedName
-        nillableDictionary["abbreviatedUnitId"] = self.abbreviatedUnitId?.encodeToJSON()
-        nillableDictionary["sources"] = self.sources
-        nillableDictionary["minimumAllowedValue"] = self.minimumAllowedValue
-        nillableDictionary["maximumAllowedValue"] = self.maximumAllowedValue
-        nillableDictionary["combinationOperation"] = self.combinationOperation?.rawValue
-        nillableDictionary["fillingValue"] = self.fillingValue
-        nillableDictionary["joinWith"] = self.joinWith
-        nillableDictionary["joinedVariables"] = self.joinedVariables?.encodeToJSON()
-        nillableDictionary["parent"] = self.parent?.encodeToJSON()
-        nillableDictionary["subVariables"] = self.subVariables?.encodeToJSON()
-        nillableDictionary["onsetDelay"] = self.onsetDelay?.encodeToJSON()
+        nillableDictionary["unitCategoryId"] = self.unitCategoryId?.encodeToJSON()
+        nillableDictionary["unitCategoryName"] = self.unitCategoryName
+        nillableDictionary["unitId"] = self.unitId?.encodeToJSON()
+        nillableDictionary["unitName"] = self.unitName
+        nillableDictionary["description"] = self.description
+        nillableDictionary["displayName"] = self.displayName
         nillableDictionary["durationOfAction"] = self.durationOfAction?.encodeToJSON()
+        nillableDictionary["durationOfActionInHours"] = self.durationOfActionInHours?.encodeToJSON()
+        nillableDictionary["earliestFillingTime"] = self.earliestFillingTime?.encodeToJSON()
         nillableDictionary["earliestMeasurementTime"] = self.earliestMeasurementTime?.encodeToJSON()
-        nillableDictionary["latestMeasurementTime"] = self.latestMeasurementTime?.encodeToJSON()
-        nillableDictionary["updated"] = self.updated?.encodeToJSON()
-        nillableDictionary["causeOnly"] = self.causeOnly?.encodeToJSON()
-        nillableDictionary["numberOfCorrelations"] = self.numberOfCorrelations?.encodeToJSON()
-        nillableDictionary["outcome"] = self.outcome?.encodeToJSON()
-        nillableDictionary["rawMeasurementsAtLastAnalysis"] = self.rawMeasurementsAtLastAnalysis?.encodeToJSON()
-        nillableDictionary["numberOfRawMeasurements"] = self.numberOfRawMeasurements?.encodeToJSON()
-        nillableDictionary["lastUnit"] = self.lastUnit
-        nillableDictionary["lastValue"] = self.lastValue?.encodeToJSON()
-        nillableDictionary["mostCommonValue"] = self.mostCommonValue?.encodeToJSON()
-        nillableDictionary["mostCommonUnit"] = self.mostCommonUnit
-        nillableDictionary["lastSource"] = self.lastSource?.encodeToJSON()
+        nillableDictionary["earliestSourceTime"] = self.earliestSourceTime?.encodeToJSON()
+        nillableDictionary["errorMessage"] = self.errorMessage
+        nillableDictionary["experimentEndTime"] = self.experimentEndTime
+        nillableDictionary["experimentEndTimeSeconds"] = self.experimentEndTimeSeconds?.encodeToJSON()
+        nillableDictionary["experimentEndTimeString"] = self.experimentEndTimeString
+        nillableDictionary["experimentStartTime"] = self.experimentStartTime
+        nillableDictionary["experimentStartTimeSeconds"] = self.experimentStartTimeSeconds?.encodeToJSON()
+        nillableDictionary["experimentStartTimeString"] = self.experimentStartTimeString
+        nillableDictionary["fillingType"] = self.fillingType
+        nillableDictionary["fillingValue"] = self.fillingValue
+        nillableDictionary["iconIcon"] = self.iconIcon
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["imageUrl"] = self.imageUrl
+        nillableDictionary["informationalUrl"] = self.informationalUrl
+        nillableDictionary["ingredientOfCommonTagVariables"] = self.ingredientOfCommonTagVariables?.encodeToJSON()
+        nillableDictionary["ingredientCommonTagVariables"] = self.ingredientCommonTagVariables?.encodeToJSON()
+        nillableDictionary["ingredientOfUserTagVariables"] = self.ingredientOfUserTagVariables?.encodeToJSON()
+        nillableDictionary["ingredientUserTagVariables"] = self.ingredientUserTagVariables?.encodeToJSON()
+        nillableDictionary["inputType"] = self.inputType
         nillableDictionary["ionIcon"] = self.ionIcon
+        nillableDictionary["joinedCommonTagVariables"] = self.joinedCommonTagVariables?.encodeToJSON()
+        nillableDictionary["joinedUserTagVariables"] = self.joinedUserTagVariables?.encodeToJSON()
+        nillableDictionary["joinWith"] = self.joinWith?.encodeToJSON()
+        nillableDictionary["kurtosis"] = self.kurtosis
+        nillableDictionary["lastOriginalUnitId"] = self.lastOriginalUnitId?.encodeToJSON()
+        nillableDictionary["lastOriginalValue"] = self.lastOriginalValue?.encodeToJSON()
+        nillableDictionary["lastProcessedDailyValue"] = self.lastProcessedDailyValue
+        nillableDictionary["lastSuccessfulUpdateTime"] = self.lastSuccessfulUpdateTime
+        nillableDictionary["lastUnitId"] = self.lastUnitId?.encodeToJSON()
+        nillableDictionary["lastValue"] = self.lastValue
+        nillableDictionary["latestFillingTime"] = self.latestFillingTime?.encodeToJSON()
+        nillableDictionary["latestMeasurementTime"] = self.latestMeasurementTime?.encodeToJSON()
+        nillableDictionary["latestSourceTime"] = self.latestSourceTime?.encodeToJSON()
+        nillableDictionary["latestUserMeasurementTime"] = self.latestUserMeasurementTime?.encodeToJSON()
+        nillableDictionary["latitude"] = self.latitude
+        nillableDictionary["location"] = self.location
+        nillableDictionary["longitude"] = self.longitude
+        nillableDictionary["manualTracking"] = self.manualTracking
+        nillableDictionary["maximumAllowedValue"] = self.maximumAllowedValue
+        nillableDictionary["maximumRecordedDailyValue"] = self.maximumRecordedDailyValue
+        nillableDictionary["maximumRecordedValue"] = self.maximumRecordedValue
+        nillableDictionary["mean"] = self.mean
+        nillableDictionary["measurementsAtLastAnalysis"] = self.measurementsAtLastAnalysis?.encodeToJSON()
+        nillableDictionary["median"] = self.median
+        nillableDictionary["minimumAllowedValue"] = self.minimumAllowedValue
+        nillableDictionary["minimumRecordedValue"] = self.minimumRecordedValue
+        nillableDictionary["mostCommonConnectorId"] = self.mostCommonConnectorId?.encodeToJSON()
+        nillableDictionary["mostCommonOriginalUnitId"] = self.mostCommonOriginalUnitId?.encodeToJSON()
+        nillableDictionary["mostCommonUnitId"] = self.mostCommonUnitId?.encodeToJSON()
+        nillableDictionary["mostCommonValue"] = self.mostCommonValue
+        nillableDictionary["name"] = self.name
+        nillableDictionary["numberOfAggregateCorrelationsAsCause"] = self.numberOfAggregateCorrelationsAsCause?.encodeToJSON()
+        nillableDictionary["numberOfAggregateCorrelationsAsEffect"] = self.numberOfAggregateCorrelationsAsEffect?.encodeToJSON()
+        nillableDictionary["numberOfChanges"] = self.numberOfChanges?.encodeToJSON()
+        nillableDictionary["numberOfCorrelations"] = self.numberOfCorrelations?.encodeToJSON()
+        nillableDictionary["numberOfProcessedDailyMeasurements"] = self.numberOfProcessedDailyMeasurements?.encodeToJSON()
+        nillableDictionary["numberOfRawMeasurements"] = self.numberOfRawMeasurements?.encodeToJSON()
+        nillableDictionary["numberOfTrackingReminders"] = self.numberOfTrackingReminders?.encodeToJSON()
+        nillableDictionary["numberOfUniqueDailyValues"] = self.numberOfUniqueDailyValues
+        nillableDictionary["numberOfUniqueValues"] = self.numberOfUniqueValues?.encodeToJSON()
+        nillableDictionary["numberOfUserCorrelationsAsCause"] = self.numberOfUserCorrelationsAsCause?.encodeToJSON()
+        nillableDictionary["numberOfUserCorrelationsAsEffect"] = self.numberOfUserCorrelationsAsEffect?.encodeToJSON()
+        nillableDictionary["numberOfUserVariables"] = self.numberOfUserVariables?.encodeToJSON()
+        nillableDictionary["onsetDelay"] = self.onsetDelay?.encodeToJSON()
+        nillableDictionary["onsetDelayInHours"] = self.onsetDelayInHours
+        nillableDictionary["outcome"] = self.outcome
+        nillableDictionary["outcomeOfInterest"] = self.outcomeOfInterest?.encodeToJSON()
+        nillableDictionary["parentCommonTagVariables"] = self.parentCommonTagVariables?.encodeToJSON()
+        nillableDictionary["parentUserTagVariables"] = self.parentUserTagVariables?.encodeToJSON()
+        nillableDictionary["pngPath"] = self.pngPath
+        nillableDictionary["pngUrl"] = self.pngUrl
+        nillableDictionary["predictorOfInterest"] = self.predictorOfInterest?.encodeToJSON()
+        nillableDictionary["price"] = self.price
+        nillableDictionary["productUrl"] = self.productUrl
+        nillableDictionary["public"] = self._public?.encodeToJSON()
+        nillableDictionary["rawMeasurementsAtLastAnalysis"] = self.rawMeasurementsAtLastAnalysis?.encodeToJSON()
+        nillableDictionary["secondMostCommonValue"] = self.secondMostCommonValue
+        nillableDictionary["secondToLastValue"] = self.secondToLastValue
+        nillableDictionary["shareUserMeasurements"] = self.shareUserMeasurements
+        nillableDictionary["skewness"] = self.skewness
+        nillableDictionary["sources"] = self.sources
+        nillableDictionary["standardDeviation"] = self.standardDeviation
+        nillableDictionary["status"] = self.status
+        nillableDictionary["subtitle"] = self.subtitle
+        nillableDictionary["svgUrl"] = self.svgUrl
+        nillableDictionary["thirdMostCommonValue"] = self.thirdMostCommonValue
+        nillableDictionary["thirdToLastValue"] = self.thirdToLastValue
+        nillableDictionary["unit"] = self.unit?.encodeToJSON()
+        nillableDictionary["upc"] = self.upc
+        nillableDictionary["updated"] = self.updated?.encodeToJSON()
+        nillableDictionary["updatedAt"] = self.updatedAt
+        nillableDictionary["updatedTime"] = self.updatedTime
+        nillableDictionary["userId"] = self.userId?.encodeToJSON()
+        nillableDictionary["userTaggedVariables"] = self.userTaggedVariables?.encodeToJSON()
+        nillableDictionary["userTagVariables"] = self.userTagVariables?.encodeToJSON()
+        nillableDictionary["userVariableUnitAbbreviatedName"] = self.userVariableUnitAbbreviatedName
+        nillableDictionary["userVariableUnitCategoryId"] = self.userVariableUnitCategoryId?.encodeToJSON()
+        nillableDictionary["userVariableUnitCategoryName"] = self.userVariableUnitCategoryName
+        nillableDictionary["userVariableUnitId"] = self.userVariableUnitId?.encodeToJSON()
+        nillableDictionary["userVariableUnitName"] = self.userVariableUnitName
+        nillableDictionary["userVariableFillingValue"] = self.userVariableFillingValue
+        nillableDictionary["userVariableMostCommonConnectorId"] = self.userVariableMostCommonConnectorId?.encodeToJSON()
+        nillableDictionary["userVariableUpdatedAt"] = self.userVariableUpdatedAt
+        nillableDictionary["userVariableValence"] = self.userVariableValence
+        nillableDictionary["userVariableVariableCategoryId"] = self.userVariableVariableCategoryId?.encodeToJSON()
+        nillableDictionary["userVariableVariableCategoryName"] = self.userVariableVariableCategoryName
+        nillableDictionary["userVariableWikipediaTitle"] = self.userVariableWikipediaTitle
+        nillableDictionary["variableCategory"] = self.variableCategory?.encodeToJSON()
+        nillableDictionary["dataSource"] = self.dataSource?.encodeToJSON()
+        nillableDictionary["joinedVariables"] = self.joinedVariables?.encodeToJSON()
+        nillableDictionary["lastSource"] = self.lastSource?.encodeToJSON()
+        nillableDictionary["lastUnit"] = self.lastUnit
+        nillableDictionary["mostCommonUnit"] = self.mostCommonUnit
+        nillableDictionary["valence"] = self.valence
+        nillableDictionary["variableCategoryId"] = self.variableCategoryId?.encodeToJSON()
+        nillableDictionary["variableCategoryImageUrl"] = self.variableCategoryImageUrl
+        nillableDictionary["variableCategoryName"] = self.variableCategoryName
+        nillableDictionary["variableFillingValue"] = self.variableFillingValue
+        nillableDictionary["variableId"] = self.variableId?.encodeToJSON()
+        nillableDictionary["variableName"] = self.variableName
+        nillableDictionary["variance"] = self.variance
+        nillableDictionary["wikipediaTitle"] = self.wikipediaTitle
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,14 +9,14 @@ import Foundation
 
 
 public class MeasurementUpdate: JSONEncodable {
-    /** Variable id of the measurement to be deleted */
+    /** Variable id of the measurement to be updated */
     public var id: Int32?
+    /** The new note for the measurement (optional) */
+    public var note: String?
     /** The new timestamp for the the event in epoch seconds (optional) */
     public var startTime: Int32?
     /** The new value of for the measurement (optional) */
     public var value: Double?
-    /** The new note for the measurement (optional) */
-    public var note: String?
 
     public init() {}
 
@@ -24,9 +24,9 @@ public class MeasurementUpdate: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["note"] = self.note
         nillableDictionary["startTime"] = self.startTime?.encodeToJSON()
         nillableDictionary["value"] = self.value
-        nillableDictionary["note"] = self.note
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

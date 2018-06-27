@@ -9,15 +9,99 @@ import Foundation
 
 
 public class VariableCategory: JSONEncodable {
+    /** Ex: mood */
+    public var appType: String?
+    /** Ex: false */
+    public var causeOnly: Bool?
+    /** Ex: MEAN */
+    public var combinationOperation: String?
+    /** UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var createdTime: String?
+    /** Ex: /5 */
+    public var unitAbbreviatedName: String?
+    /** Ex: 10 */
+    public var unitId: Int32?
+    /** Ex: 86400 */
+    public var durationOfAction: Int32?
+    /** Ex: -1 */
+    public var fillingValue: Int32?
+    /** Ex: What emotion do you want to rate? */
+    public var helpText: String?
+    /** Ex: 1 */
+    public var id: Int32?
+    /** Ex: https://maxcdn.icons8.com/Color/PNG/96/Cinema/theatre_mask-96.png */
+    public var imageUrl: String?
+    /** Ex: ion-happy-outline */
+    public var ionIcon: String?
+    /** Ex: true */
+    public var manualTracking: Bool?
+    /** Ex:  */
+    public var maximumAllowedValue: String?
+    /** Ex: rating */
+    public var measurementSynonymSingularLowercase: String?
+    /** Ex:  */
+    public var minimumAllowedValue: String?
+    /** Ex: Do you have any emotions that fluctuate regularly?  If so, add them so I can try to determine which factors are influencing them. */
+    public var moreInfo: String?
     /** Category name */
     public var name: String?
+    /** Ex: 0 */
+    public var onsetDelay: Int32?
+    /** Ex: true */
+    public var outcome: Bool?
+    /** Ex: img/variable_categories/emotions.png */
+    public var pngPath: String?
+    /** Ex: https://quantimodo.quantimo.do/ionic/Modo/www/img/variable_categories/emotions.png */
+    public var pngUrl: String?
+    /** Ex: true */
+    public var _public: Bool?
+    /** Ex: img/variable_categories/emotions.svg */
+    public var svgPath: String?
+    /** Ex: https://quantimodo.quantimo.do/ionic/Modo/www/img/variable_categories/emotions.svg */
+    public var svgUrl: String?
+    /** Ex: 1 */
+    public var updated: Int32?
+    /** UTC ISO 8601 YYYY-MM-DDThh:mm:ss */
+    public var updatedTime: String?
+    /** Ex: Emotions */
+    public var variableCategoryName: String?
+    /** Ex: Emotion */
+    public var variableCategoryNameSingular: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
+        nillableDictionary["appType"] = self.appType
+        nillableDictionary["causeOnly"] = self.causeOnly
+        nillableDictionary["combinationOperation"] = self.combinationOperation
+        nillableDictionary["createdTime"] = self.createdTime
+        nillableDictionary["unitAbbreviatedName"] = self.unitAbbreviatedName
+        nillableDictionary["unitId"] = self.unitId?.encodeToJSON()
+        nillableDictionary["durationOfAction"] = self.durationOfAction?.encodeToJSON()
+        nillableDictionary["fillingValue"] = self.fillingValue?.encodeToJSON()
+        nillableDictionary["helpText"] = self.helpText
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["imageUrl"] = self.imageUrl
+        nillableDictionary["ionIcon"] = self.ionIcon
+        nillableDictionary["manualTracking"] = self.manualTracking
+        nillableDictionary["maximumAllowedValue"] = self.maximumAllowedValue
+        nillableDictionary["measurementSynonymSingularLowercase"] = self.measurementSynonymSingularLowercase
+        nillableDictionary["minimumAllowedValue"] = self.minimumAllowedValue
+        nillableDictionary["moreInfo"] = self.moreInfo
         nillableDictionary["name"] = self.name
+        nillableDictionary["onsetDelay"] = self.onsetDelay?.encodeToJSON()
+        nillableDictionary["outcome"] = self.outcome
+        nillableDictionary["pngPath"] = self.pngPath
+        nillableDictionary["pngUrl"] = self.pngUrl
+        nillableDictionary["public"] = self._public
+        nillableDictionary["svgPath"] = self.svgPath
+        nillableDictionary["svgUrl"] = self.svgUrl
+        nillableDictionary["updated"] = self.updated?.encodeToJSON()
+        nillableDictionary["updatedTime"] = self.updatedTime
+        nillableDictionary["variableCategoryName"] = self.variableCategoryName
+        nillableDictionary["variableCategoryNameSingular"] = self.variableCategoryNameSingular
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

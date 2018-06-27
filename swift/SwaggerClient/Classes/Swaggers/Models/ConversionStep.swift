@@ -10,8 +10,8 @@ import Foundation
 
 public class ConversionStep: JSONEncodable {
     public enum Operation: String { 
-        case Multiply = "MULTIPLY"
         case Add = "ADD"
+        case Multiply = "MULTIPLY"
     }
     /** ADD or MULTIPLY */
     public var operation: Operation?

@@ -11,70 +11,34 @@ import Alamofire
 
 public class UserAPI: APIBase {
     /**
-     Get user tokens for existing users, create new users
+     * enum for parameter platform
+     */
+    public enum Platform_deleteUser: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
+    }
+
+    /**
+     Delete user
      
-     - parameter organizationId: (path) Organization ID 
-     - parameter body: (body) Provides organization token and user ID 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
+     - parameter reason: (query) Ex: I hate you! 
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func v1OrganizationsOrganizationIdUsersPost(organizationId organizationId: Int32, body: UserTokenRequest, accessToken: String? = nil, userId: Int32? = nil, completion: ((data: UserTokenSuccessfulResponse?, error: ErrorType?) -> Void)) {
-        v1OrganizationsOrganizationIdUsersPostWithRequestBuilder(organizationId: organizationId, body: body, accessToken: accessToken, userId: userId).execute { (response, error) -> Void in
+    public class func deleteUser(reason reason: String, clientId: String? = nil, platform: Platform_deleteUser? = nil, completion: ((data: CommonResponse?, error: ErrorType?) -> Void)) {
+        deleteUserWithRequestBuilder(reason: reason, clientId: clientId, platform: platform).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
 
     /**
-     Get user tokens for existing users, create new users
-     - POST /v1/organizations/{organizationId}/users
-     - Get user tokens for existing users, create new users
-     - examples: [{contentType=application/json, example={
-  "code" : "",
-  "message" : "aeiou",
-  "user" : {
-    "access_token" : "aeiou",
-    "id" : ""
-  }
-}}]
-     
-     - parameter organizationId: (path) Organization ID 
-     - parameter body: (body) Provides organization token and user ID 
-     - parameter accessToken: (query) User&#39;s OAuth2 access token (optional)
-     - parameter userId: (query) User&#39;s id (optional)
-
-     - returns: RequestBuilder<UserTokenSuccessfulResponse> 
-     */
-    public class func v1OrganizationsOrganizationIdUsersPostWithRequestBuilder(organizationId organizationId: Int32, body: UserTokenRequest, accessToken: String? = nil, userId: Int32? = nil) -> RequestBuilder<UserTokenSuccessfulResponse> {
-        var path = "/v1/organizations/{organizationId}/users"
-        path = path.stringByReplacingOccurrencesOfString("{organizationId}", withString: "\(organizationId)", options: .LiteralSearch, range: nil)
-        let URLString = SwaggerClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<UserTokenSuccessfulResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
-    }
-
-    /**
-     Get all available units for variableGet authenticated user
-     
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func v1UserMeGet(completion: ((data: User?, error: ErrorType?) -> Void)) {
-        v1UserMeGetWithRequestBuilder().execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-
-    /**
-     Get all available units for variableGet authenticated user
-     - GET /v1/user/me
-     - Returns user info for the currently authenticated user.
+     Delete user
+     - DELETE /v3/user/delete
+     - Delete user account. Only the client app that created a user can delete that user.
      - API Key:
        - type: apiKey access_token (QUERY)
        - name: access_token
@@ -82,22 +46,169 @@ public class UserAPI: APIBase {
        - type: oauth2
        - name: quantimodo_oauth2
      - examples: [{contentType=application/json, example={
-  "administrator" : true,
-  "wpId" : "",
-  "displayName" : "aeiou",
-  "loginName" : "aeiou",
-  "id" : "",
-  "email" : "aeiou",
-  "token" : "aeiou"
+  "summary" : "summary",
+  "description" : "description"
 }}]
+     
+     - parameter reason: (query) Ex: I hate you! 
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+
+     - returns: RequestBuilder<CommonResponse> 
+     */
+    public class func deleteUserWithRequestBuilder(reason reason: String, clientId: String? = nil, platform: Platform_deleteUser? = nil) -> RequestBuilder<CommonResponse> {
+        let path = "/v3/user/delete"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "clientId": clientId,
+            "reason": reason,
+            "platform": platform?.rawValue
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<CommonResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     * enum for parameter platform
+     */
+    public enum Platform_getUser: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
+    }
+
+    /**
+     Get user info
+     
+     - parameter userId: (query) User&#39;s id (optional)
+     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter appVersion: (query) Ex: 2.1.1.0 (optional)
+     - parameter clientUserId: (query) Ex: 74802 (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+     - parameter log: (query) Username or email (optional)
+     - parameter pwd: (query) User password (optional)
+     - parameter includeAuthorizedClients: (query) Return list of apps, studies, and individuals with access to user data (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func getUser(userId userId: Double? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, clientId: String? = nil, appVersion: String? = nil, clientUserId: Int32? = nil, platform: Platform_getUser? = nil, log: String? = nil, pwd: String? = nil, includeAuthorizedClients: Bool? = nil, completion: ((data: User?, error: ErrorType?) -> Void)) {
+        getUserWithRequestBuilder(userId: userId, createdAt: createdAt, updatedAt: updatedAt, limit: limit, offset: offset, sort: sort, clientId: clientId, appVersion: appVersion, clientUserId: clientUserId, platform: platform, log: log, pwd: pwd, includeAuthorizedClients: includeAuthorizedClients).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Get user info
+     - GET /v3/user
+     - Returns user info.  If no userId is specified, returns info for currently authenticated user
+     - API Key:
+       - type: apiKey access_token (QUERY)
+       - name: access_token
+     - OAuth:
+       - type: oauth2
+       - name: quantimodo_oauth2
+     - examples: [{contentType=application/json, example={
+  "clientUserId" : "clientUserId",
+  "lastName" : "lastName",
+  "subscriptionProvider" : "subscriptionProvider",
+  "hasAndroidApp" : true,
+  "latestReminderTime" : "latestReminderTime",
+  "combineNotifications" : true,
+  "displayName" : "displayName",
+  "roles" : "roles",
+  "timeZoneOffset" : 1,
+  "earliestReminderTime" : "earliestReminderTime",
+  "sendPredictorEmails" : true,
+  "createdAt" : "createdAt",
+  "administrator" : true,
+  "authorizedClients" : {
+    "studies" : [ null, null ],
+    "individuals" : [ null, null ],
+    "apps" : [ null, null ]
+  },
+  "password" : "password",
+  "stripeActive" : true,
+  "smsNotificationsEnabled" : true,
+  "loginName" : "loginName",
+  "stripeSubscription" : "stripeSubscription",
+  "id" : 6,
+  "email" : "email",
+  "stripePlan" : "stripePlan",
+  "userUrl" : "userUrl",
+  "updatedAt" : "updatedAt",
+  "hasIosApp" : true,
+  "lastFour" : "lastFour",
+  "shareAllData" : true,
+  "capabilities" : "capabilities",
+  "clientId" : "clientId",
+  "accessTokenExpiresAtMilliseconds" : 0,
+  "getPreviewBuilds" : true,
+  "avatar" : "avatar",
+  "accessToken" : "accessToken",
+  "trackLocation" : true,
+  "userRegistered" : "userRegistered",
+  "firstName" : "firstName",
+  "phoneNumber" : "phoneNumber",
+  "avatarImage" : "avatarImage",
+  "sendReminderNotificationEmails" : true,
+  "stripeId" : "stripeId",
+  "subscriptionEndsAt" : "subscriptionEndsAt",
+  "accessTokenExpires" : "accessTokenExpires",
+  "pushNotificationsEnabled" : true,
+  "lastSmsTrackingReminderNotificationId" : "lastSmsTrackingReminderNotificationId",
+  "phoneVerificationCode" : "phoneVerificationCode",
+  "hasChromeExtension" : true,
+  "refreshToken" : "refreshToken"
+}}]
+     
+     - parameter userId: (query) User&#39;s id (optional)
+     - parameter createdAt: (query) When the record was first created. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter updatedAt: (query) When the record was last updated. Use UTC ISO 8601 YYYY-MM-DDThh:mm:ss datetime format. Time zone should be UTC and not local. (optional)
+     - parameter limit: (query) The LIMIT is used to limit the number of results returned. So if youhave 1000 results, but only want to the first 10, you would set this to 10 and offset to 0. The maximum limit is 200 records. (optional, default to 100)
+     - parameter offset: (query) OFFSET says to skip that many rows before beginning to return rows to the client. OFFSET 0 is the same as omitting the OFFSET clause.If both OFFSET and LIMIT appear, then OFFSET rows are skipped before starting to count the LIMIT rows that are returned. (optional)
+     - parameter sort: (query) Sort by one of the listed field names. If the field name is prefixed with &#x60;-&#x60;, it will sort in descending order. (optional)
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter appVersion: (query) Ex: 2.1.1.0 (optional)
+     - parameter clientUserId: (query) Ex: 74802 (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+     - parameter log: (query) Username or email (optional)
+     - parameter pwd: (query) User password (optional)
+     - parameter includeAuthorizedClients: (query) Return list of apps, studies, and individuals with access to user data (optional)
 
      - returns: RequestBuilder<User> 
      */
-    public class func v1UserMeGetWithRequestBuilder() -> RequestBuilder<User> {
-        let path = "/v1/user/me"
+    public class func getUserWithRequestBuilder(userId userId: Double? = nil, createdAt: String? = nil, updatedAt: String? = nil, limit: Int32? = nil, offset: Int32? = nil, sort: String? = nil, clientId: String? = nil, appVersion: String? = nil, clientUserId: Int32? = nil, platform: Platform_getUser? = nil, log: String? = nil, pwd: String? = nil, includeAuthorizedClients: Bool? = nil) -> RequestBuilder<User> {
+        let path = "/v3/user"
         let URLString = SwaggerClientAPI.basePath + path
 
-        let nillableParameters: [String:AnyObject?] = [:]
+        let nillableParameters: [String:AnyObject?] = [
+            "userId": userId,
+            "createdAt": createdAt,
+            "updatedAt": updatedAt,
+            "limit": limit?.encodeToJSON(),
+            "offset": offset?.encodeToJSON(),
+            "sort": sort,
+            "clientId": clientId,
+            "appVersion": appVersion,
+            "clientUserId": clientUserId?.encodeToJSON(),
+            "platform": platform?.rawValue,
+            "log": log,
+            "pwd": pwd,
+            "includeAuthorizedClients": includeAuthorizedClients
+        ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
  
@@ -105,7 +216,67 @@ public class UserAPI: APIBase {
  
         let requestBuilder: RequestBuilder<User>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     * enum for parameter platform
+     */
+    public enum Platform_postUserSettings: String { 
+        case Chrome = "chrome"
+        case Android = "android"
+        case Ios = "ios"
+        case Web = "web"
+    }
+
+    /**
+     Post UserSettings
+     
+     - parameter body: (body) User settings to update 
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func postUserSettings(body body: User, clientId: String? = nil, platform: Platform_postUserSettings? = nil, completion: ((data: PostUserSettingsResponse?, error: ErrorType?) -> Void)) {
+        postUserSettingsWithRequestBuilder(body: body, clientId: clientId, platform: platform).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     Post UserSettings
+     - POST /v3/userSettings
+     - Post UserSettings
+     - examples: [{contentType=application/json, example={
+  "summary" : "summary",
+  "data" : {
+    "summary" : "summary",
+    "purchaseId" : 0,
+    "description" : "description"
+  },
+  "success" : true,
+  "description" : "description",
+  "message" : "message",
+  "status" : 6
+}}]
+     
+     - parameter body: (body) User settings to update 
+     - parameter clientId: (query) Your QuantiModo client id can be obtained by creating an app at https://builder.quantimo.do (optional)
+     - parameter platform: (query) Ex: chrome, android, ios, web (optional)
+
+     - returns: RequestBuilder<PostUserSettingsResponse> 
+     */
+    public class func postUserSettingsWithRequestBuilder(body body: User, clientId: String? = nil, platform: Platform_postUserSettings? = nil) -> RequestBuilder<PostUserSettingsResponse> {
+        let path = "/v3/userSettings"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<PostUserSettingsResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
 }
